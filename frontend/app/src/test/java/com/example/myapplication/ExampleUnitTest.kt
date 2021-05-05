@@ -1,4 +1,4 @@
-package com.example.aggregator_front
+package com.example.myapplication
 
 import org.junit.Test
 
