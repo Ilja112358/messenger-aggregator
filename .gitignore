@@ -2,3 +2,4 @@
 .idea/
 */sessions/*
 */venv/*
+backend/api/credentials.json
