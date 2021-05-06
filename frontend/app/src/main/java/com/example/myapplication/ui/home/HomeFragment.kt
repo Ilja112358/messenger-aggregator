@@ -38,6 +38,10 @@ class HomeFragment : Fragment() {
             textView.text = it
         })
 
+        submitView.setOnClickListener {
+            textView.append("Are ypu Slava Marlow?\n")
+        }
+
         return root
     }
 
