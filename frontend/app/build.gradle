@@ -76,7 +76,7 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    runtimeOnly("io.grpc:grpc-okhttp:1.37.0")
+
     implementation group: 'io.grpc', name: 'grpc-core', version: '1.37.0'
     implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '1.4.3', ext: 'pom'
     implementation group: 'io.grpc', name: 'grpc-stub', version: '1.37.0'

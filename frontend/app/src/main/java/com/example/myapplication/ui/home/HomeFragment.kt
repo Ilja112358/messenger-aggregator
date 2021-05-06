@@ -1,10 +1,12 @@
 package com.example.myapplication.ui.home
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -40,13 +42,10 @@ class HomeFragment : Fragment() {
 
         val textView: TextView = binding.textHome
         val submitView: Button = binding.submitButton
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-
         submitView.setOnClickListener {
             textView.append(Api().getHash("Are you Slava Marlow?\n"))
         }
+
 
         return root
     }
