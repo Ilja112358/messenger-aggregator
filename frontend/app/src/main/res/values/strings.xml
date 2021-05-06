@@ -1,13 +1,15 @@
 <resources>
-    <string name="app_name">My Application</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">CatChat</string>
+    <string name="user_name">spot@catchat.com</string>
 
-    <string name="menu_home">Telegram</string>
-    <string name="menu_gallery">Facebook</string>
-    <string name="menu_slideshow">Gmail</string>
+    <string name="nav_inbox">Mesagez</string>
+    <string name="nav_drafts">Draftz</string>
+    <string name="nav_sent">Sent mesagez</string>
+    <string name="nav_trash">In da trash</string>
+    <string name="nav_support">Support</string>
+    <string name="nav_help">Halp</string>
+    <string name="nav_feedback">Giv us feedback</string>
+
+    <string name="nav_open_drawer">Open navigation drawer</string>
+    <string name="nav_close_drawer">Close navigation drawer</string>
 </resources>
