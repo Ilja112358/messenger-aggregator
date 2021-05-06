@@ -11,6 +11,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentHomeBinding
+import io.grpc.ManagedChannel
+import io.grpc.ManagedChannelBuilder
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.asExecutor
+import java.net.URL
+import java.util.logging.Logger
 
 class HomeFragment : Fragment() {
 
@@ -39,7 +45,7 @@ class HomeFragment : Fragment() {
         })
 
         submitView.setOnClickListener {
-            textView.append("Are ypu Slava Marlow?\n")
+            textView.append(Api().getHash("Are you Slava Marlow?\n"))
         }
 
         return root
