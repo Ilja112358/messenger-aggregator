@@ -2,7 +2,7 @@ import grpc
 import datahash_pb2
 import datahash_pb2_grpc
 
-channel = grpc.insecure_channel('localhost:6066')
+channel = grpc.insecure_channel('84.252.137.106:6066')
 stub = datahash_pb2_grpc.DataHashStub(channel)
 text = 'Scio me nihil scire'
 to_md5 = datahash_pb2.Text(data=text)
