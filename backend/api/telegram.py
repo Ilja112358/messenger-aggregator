@@ -2,9 +2,9 @@ from telethon import TelegramClient, events, sync
 import os
 import asyncio
 
-api_id = <your_api_id>
-api_hash = '<your_api_hash>'
-phone1 = '<your_phone>'
+api_id = 4139893
+api_hash = 'ece013c7c8869d3a584bb2cae5ae3fc7'
+phone1 = '+79213010190'
 
 
 def auth(uid, phone, code=None):
