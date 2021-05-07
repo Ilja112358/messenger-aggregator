@@ -37,16 +37,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
+        navigationView.setItemIconTintList(null)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         var fragment: Fragment? = null
 
+
         fragment = when (id) {
             R.id.nav_facebook -> FacebookFragment()
             R.id.nav_gmail -> GmailFragment()
             else -> TelegramFragment()
+
         }
 
         val transaction = supportFragmentManager.beginTransaction()

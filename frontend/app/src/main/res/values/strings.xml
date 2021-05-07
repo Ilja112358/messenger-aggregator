@@ -6,6 +6,7 @@
     <string name="nav_facebook">Facebook</string>
     <string name="nav_gmail">Gmail</string>
 
+
     <string name="nav_open_drawer">Open navigation drawer</string>
     <string name="nav_close_drawer">Close navigation drawer</string>
 </resources>
