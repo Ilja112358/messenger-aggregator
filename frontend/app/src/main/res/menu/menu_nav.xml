@@ -8,9 +8,9 @@
             android:checked="true"/>
 
         <item
-            android:id="@+id/nav_drafts"
+            android:id="@+id/nav_facebook"
             android:icon="@android:drawable/ic_menu_edit"
-            android:title="@string/nav_drafts"/>
+            android:title="@string/nav_facebook"/>
 
         <item
             android:id="@+id/nav_sent"

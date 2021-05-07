@@ -19,7 +19,6 @@ class TelegramFragment : Fragment() {
         val submitButton = view?.findViewById<Button>(R.id.submit_button)
         val textView = view?.findViewById<TextView>(R.id.text_field)
         val toolbar = view?.findViewById<Toolbar>(R.id.toolbar)
-        toolbar?.title = "Telegram"
 
         submitButton?.setOnClickListener {
             textView?.text = Api().getHash("Are you Slava Marlow?\n")
