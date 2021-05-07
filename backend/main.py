@@ -16,7 +16,7 @@ class TestServicer(test_pb2_grpc.testServicer):
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=4))
-    tg_pb2_grpc.add_TgApiServicer_to_server(TgApiServicer, server)
+    tg_pb2_grpc.add_TgApiServicer_to_server(TgApiServicer(), server)
     # test_pb2_grpc.add_testServicer_to_server(TestServicer, server)
     print('Starting server on port 6066.')
     server.add_insecure_port('[::]:6066')
