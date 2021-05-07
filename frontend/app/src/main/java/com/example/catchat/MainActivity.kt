@@ -1,6 +1,7 @@
 package com.example.catchat
 
 import android.content.Intent
+import android.graphics.Color
 import android.media.FaceDetector
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.title = "Telegram"
+        toolbar.setBackgroundColor(Color.parseColor("#859D7D"))
         setSupportActionBar(toolbar)
 
         val transaction = supportFragmentManager.beginTransaction()
