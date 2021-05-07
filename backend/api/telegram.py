@@ -1,10 +1,11 @@
 from telethon import TelegramClient, events, sync
 import os
-import asyncio
+from dotenv import load_dotenv
 
-api_id = <your_api_id>
-api_hash = '<your_api_hash>'
-phone1 = '<your_phone>'
+load_dotenv('../.env')
+api_id = os.getenv('api_id')
+api_hash = os.getenv('api_hash')
+phone1 = os.getenv('phone')
 
 
 def auth(uid, phone, code=None):
