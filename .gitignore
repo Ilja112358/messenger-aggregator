@@ -3,3 +3,5 @@
 */sessions/*
 */venv/*
 backend/api/credentials.json
+backend/telethon_test.py
+backend/telethon_test.py
