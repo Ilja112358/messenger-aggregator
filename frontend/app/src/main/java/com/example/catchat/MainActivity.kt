@@ -37,27 +37,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
+        navigationView.setItemIconTintList(null)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         var fragment: Fragment? = null
-        var myIntent: Intent? = null
 
-        when (id) {
-            R.id.nav_facebook -> fragment = FacebookFragment()
-            R.id.nav_sent -> fragment = SentItemsFragment()
-            R.id.nav_trash -> fragment = TrashFragment()
-            R.id.nav_help -> myIntent = Intent(this, HelpActivity::class.java)
-            R.id.nav_feedback -> myIntent = Intent(this, FeedbackActivity::class.java)
-            else -> fragment = TelegramFragment()
+
+        fragment = when (id) {
+            R.id.nav_facebook -> FacebookFragment()
+            R.id.nav_gmail -> GmailFragment()
+            else -> TelegramFragment()
+
         }
 
-        if (fragment != null) {
-            val transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.content_frame, fragment)
-            transaction.commit()
-        } else startActivity(myIntent)
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.content_frame, fragment)
+        transaction.commit()
 
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         drawer.closeDrawer(GravityCompat.START)

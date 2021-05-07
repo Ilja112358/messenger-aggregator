@@ -5,15 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".HelpActivity">
-
-    <include
-        layout="@layout/toolbar_main"
-        android:id="@+id/toolbar"/>
+    tools:context=".GmailFragment">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Help"/>
+        android:text="Gmail"/>
 
 </LinearLayout>
