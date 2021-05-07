@@ -33,6 +33,12 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
     def get_dialogs(self, request, context):
         client = TelegramClient('tg_sessions/' + str(request.uid), api_id, api_hash)
         client.connect()
+        temp_dialogs = client.get_dialogs()
+        dialogs = []
+        for temp_dialog in temp_dialogs:
+            dialog = tg_pb2.Dialog(name=temp_dialog.name, message=temp_dialog.message.message)
+            dialogs.append(dialog)
+        response = tg_pb2.Dialogs(items=dialogs)
 
 
     def get_messages(self, request, context):
