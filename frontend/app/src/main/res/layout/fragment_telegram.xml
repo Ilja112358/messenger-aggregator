@@ -24,7 +24,7 @@
         android:background="#ffffff"
         android:hint="Введите номер телефона"
         android:maxLength="13"/>
-    
+
     <Button
         android:id="@+id/submit_button"
         android:layout_width="wrap_content"

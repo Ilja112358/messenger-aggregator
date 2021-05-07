@@ -51,7 +51,7 @@ class TgApi {
         val stub = TgApiGrpc.newBlockingStub(channel())
         val response = stub.auth(request)
     }
-
+/*
     @RequiresApi(Build.VERSION_CODES.N)
     fun getDialogs(
         uid: String
@@ -60,8 +60,8 @@ class TgApi {
         val stub = TgApiGrpc.newBlockingStub(channel())
         val response = stub.getDialogs(request)
         val tmp = response.dialogList.stream().map ({ d -> d.date }).collect(Collectors.toList())
-        //response.itemsList.stream().map { d -> d. }
-        //request.
-        return ""//response.data
-    }
+        response.itemsList.stream().map { d -> d. }
+        /equest.
+        return ""response.data
+    }*/
 }
