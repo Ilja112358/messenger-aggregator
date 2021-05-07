@@ -39,7 +39,7 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         for temp_dialog in temp_dialogs:
             dialog = tg_pb2.Dialog(name=temp_dialog.name, message=temp_dialog.message.message)
             dialogs.append(dialog)
-        response = tg_pb2.Dialogs(items=dialogs)
+        response = tg_pb2.Dialogs(dialog=dialogs)
         return response
 
     def get_messages(self, request, context):
