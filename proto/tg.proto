@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+message AuthRequest {
+  string phone = 1;
+  string code = 2;
+  string code_hash = 3;
+}
+
+message AuthResponse {
+  string data = 1;
+}
+
+message Text {
+  string data = 1;
+}
+
+service TgApi {
+  rpc auth(AuthRequest) returns (AuthResponse) {};
+  rpc get_dialogs(Text) returns (Text) {};
+  rpc get_messages(Text) returns (Text) {};
+  rpc send_message(Text) returns (Text) {};
+}
