@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.content_frame, InboxFragment())
+        transaction.add(R.id.content_frame, TelegramFragment())
         transaction.commit()
 
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
@@ -39,8 +39,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         )
         drawer.addDrawerListener(toggle)
         toggle.syncState()
-
-
 
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
@@ -57,7 +55,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_trash -> fragment = TrashFragment()
             R.id.nav_help -> myIntent = Intent(this, HelpActivity::class.java)
             R.id.nav_feedback -> myIntent = Intent(this, FeedbackActivity::class.java)
-            else -> fragment = InboxFragment()
+            else -> fragment = TelegramFragment()
         }
 
         if (fragment != null) {
