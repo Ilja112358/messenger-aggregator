@@ -19,21 +19,27 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         client.connect()
         print('After', request.code)
         if request.code == '':
-            response = tg_pb2.AuthResponse(data=client.send_code_request(request.phone).phone_code_hash)
+            a = client.send_code_request(request.phone)
+            response = tg_pb2.AuthResponse(data=a.__dict__['phone_code_hash'])
             print('Here 1')
             return response
             # return client.send_code_request(request.phone)
         else:
+            client.sign_in(phone=request.phone, code=request.code, phone_code_hash=request.code_hash)
             response = tg_pb2.AuthResponse(data='Test')
             print('Here 2')
             return response
-            # return client.sign_in(phone=request.phone, code=request.code, phone_code_hash=request.code_hash)
+
+    def get_dialogs(self, request, context):
+        client = TelegramClient('tg_sessions/' + str(request.uid), api_id, api_hash)
+        client.connect()
+
 
     def get_messages(self, request, context):
         pass
 
     def send_message(self, request, context):
-        client = TelegramClient('tg_sessions/' + str(uid), api_id, api_hash)
+        client = TelegramClient('tg_sessions/' + str(request.uid), api_id, api_hash)
         client.connect()
         if isinstance(request.message, str):
             client.send_message(request.entity, request.message)
