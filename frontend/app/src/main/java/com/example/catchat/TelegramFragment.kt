@@ -1,21 +1,15 @@
 package com.example.catchat
 
-import TgApiGrpc
 import android.content.DialogInterface
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-
-import com.example.myapplication.ui.home.Api
+import androidx.fragment.app.Fragment
 import com.example.myapplication.ui.home.TgApi
 
 class TelegramFragment : Fragment() {
@@ -31,7 +25,7 @@ class TelegramFragment : Fragment() {
         submitButton?.setOnClickListener {
             val phoneText = phoneField?.text ?: ""
             println(phoneText)
-            val codeHash = "stubHash"//TgApi().sendPhone("uid", phoneText.toString())
+            val codeHash = TgApi().sendPhone("uid", phoneText.toString())
             println(codeHash)
 
 
@@ -43,7 +37,8 @@ class TelegramFragment : Fragment() {
             alertBuilder.setTitle("Enter code")
             alertBuilder.setCancelable(true)
             alertBuilder.setPositiveButton("Send") { dialogInterface: DialogInterface, i: Int ->
-                //TgApi().sendCode("uid", phoneText.toString(), codeInputView.text.toString(), codeHash)
+                TgApi().sendCode("uid", phoneText.toString(), codeInputView.text.toString(), codeHash)
+
                 println("codeSent")
             }
             alertBuilder.setNegativeButton("Cancel") { dialogInterface: DialogInterface, i: Int -> }
