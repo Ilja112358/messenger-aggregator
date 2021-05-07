@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_inbox"
+            android:id="@+id/nav_telegram"
             android:icon="@android:drawable/sym_action_email"
-            android:title="@string/nav_inbox"
+            android:title="@string/nav_telegram"
             android:checked="true"/>
 
         <item
-            android:id="@+id/nav_drafts"
+            android:id="@+id/nav_facebook"
             android:icon="@android:drawable/ic_menu_edit"
-            android:title="@string/nav_drafts"/>
+            android:title="@string/nav_facebook"/>
 
         <item
             android:id="@+id/nav_sent"
