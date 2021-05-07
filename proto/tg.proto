@@ -1,9 +1,10 @@
 syntax = "proto3";
 
 message AuthRequest {
-  string phone = 1;
-  string code = 2;
-  string code_hash = 3;
+  string uid = 1;
+  string phone = 2;
+  string code = 3;
+  string code_hash = 4;
 }
 
 message AuthResponse {
