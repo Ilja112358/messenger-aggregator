@@ -29,9 +29,19 @@ message Dialogs {
   repeated Dialog dialog = 1;
 }
 
+message Send {
+  string uid = 1;
+  string entity = 2;
+  string message = 3;
+}
+
+message StatusMessage {
+  string status = 1;
+} 
+
 service TgApi {
   rpc auth(AuthRequest) returns (AuthResponse) {};
   rpc get_dialogs(User) returns (Dialogs) {};
   rpc get_messages(Text) returns (Text) {};
-  rpc send_message(Text) returns (Text) {};
+  rpc send_message(Send) returns (StatusMessage) {};
 }
