@@ -12,7 +12,7 @@ class TgApi {
     private val logger = Logger.getLogger(this.javaClass.name)
 
     private fun channel(): ManagedChannel {
-        val url = URL("http://84.252.137.106:6067")
+        val url = URL("http://84.252.137.106:6066")
         val port = if (url.port == -1) url.defaultPort else url.port
 
         logger.info("Connecting to ${url.host}:$port")
@@ -47,5 +47,15 @@ class TgApi {
         val request = Tg.AuthRequest.newBuilder().setUid(uid).setPhone(phone).setCode(code).setCodeHash(codeHash).build()
         val stub = TgApiGrpc.newBlockingStub(channel())
         val response = stub.auth(request)
+    }
+
+    fun getDialogs(
+        uid: String
+    ) : String {
+        val request = Tg.Text.newBuilder().setData(uid).build()
+        val stub = TgApiGrpc.newBlockingStub(channel())
+        val response = stub.getDialogs(request)
+
+        return response.data
     }
 }
