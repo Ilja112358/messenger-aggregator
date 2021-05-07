@@ -49,6 +49,3 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         client.connect()
         if isinstance(request.message, str):
             client.send_message(request.entity, request.message)
-
-    def logout(self):
-        pass
