@@ -1,8 +1,10 @@
 package com.example.catchat
 
 import android.content.Intent
+import android.media.FaceDetector
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -18,6 +20,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar.title = "Telegram"
         setSupportActionBar(toolbar)
 
         val transaction = supportFragmentManager.beginTransaction()
@@ -37,19 +40,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
-        navigationView.setItemIconTintList(null)
+        navigationView.itemIconTintList = null
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         var fragment: Fragment? = null
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
 
-
-        fragment = when (id) {
-            R.id.nav_facebook -> FacebookFragment()
-            R.id.nav_gmail -> GmailFragment()
-            else -> TelegramFragment()
-
+        when (id) {
+            R.id.nav_gmail -> {
+                toolbar?.title = "Gmail"
+                fragment = GmailFragment()
+            }
+            R.id.nav_facebook -> {
+                toolbar?.title = "Facebook"
+                fragment = FacebookFragment()
+            }
+            else -> {
+                toolbar?.title = "Telegram"
+                fragment = TelegramFragment()
+            }
         }
 
         val transaction = supportFragmentManager.beginTransaction()
