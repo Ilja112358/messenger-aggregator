@@ -31,13 +31,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         transaction.commit()
 
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-        val toggle = ActionBarDrawerToggle(
+        val toggle = object: ActionBarDrawerToggle(
             this,
             drawer,
             toolbar,
             R.string.nav_open_drawer,
             R.string.nav_close_drawer
-        )
+        ) {
+            override fun onDrawerStateChanged(newState: Int) {
+                hideSoftKeyboard()
+                super.onDrawerStateChanged(newState)
+            }
+        }
         drawer.addDrawerListener(toggle)
         toggle.syncState()
 
