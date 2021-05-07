@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        val submitButton = findViewById<Button>(R.id.submit_button)
+
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.content_frame, InboxFragment())
         transaction.commit()
@@ -40,9 +40,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer.addDrawerListener(toggle)
         toggle.syncState()
 
-        submitButton.setOnClickListener {
-            println("HIHIHAHA")
-        }
+
 
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
