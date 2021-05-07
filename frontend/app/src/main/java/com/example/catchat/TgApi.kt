@@ -48,4 +48,14 @@ class TgApi {
         val stub = TgApiGrpc.newBlockingStub(channel())
         val response = stub.auth(request)
     }
+
+    fun getDialogs(
+        uid: String
+    ) : String {
+        val request = Tg.Text.newBuilder().setData(uid).build()
+        val stub = TgApiGrpc.newBlockingStub(channel())
+        val response = stub.getDialogs(request)
+
+        return response.data
+    }
 }

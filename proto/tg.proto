@@ -15,9 +15,23 @@ message Text {
   string data = 1;
 }
 
+message User {
+  string uid = 1;
+}
+
+message Dialog {
+  string name = 1;
+  string date = 2;
+  string message = 3;
+}
+
+message Dialogs {
+  repeated Dialog items = 1;
+}
+
 service TgApi {
   rpc auth(AuthRequest) returns (AuthResponse) {};
-  rpc get_dialogs(Text) returns (Text) {};
+  rpc get_dialogs(User) returns (Dialogs) {};
   rpc get_messages(Text) returns (Text) {};
   rpc send_message(Text) returns (Text) {};
 }
