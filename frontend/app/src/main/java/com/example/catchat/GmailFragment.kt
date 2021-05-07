@@ -1,13 +1,15 @@
 package com.example.catchat
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_gmail.*
+
 
 class GmailFragment : Fragment() {
     private var layoutManager: RecyclerView.LayoutManager? = null
@@ -30,6 +32,11 @@ class GmailFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
             // set the custom adapter to the RecyclerView
             adapter = DialogsRecyclerAdapter(fillList())
+            val dividerItemDecoration = DividerItemDecoration(
+                recyclerView.context,
+                LinearLayoutManager.VERTICAL
+            )
+            recyclerView.addItemDecoration(dividerItemDecoration)
         }
     }
 
