@@ -31,8 +31,8 @@ class TgApiStub(object):
                 )
         self.send_message = channel.unary_unary(
                 '/TgApi/send_message',
-                request_serializer=tg__pb2.Text.SerializeToString,
-                response_deserializer=tg__pb2.Text.FromString,
+                request_serializer=tg__pb2.Send.SerializeToString,
+                response_deserializer=tg__pb2.StatusMessage.FromString,
                 )
 
 
@@ -83,8 +83,8 @@ def add_TgApiServicer_to_server(servicer, server):
             ),
             'send_message': grpc.unary_unary_rpc_method_handler(
                     servicer.send_message,
-                    request_deserializer=tg__pb2.Text.FromString,
-                    response_serializer=tg__pb2.Text.SerializeToString,
+                    request_deserializer=tg__pb2.Send.FromString,
+                    response_serializer=tg__pb2.StatusMessage.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -159,7 +159,7 @@ class TgApi(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TgApi/send_message',
-            tg__pb2.Text.SerializeToString,
-            tg__pb2.Text.FromString,
+            tg__pb2.Send.SerializeToString,
+            tg__pb2.StatusMessage.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
