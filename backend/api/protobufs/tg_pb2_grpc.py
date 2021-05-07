@@ -21,8 +21,8 @@ class TgApiStub(object):
                 )
         self.get_dialogs = channel.unary_unary(
                 '/TgApi/get_dialogs',
-                request_serializer=tg__pb2.Text.SerializeToString,
-                response_deserializer=tg__pb2.Text.FromString,
+                request_serializer=tg__pb2.User.SerializeToString,
+                response_deserializer=tg__pb2.Dialogs.FromString,
                 )
         self.get_messages = channel.unary_unary(
                 '/TgApi/get_messages',
@@ -73,8 +73,8 @@ def add_TgApiServicer_to_server(servicer, server):
             ),
             'get_dialogs': grpc.unary_unary_rpc_method_handler(
                     servicer.get_dialogs,
-                    request_deserializer=tg__pb2.Text.FromString,
-                    response_serializer=tg__pb2.Text.SerializeToString,
+                    request_deserializer=tg__pb2.User.FromString,
+                    response_serializer=tg__pb2.Dialogs.SerializeToString,
             ),
             'get_messages': grpc.unary_unary_rpc_method_handler(
                     servicer.get_messages,
@@ -125,8 +125,8 @@ class TgApi(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TgApi/get_dialogs',
-            tg__pb2.Text.SerializeToString,
-            tg__pb2.Text.FromString,
+            tg__pb2.User.SerializeToString,
+            tg__pb2.Dialogs.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x08tg.proto\"J\n\x0b\x41uthRequest\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\r\n\x05phone\x18\x02 \x01(\t\x12\x0c\n\x04\x63ode\x18\x03 \x01(\t\x12\x11\n\tcode_hash\x18\x04 \x01(\t\"\x1c\n\x0c\x41uthResponse\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x14\n\x04Text\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"5\n\x06\x44ialog\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x02 \x01(\t\x12\x0f\n\x07message\x18\x03 \x01(\t\"!\n\x07\x44ialogs\x12\x16\n\x05items\x18\x01 \x03(\x0b\x32\x07.Dialog2\x8d\x01\n\x05TgApi\x12%\n\x04\x61uth\x12\x0c.AuthRequest\x1a\r.AuthResponse\"\x00\x12\x1d\n\x0bget_dialogs\x12\x05.Text\x1a\x05.Text\"\x00\x12\x1e\n\x0cget_messages\x12\x05.Text\x1a\x05.Text\"\x00\x12\x1e\n\x0csend_message\x12\x05.Text\x1a\x05.Text\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x08tg.proto\"J\n\x0b\x41uthRequest\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\r\n\x05phone\x18\x02 \x01(\t\x12\x0c\n\x04\x63ode\x18\x03 \x01(\t\x12\x11\n\tcode_hash\x18\x04 \x01(\t\"\x1c\n\x0c\x41uthResponse\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x14\n\x04Text\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x13\n\x04User\x12\x0b\n\x03uid\x18\x01 \x01(\t\"5\n\x06\x44ialog\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x02 \x01(\t\x12\x0f\n\x07message\x18\x03 \x01(\t\"!\n\x07\x44ialogs\x12\x16\n\x05items\x18\x01 \x03(\x0b\x32\x07.Dialog2\x90\x01\n\x05TgApi\x12%\n\x04\x61uth\x12\x0c.AuthRequest\x1a\r.AuthResponse\"\x00\x12 \n\x0bget_dialogs\x12\x05.User\x1a\x08.Dialogs\"\x00\x12\x1e\n\x0cget_messages\x12\x05.Text\x1a\x05.Text\"\x00\x12\x1e\n\x0csend_message\x12\x05.Text\x1a\x05.Text\"\x00\x62\x06proto3'
 )
 
 
@@ -142,6 +142,38 @@ _TEXT = _descriptor.Descriptor(
 )
 
 
+_USER = _descriptor.Descriptor(
+  name='User',
+  full_name='User',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='uid', full_name='User.uid', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=140,
+  serialized_end=159,
+)
+
+
 _DIALOG = _descriptor.Descriptor(
   name='Dialog',
   full_name='Dialog',
@@ -183,8 +215,8 @@ _DIALOG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=140,
-  serialized_end=193,
+  serialized_start=161,
+  serialized_end=214,
 )
 
 
@@ -215,14 +247,15 @@ _DIALOGS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=195,
-  serialized_end=228,
+  serialized_start=216,
+  serialized_end=249,
 )
 
 _DIALOGS.fields_by_name['items'].message_type = _DIALOG
 DESCRIPTOR.message_types_by_name['AuthRequest'] = _AUTHREQUEST
 DESCRIPTOR.message_types_by_name['AuthResponse'] = _AUTHRESPONSE
 DESCRIPTOR.message_types_by_name['Text'] = _TEXT
+DESCRIPTOR.message_types_by_name['User'] = _USER
 DESCRIPTOR.message_types_by_name['Dialog'] = _DIALOG
 DESCRIPTOR.message_types_by_name['Dialogs'] = _DIALOGS
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -248,6 +281,13 @@ Text = _reflection.GeneratedProtocolMessageType('Text', (_message.Message,), {
   })
 _sym_db.RegisterMessage(Text)
 
+User = _reflection.GeneratedProtocolMessageType('User', (_message.Message,), {
+  'DESCRIPTOR' : _USER,
+  '__module__' : 'tg_pb2'
+  # @@protoc_insertion_point(class_scope:User)
+  })
+_sym_db.RegisterMessage(User)
+
 Dialog = _reflection.GeneratedProtocolMessageType('Dialog', (_message.Message,), {
   'DESCRIPTOR' : _DIALOG,
   '__module__' : 'tg_pb2'
@@ -271,8 +311,8 @@ _TGAPI = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=231,
-  serialized_end=372,
+  serialized_start=252,
+  serialized_end=396,
   methods=[
   _descriptor.MethodDescriptor(
     name='auth',
@@ -289,8 +329,8 @@ _TGAPI = _descriptor.ServiceDescriptor(
     full_name='TgApi.get_dialogs',
     index=1,
     containing_service=None,
-    input_type=_TEXT,
-    output_type=_TEXT,
+    input_type=_USER,
+    output_type=_DIALOGS,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
