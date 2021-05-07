@@ -3,6 +3,7 @@ package com.example.catchat
 import android.app.Activity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.core.content.ContextCompat
 
 fun View.hideKeyboard() {

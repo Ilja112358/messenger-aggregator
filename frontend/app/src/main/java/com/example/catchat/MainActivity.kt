@@ -1,21 +1,21 @@
 package com.example.catchat
 
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.graphics.Color
-import android.media.FaceDetector
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
+
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toolbar.title = "Telegram"
         toolbar.setBackgroundColor(Color.parseColor("#859D7D"))
         setSupportActionBar(toolbar)
-        
+
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.content_frame, TelegramFragment())
         transaction.commit()
@@ -39,6 +39,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         )
         drawer.addDrawerListener(toggle)
         toggle.syncState()
+
+        drawer.setOnTouchListener { v, event ->
+            this.hideSoftKeyboard()
+            false
+        }
+        toolbar.setOnTouchListener { v, event ->
+            this.hideSoftKeyboard()
+            false
+        }
 
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
