@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import tg_pb2 as tg__pb2
+from api.protobufs import tg_pb2 as tg__pb2
 
 
 class TgApiStub(object):

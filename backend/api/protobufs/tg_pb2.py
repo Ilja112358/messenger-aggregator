@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x08tg.proto\"=\n\x0b\x41uthRequest\x12\r\n\x05phone\x18\x01 \x01(\t\x12\x0c\n\x04\x63ode\x18\x02 \x01(\t\x12\x11\n\tcode_hash\x18\x03 \x01(\t\"\x1c\n\x0c\x41uthResponse\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x14\n\x04Text\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t2\x8d\x01\n\x05TgApi\x12%\n\x04\x61uth\x12\x0c.AuthRequest\x1a\r.AuthResponse\"\x00\x12\x1d\n\x0bget_dialogs\x12\x05.Text\x1a\x05.Text\"\x00\x12\x1e\n\x0cget_messages\x12\x05.Text\x1a\x05.Text\"\x00\x12\x1e\n\x0csend_message\x12\x05.Text\x1a\x05.Text\"\x00\x62\x06proto3'
+  serialized_pb=b'\n\x08tg.proto\"J\n\x0b\x41uthRequest\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\r\n\x05phone\x18\x02 \x01(\t\x12\x0c\n\x04\x63ode\x18\x03 \x01(\t\x12\x11\n\tcode_hash\x18\x04 \x01(\t\"\x1c\n\x0c\x41uthResponse\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x14\n\x04Text\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t2\x8d\x01\n\x05TgApi\x12%\n\x04\x61uth\x12\x0c.AuthRequest\x1a\r.AuthResponse\"\x00\x12\x1d\n\x0bget_dialogs\x12\x05.Text\x1a\x05.Text\"\x00\x12\x1e\n\x0cget_messages\x12\x05.Text\x1a\x05.Text\"\x00\x12\x1e\n\x0csend_message\x12\x05.Text\x1a\x05.Text\"\x00\x62\x06proto3'
 )
 
 
@@ -34,22 +34,29 @@ _AUTHREQUEST = _descriptor.Descriptor(
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='phone', full_name='AuthRequest.phone', index=0,
+      name='uid', full_name='AuthRequest.uid', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='code', full_name='AuthRequest.code', index=1,
+      name='phone', full_name='AuthRequest.phone', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='code_hash', full_name='AuthRequest.code_hash', index=2,
+      name='code', full_name='AuthRequest.code', index=2,
       number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='code_hash', full_name='AuthRequest.code_hash', index=3,
+      number=4, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -67,7 +74,7 @@ _AUTHREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=12,
-  serialized_end=73,
+  serialized_end=86,
 )
 
 
@@ -98,8 +105,8 @@ _AUTHRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=75,
-  serialized_end=103,
+  serialized_start=88,
+  serialized_end=116,
 )
 
 
@@ -130,8 +137,8 @@ _TEXT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=105,
-  serialized_end=125,
+  serialized_start=118,
+  serialized_end=138,
 )
 
 DESCRIPTOR.message_types_by_name['AuthRequest'] = _AUTHREQUEST
@@ -169,8 +176,8 @@ _TGAPI = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=128,
-  serialized_end=269,
+  serialized_start=141,
+  serialized_end=282,
   methods=[
   _descriptor.MethodDescriptor(
     name='auth',

@@ -6,7 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".TelegramFragment"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
-    android:background="#000000">
+    android:background="#000000"
+    android:id="@+id/layout_telegram">
 
     <EditText
         android:id="@+id/phoneInput"
@@ -23,7 +24,7 @@
         android:background="#ffffff"
         android:hint="Введите номер телефона"
         android:maxLength="13"/>
-
+    
     <Button
         android:id="@+id/submit_button"
         android:layout_width="wrap_content"
