@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.example.myapplication.ui.home.TgApi
 
+
 class TelegramFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,15 +20,18 @@ class TelegramFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_telegram, container, false)
         val submitButton = view?.findViewById<Button>(R.id.submit_button)
-
         val phoneField = view?.findViewById<EditText>(R.id.phoneInput)
+
+        phoneField?.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus)
+                phoneField?.hideKeyboard()
+        }
 
         submitButton?.setOnClickListener {
             val phoneText = phoneField?.text ?: ""
             println(phoneText)
             val codeHash = TgApi().sendPhone("uid", phoneText.toString())
             println(codeHash)
-
 
             val alertBuilder = AlertDialog.Builder(context!!)
             val inflaterInner = LayoutInflater.from(context)
@@ -38,7 +42,6 @@ class TelegramFragment : Fragment() {
             alertBuilder.setCancelable(true)
             alertBuilder.setPositiveButton("Send") { dialogInterface: DialogInterface, i: Int ->
                 TgApi().sendCode("uid", phoneText.toString(), codeInputView.text.toString(), codeHash)
-
                 println("codeSent")
             }
             alertBuilder.setNegativeButton("Cancel") { dialogInterface: DialogInterface, i: Int -> }
