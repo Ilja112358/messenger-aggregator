@@ -8,7 +8,7 @@ import kotlinx.coroutines.asExecutor
 import java.net.URL
 import java.util.logging.Logger
 
-class Api {
+class TgApi {
     private val logger = Logger.getLogger(this.javaClass.name)
 
     private fun channel(): ManagedChannel {
@@ -27,13 +27,25 @@ class Api {
         return builder.executor(Dispatchers.Default.asExecutor()).build()
     }
 
-    fun getHash(
-        text: String
+    fun sendPhone(
+        uid: String,
+        phone: String
     ): String {
-        //val request = Datahash.Text.newBuilder().setData(text).build()
-        //val stub = DataHashGrpc.newBlockingStub(channel())
-        //val response = stub.hashSha256(request)
+        val request = Tg.AuthRequest.newBuilder().setUid(uid).setPhone(phone).build()
+        val stub = TgApiGrpc.newBlockingStub(channel())
+        val response = stub.auth(request)
 
-        return ""//response.data
+        return response.data
+    }
+
+    fun sendCode(
+        uid: String,
+        phone: String,
+        code: String,
+        codeHash: String
+    ) {
+        val request = Tg.AuthRequest.newBuilder().setUid(uid).setPhone(phone).setCode(code).setCodeHash(codeHash).build()
+        val stub = TgApiGrpc.newBlockingStub(channel())
+        val response = stub.auth(request)
     }
 }
