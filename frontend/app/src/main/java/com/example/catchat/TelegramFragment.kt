@@ -34,26 +34,11 @@ class TelegramFragment : Fragment() {
         val phoneField = view?.findViewById<EditText>(R.id.phoneInput)
 
         if (sharedPref?.contains(TUID)!!) {
-            val textV = view1?.findViewById<TextView>(R.id.textV)
-            val name = sharedPref.getString(TUID, "")
-            textV?.text = "Your TUID is $name\n"
 
-            val exitButton = view1?.findViewById<Button>(R.id.exit_button)
-            exitButton?.setOnClickListener {
-                println("CLICKED")
-                if (sharedPref?.contains(TUID)!!) {
-                    println("WRITING REMOVED")
-                    edit?.remove(TUID)
-                    edit?.apply()
-                    //TODO: swap
-                } else {
-                    assert(false)
-                }
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(R.id.content_frame, TelegramAuthFragment())
+            transaction?.commit()
 
-                val transaction = activity?.supportFragmentManager?.beginTransaction()
-                transaction?.replace(R.id.content_frame, TelegramFragment())
-                transaction?.commit()
-            }
             return view1 //TODO: view1
         } else {
 
