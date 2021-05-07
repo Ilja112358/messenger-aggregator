@@ -1,22 +1,24 @@
 from telethon import TelegramClient, events, sync
 import os
-import asyncio
+from dotenv import load_dotenv
 
-api_id = <your_api_id>
-api_hash = '<your_api_hash>'
-phone1 = '<your_phone>'
+load_dotenv('../.env')
+api_id = int(os.getenv('api_id'))
+api_hash = os.getenv('api_hash')
+phone = os.getenv('phone')
+uid = os.getenv('uid')
 
 
-def auth(uid, phone, code=None):
+def auth(uid, phone, code=None, code_hash=None):
     client = TelegramClient('tg_sessions/' + str(uid), api_id, api_hash)
+    client.connect()
     if code is None:
-        client.send_code_request(phone)
+        return client.send_code_request(phone)
     else:
-        client.sign_in(phone, code)
-    client.start()
+        return client.sign_in(phone=phone, code=code, phone_code_hash=code_hash)
 
 
-class TgApi:
+class TgApi():
 
     def get_messages(self):
         pass
@@ -28,4 +30,10 @@ class TgApi:
         pass
 
 
-auth('Andrew', phone1)
+# auth(uid, phone)
+
+# auth(uid, phone, '<hash_code>')
+
+client = TelegramClient('tg_sessions/' + uid, api_id, api_hash)
+client.connect()
+print(client.get_dialogs())

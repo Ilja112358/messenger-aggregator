@@ -4,9 +4,9 @@ from time import sleep
 
 
 #user authorizathion
-api_id = <your_api_id>
-api_hash = '<your_api_hash>'
-phone1 = '<your_phone>'
+phone = '+79213010190'
+api_id = 4139893
+api_hash = 'ece013c7c8869d3a584bb2cae5ae3fc7'
 client = TelegramClient('sessions/andrew', api_id, api_hash)
 code = 1234
 client.sign_in(phone, code)

@@ -3,18 +3,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_telegram"
-            android:icon="@android:drawable/sym_action_email"
+            android:icon="@drawable/telegram"
             android:title="@string/nav_telegram"
             android:checked="true"/>
 
         <item
             android:id="@+id/nav_facebook"
-            android:icon="@android:drawable/ic_menu_edit"
+            android:icon="@drawable/facebook"
             android:title="@string/nav_facebook"/>
 
         <item
             android:id="@+id/nav_gmail"
-            android:icon="@android:drawable/ic_menu_send"
+            android:icon="@drawable/gmail"
+
             android:title="@string/nav_gmail"/>
 
     </group>
