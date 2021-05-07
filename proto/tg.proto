@@ -37,7 +37,7 @@ message Send {
 
 message StatusMessage {
   string status = 1;
-} 
+}
 
 service TgApi {
   rpc auth(AuthRequest) returns (AuthResponse) {};

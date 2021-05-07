@@ -47,7 +47,7 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
 
     def send_message(self, request, context):
         asyncio.set_event_loop(asyncio.new_event_loop())
-        client = TelegramClient('tg_sessions/' + str(request.uid), api_id, api_hash)
+        client = TelegramClient('api/tg_sessions/' + str(request.uid), api_id, api_hash)
         client.connect()
         if isinstance(request.message, str):
             client.send_message(request.entity, request.message)
