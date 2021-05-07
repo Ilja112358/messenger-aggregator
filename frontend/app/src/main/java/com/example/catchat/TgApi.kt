@@ -1,12 +1,15 @@
 package com.example.myapplication.ui.home
 
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 import java.net.URL
 import java.util.logging.Logger
+import java.util.stream.Collectors
 
 class TgApi {
     private val logger = Logger.getLogger(this.javaClass.name)
@@ -47,5 +50,18 @@ class TgApi {
         val request = Tg.AuthRequest.newBuilder().setUid(uid).setPhone(phone).setCode(code).setCodeHash(codeHash).build()
         val stub = TgApiGrpc.newBlockingStub(channel())
         val response = stub.auth(request)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun getDialogs(
+        uid: String
+    ) : String {
+        val request = Tg.User.newBuilder().setUid(uid).build()
+        val stub = TgApiGrpc.newBlockingStub(channel())
+        val response = stub.getDialogs(request)
+        val tmp = response.dialogList.stream().map ({ d -> d.date }).collect(Collectors.toList())
+        //response.itemsList.stream().map { d -> d. }
+        //request.
+        return ""//response.data
     }
 }

@@ -22,15 +22,15 @@ class TelegramFragment : Fragment() {
         val submitButton = view?.findViewById<Button>(R.id.submit_button)
         val phoneField = view?.findViewById<EditText>(R.id.phoneInput)
 
-        phoneField?.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
-            if (!hasFocus)
-                phoneField?.hideKeyboard()
-        }
+//        phoneField?.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+//            if (!hasFocus)
+//                phoneField?.hideKeyboard()
+//        }
 
         submitButton?.setOnClickListener {
             val phoneText = phoneField?.text ?: ""
             println(phoneText)
-            val codeHash = TgApi().sendPhone("uid3", phoneText.toString())
+            val codeHash = TgApi().sendPhone("uid", phoneText.toString())
             println(codeHash)
 
             val alertBuilder = AlertDialog.Builder(context!!)
@@ -41,7 +41,7 @@ class TelegramFragment : Fragment() {
             alertBuilder.setTitle("Enter code")
             alertBuilder.setCancelable(true)
             alertBuilder.setPositiveButton("Send") { dialogInterface: DialogInterface, i: Int ->
-                TgApi().sendCode("uid3", phoneText.toString(), codeInputView.text.toString(), codeHash)
+                TgApi().sendCode("uid", phoneText.toString(), codeInputView.text.toString(), codeHash)
                 println("codeSent")
             }
             alertBuilder.setNegativeButton("Cancel") { dialogInterface: DialogInterface, i: Int -> }
