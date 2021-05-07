@@ -8,22 +8,17 @@
     tools:context=".TelegramFragment"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
     android:background="#000000">
 
-    <EditText
-        android:id="@+id/editText1"
+    <TextView
+        android:id="@+id/text_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-
+        android:text="A you Slava Marlow?"
+        android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.332"
-        android:background="#ffffff"
-        android:hint="Введите номер телефона"
-        android:maxLength="13"
-        android:lines="1" />
+        app:layout_constraintVertical_bias="0.422" />
 
     <Button
         android:id="@+id/submit_button"
@@ -38,5 +33,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.732"
         android:background="@drawable/rectangle"/>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="157dp"
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="166dp"
+        android:layout_marginBottom="112dp"
+        android:text="Open stub listing"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submit_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

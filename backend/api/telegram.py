@@ -1,6 +1,7 @@
 from telethon import TelegramClient, events, sync
 import os
 from dotenv import load_dotenv
+# import tg_pb2_grpc
 
 load_dotenv('../.env')
 api_id = int(os.getenv('api_id'))

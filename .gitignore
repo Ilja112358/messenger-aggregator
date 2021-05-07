@@ -1,9 +1,8 @@
 */.idea/
 .idea/
-*/sessions/*
-*/venv/*
-backend/api/credentials.json
-backend/telethon_test.py
+*/sessions/
+*/venv/
 backend/telethon_test.py
 backend/.env
 backend/api/tg_sessions/
+backend/api/gmail_credentials/
