@@ -7,6 +7,12 @@
     android:orientation="vertical"
     tools:context=".InboxFragment">
 
+    <TextView
+        android:id="@+id/text_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A you Slava Marlow?"/>
+
     <Button
         android:id="@+id/submit_button"
         android:layout_width="wrap_content"
