@@ -19,11 +19,6 @@ class TelegramFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_telegram, container, false)
         val submitButton = view?.findViewById<Button>(R.id.submit_button)
-        val textView = view?.findViewById<TextView>(R.id.text_field)
-
-        submitButton?.setOnClickListener {
-            textView?.text = Api().getHash("Are you Slava Marlow?\n")
-        }
 
         return view
     }

@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toolbar.title = "Telegram"
         toolbar.setBackgroundColor(Color.parseColor("#859D7D"))
         setSupportActionBar(toolbar)
-
+        
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.content_frame, TelegramFragment())
         transaction.commit()
