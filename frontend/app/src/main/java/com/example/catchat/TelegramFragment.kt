@@ -10,7 +10,6 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import com.example.myapplication.ui.home.TgApi
 
 
 class TelegramFragment : Fragment() {
@@ -22,10 +21,10 @@ class TelegramFragment : Fragment() {
         val submitButton = view?.findViewById<Button>(R.id.submit_button)
         val phoneField = view?.findViewById<EditText>(R.id.phoneInput)
 
-//        phoneField?.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
-//            if (!hasFocus)
-//                phoneField?.hideKeyboard()
-//        }
+        phoneField?.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus)
+                phoneField?.hideKeyboard()
+        }
 
         submitButton?.setOnClickListener {
             val phoneText = phoneField?.text ?: ""
