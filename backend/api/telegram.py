@@ -32,8 +32,8 @@ class TgApi:
 
 auth(uid, phone)
 
-#auth(uid, phone, '<hash_code>')
+# auth(uid, phone, '<hash_code>')
 
-#client = TelegramClient('tg_sessions/' + 'Andrew', api_id, api_hash)
-#client.connect()
-#print(client.get_dialogs())
+# client = TelegramClient('tg_sessions/' + 'Andrew', api_id, api_hash)
+# client.connect()
+# print(client.get_dialogs())
