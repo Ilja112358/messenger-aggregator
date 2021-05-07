@@ -17,7 +17,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import com.example.myapplication.ui.home.TgApi
 
 public val TUID = "TUID"
 
