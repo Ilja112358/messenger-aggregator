@@ -50,7 +50,11 @@ class Chat : AppCompatActivity() {
 
         dialogId?.let {
             tgApi.getMessages(TUID, it.toLong()).reversed().forEach {
-                addMessageBox(it.text, FRIEND_MESSAGE)
+                var messageType = FRIEND_MESSAGE
+                if (it.isUserMessage) {
+                    messageType = USER_MESSAGE
+                }
+                addMessageBox(it.text, messageType)
             }
         }
         mScrollView?.post(Runnable { mScrollView?.fullScroll(ScrollView.FOCUS_DOWN) })
