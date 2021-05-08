@@ -2,11 +2,11 @@ package com.example.catchat
 
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,7 +36,7 @@ class MessagesListFragment : Fragment() {
             // RecyclerView behavior
             layoutManager = LinearLayoutManager(activity)
             // set the custom adapter to the RecyclerView
-            adapter = DialogsRecyclerAdapter(dialogsList)
+            adapter = DialogsRecyclerAdapter(dialogsList, { idx -> println(idx)})
             val dividerItemDecoration = DividerItemDecoration(
                 recyclerView.context,
                 LinearLayoutManager.VERTICAL

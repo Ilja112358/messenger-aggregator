@@ -1,8 +1,6 @@
 package com.example.catchat
 
-import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +9,12 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.models.Dialog
-import java.net.URI
-import java.net.URL
 
-class DialogsRecyclerAdapter(private val dialogs: List<Dialog>) :
+
+class DialogsRecyclerAdapter(private val dialogs: List<Dialog>, var onItemClick: ((Int) -> Unit)?) :
     RecyclerView.Adapter<DialogsRecyclerAdapter.MyViewHolder>() {
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var dialogAvatarView: ImageView? = null
         var dialogTitleView: TextView? = null
         var dialogLastMessageView: TextView? = null
@@ -29,6 +26,10 @@ class DialogsRecyclerAdapter(private val dialogs: List<Dialog>) :
             dialogLastMessageView = itemView.findViewById(R.id.dialogLastMessage)
             dialogLastTimeView = itemView.findViewById(R.id.lastMessageTime)
             dialogBack = itemView.findViewById(R.id.dialogBack)
+
+            itemView.setOnClickListener {
+                onItemClick?.invoke(adapterPosition)
+            }
         }
     }
 
