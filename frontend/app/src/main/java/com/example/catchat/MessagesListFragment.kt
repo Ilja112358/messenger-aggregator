@@ -46,6 +46,10 @@ class MessagesListFragment : Fragment() {
                 intent.putExtra("chatName", dialogsList[it].name)
                 intent.putExtra("dialogId", dialogsList[it].dialog_id.toString())
 
+                if (dialogsList[it].unread_count > 0) {
+                    TgApi().sendMarkRead("test", dialogsList[it].dialog_id)
+                }
+
                 startActivity(intent)
             }
 
