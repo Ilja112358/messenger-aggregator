@@ -22,7 +22,7 @@ import com.example.models.Dialog
 import kotlinx.android.synthetic.main.fragment_gmail.*
 import java.util.*
 
-class MessagesListFragment : Fragment() {
+class MessagesListFragment(val apiType: String) : Fragment() {
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: RecyclerView.Adapter<DialogsRecyclerAdapter.MyViewHolder>? = null
     private var dialogsList: List<Dialog> = Collections.emptyList()
@@ -50,7 +50,8 @@ class MessagesListFragment : Fragment() {
     }
 
     private fun setDialogsField() {
-        dialogsList = tgApi.getDialogs(TUID)
+        dialogsList = API.api[apiType]!!.getDialogs(TUID)
+
         recyclerView.apply {
             // set a LinearLayoutManager to handle Android
             // RecyclerView behavior
@@ -62,7 +63,7 @@ class MessagesListFragment : Fragment() {
                 intent.putExtra("dialogId", dialogsList[it].dialog_id.toString())
 
                 if (dialogsList[it].unread_count > 0) {
-                    TgApi().sendMarkRead("test", dialogsList[it].dialog_id)
+                    API.api[apiType]!!.sendMarkRead("test", dialogsList[it].dialog_id)
                 }
 
                 startActivity(intent)
