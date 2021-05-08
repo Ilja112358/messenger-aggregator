@@ -44,10 +44,19 @@ message Chunk {
   bytes chunk = 1;
 }
 
+message MessagesRequest {
+	string uid = 1;
+	int dialog_id = 2;
+}
+
+message Messages {
+	repeated string message = 1;
+}
+
 service TgApi {
   rpc auth(AuthRequest) returns (AuthResponse) {};
   rpc get_dialogs(User) returns (Dialogs) {};
-  rpc get_messages(Text) returns (Text) {};
+  rpc get_messages(MessageRequest) returns (Messages) {};
   rpc send_message(Send) returns (StatusMessage) {};
   rpc test_file(Text) returns (stream Chunk) {};
 }
