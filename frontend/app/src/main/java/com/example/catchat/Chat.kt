@@ -2,12 +2,14 @@ package com.example.catchat
 
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import android.widget.LinearLayout
 import android.widget.ScrollView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -86,12 +88,25 @@ class Chat : AppCompatActivity() {
         layoutParams.weight = 1f
         if (type == USER_MESSAGE) {
             layoutParams.gravity = Gravity.RIGHT
-            textView.setBackgroundResource(R.drawable.bubble_in)
+            textView.setBackgroundResource(R.drawable.bubble_in_new)
         } else {
             layoutParams.gravity = Gravity.LEFT
-            textView.setBackgroundResource(R.drawable.bubble_out)
+            textView.setBackgroundResource(R.drawable.bubble_out_new)
         }
+
+        textView.setPadding(32, 32, 32, 32)
+        textView.setTextColor(Color.WHITE)
         textView.layoutParams = layoutParams
+
+        val divider = View(this@Chat)
+        val dividerLayoutParams = LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            16
+        )
+        divider.setBackgroundColor(Color.BLACK)
+        divider.layoutParams = dividerLayoutParams
+        mLinearLayout!!.addView(divider)
+
         mLinearLayout!!.addView(textView)
         mScrollView!!.fullScroll(View.FOCUS_DOWN)
     }
