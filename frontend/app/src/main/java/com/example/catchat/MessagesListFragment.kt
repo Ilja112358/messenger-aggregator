@@ -21,7 +21,10 @@ class MessagesListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        dialogsList = TgApi().getDialogs(TUID)
+        dialogsList = tgApi.getDialogs(TUID)
+        dialogsList.forEach {
+            print(it.lastMessage)
+        }
         return inflater.inflate(R.layout.fragment_messages_list, container, false)
     }
 
