@@ -13,21 +13,14 @@ api_hash = os.getenv('api_hash')
 class TgApiServicer(tg_pb2_grpc.TgApiServicer):
     def auth(self, request, context):
         asyncio.set_event_loop(asyncio.new_event_loop())
-        print(request, api_id, api_hash)
         client = TelegramClient('api/tg_sessions/' + request.uid, api_id, api_hash)
-        print('Con')
         client.connect()
-        print('After', request.code)
         if request.code == '':
-            a = client.send_code_request(request.phone)
-            response = tg_pb2.AuthResponse(data=a.__dict__['phone_code_hash'])
-            print('Here 1')
+            response = tg_pb2.AuthResponse(data=client.send_code_request(request.phone).__dict__['phone_code_hash'])
             return response
-            # return client.send_code_request(request.phone)
         else:
             client.sign_in(phone=request.phone, code=request.code, phone_code_hash=request.code_hash)
             response = tg_pb2.AuthResponse(data='Test')
-            print('Here 2')
             return response
 
     def get_dialogs(self, request, context):
