@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0c\x63ommon.proto\"\x1c\n\x0c\x41uthResponse\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x14\n\x04Text\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x13\n\x04User\x12\x0b\n\x03uid\x18\x01 \x01(\t\"^\n\x06\x44ialog\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x11\n\tdialog_id\x18\x02 \x01(\x03\x12\x0c\n\x04\x64\x61te\x18\x03 \x01(\t\x12\x0f\n\x07message\x18\x04 \x01(\t\x12\x14\n\x0cunread_count\x18\x05 \x01(\x05\"\"\n\x07\x44ialogs\x12\x17\n\x06\x64ialog\x18\x01 \x03(\x0b\x32\x07.Dialog\"4\n\x04Send\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x0e\n\x06\x65ntity\x18\x02 \x01(\x03\x12\x0f\n\x07message\x18\x03 \x01(\t\"\x1f\n\rStatusMessage\x12\x0e\n\x06status\x18\x01 \x01(\t\"\x16\n\x05\x43hunk\x12\r\n\x05\x63hunk\x18\x01 \x01(\x0c\"1\n\x0fMessagesRequest\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x11\n\tdialog_id\x18\x02 \x01(\x03\"\x1b\n\x08Messages\x12\x0f\n\x07message\x18\x01 \x03(\tb\x06proto3'
+  serialized_pb=b'\n\x0c\x63ommon.proto\"\x1c\n\x0c\x41uthResponse\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x14\n\x04Text\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x13\n\x04User\x12\x0b\n\x03uid\x18\x01 \x01(\t\"^\n\x06\x44ialog\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x11\n\tdialog_id\x18\x02 \x01(\x03\x12\x0c\n\x04\x64\x61te\x18\x03 \x01(\t\x12\x0f\n\x07message\x18\x04 \x01(\t\x12\x14\n\x0cunread_count\x18\x05 \x01(\x05\"\"\n\x07\x44ialogs\x12\x17\n\x06\x64ialog\x18\x01 \x03(\x0b\x32\x07.Dialog\"4\n\x04Send\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x0e\n\x06\x65ntity\x18\x02 \x01(\x03\x12\x0f\n\x07message\x18\x03 \x01(\t\"\x1f\n\rStatusMessage\x12\x0e\n\x06status\x18\x01 \x01(\t\"\x16\n\x05\x43hunk\x12\r\n\x05\x63hunk\x18\x01 \x01(\x0c\"/\n\rDialogRequest\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x11\n\tdialog_id\x18\x02 \x01(\x03\"\x1b\n\x08Messages\x12\x0f\n\x07message\x18\x01 \x03(\tb\x06proto3'
 )
 
 
@@ -323,23 +323,23 @@ _CHUNK = _descriptor.Descriptor(
 )
 
 
-_MESSAGESREQUEST = _descriptor.Descriptor(
-  name='MessagesRequest',
-  full_name='MessagesRequest',
+_DIALOGREQUEST = _descriptor.Descriptor(
+  name='DialogRequest',
+  full_name='DialogRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='uid', full_name='MessagesRequest.uid', index=0,
+      name='uid', full_name='DialogRequest.uid', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='dialog_id', full_name='MessagesRequest.dialog_id', index=1,
+      name='dialog_id', full_name='DialogRequest.dialog_id', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
@@ -358,7 +358,7 @@ _MESSAGESREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=332,
-  serialized_end=381,
+  serialized_end=379,
 )
 
 
@@ -389,8 +389,8 @@ _MESSAGES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=383,
-  serialized_end=410,
+  serialized_start=381,
+  serialized_end=408,
 )
 
 _DIALOGS.fields_by_name['dialog'].message_type = _DIALOG
@@ -402,7 +402,7 @@ DESCRIPTOR.message_types_by_name['Dialogs'] = _DIALOGS
 DESCRIPTOR.message_types_by_name['Send'] = _SEND
 DESCRIPTOR.message_types_by_name['StatusMessage'] = _STATUSMESSAGE
 DESCRIPTOR.message_types_by_name['Chunk'] = _CHUNK
-DESCRIPTOR.message_types_by_name['MessagesRequest'] = _MESSAGESREQUEST
+DESCRIPTOR.message_types_by_name['DialogRequest'] = _DIALOGREQUEST
 DESCRIPTOR.message_types_by_name['Messages'] = _MESSAGES
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -462,12 +462,12 @@ Chunk = _reflection.GeneratedProtocolMessageType('Chunk', (_message.Message,), {
   })
 _sym_db.RegisterMessage(Chunk)
 
-MessagesRequest = _reflection.GeneratedProtocolMessageType('MessagesRequest', (_message.Message,), {
-  'DESCRIPTOR' : _MESSAGESREQUEST,
+DialogRequest = _reflection.GeneratedProtocolMessageType('DialogRequest', (_message.Message,), {
+  'DESCRIPTOR' : _DIALOGREQUEST,
   '__module__' : 'common_pb2'
-  # @@protoc_insertion_point(class_scope:MessagesRequest)
+  # @@protoc_insertion_point(class_scope:DialogRequest)
   })
-_sym_db.RegisterMessage(MessagesRequest)
+_sym_db.RegisterMessage(DialogRequest)
 
 Messages = _reflection.GeneratedProtocolMessageType('Messages', (_message.Message,), {
   'DESCRIPTOR' : _MESSAGES,

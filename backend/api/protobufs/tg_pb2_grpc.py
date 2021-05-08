@@ -27,12 +27,17 @@ class TgApiStub(object):
                 )
         self.get_messages = channel.unary_unary(
                 '/TgApi/get_messages',
-                request_serializer=common__pb2.MessagesRequest.SerializeToString,
+                request_serializer=common__pb2.DialogRequest.SerializeToString,
                 response_deserializer=common__pb2.Messages.FromString,
                 )
         self.send_message = channel.unary_unary(
                 '/TgApi/send_message',
                 request_serializer=common__pb2.Send.SerializeToString,
+                response_deserializer=common__pb2.StatusMessage.FromString,
+                )
+        self.mark_read = channel.unary_unary(
+                '/TgApi/mark_read',
+                request_serializer=common__pb2.DialogRequest.SerializeToString,
                 response_deserializer=common__pb2.StatusMessage.FromString,
                 )
         self.test_file = channel.unary_stream(
@@ -69,6 +74,12 @@ class TgApiServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def mark_read(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
     def test_file(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -90,12 +101,17 @@ def add_TgApiServicer_to_server(servicer, server):
             ),
             'get_messages': grpc.unary_unary_rpc_method_handler(
                     servicer.get_messages,
-                    request_deserializer=common__pb2.MessagesRequest.FromString,
+                    request_deserializer=common__pb2.DialogRequest.FromString,
                     response_serializer=common__pb2.Messages.SerializeToString,
             ),
             'send_message': grpc.unary_unary_rpc_method_handler(
                     servicer.send_message,
                     request_deserializer=common__pb2.Send.FromString,
+                    response_serializer=common__pb2.StatusMessage.SerializeToString,
+            ),
+            'mark_read': grpc.unary_unary_rpc_method_handler(
+                    servicer.mark_read,
+                    request_deserializer=common__pb2.DialogRequest.FromString,
                     response_serializer=common__pb2.StatusMessage.SerializeToString,
             ),
             'test_file': grpc.unary_stream_rpc_method_handler(
@@ -159,7 +175,7 @@ class TgApi(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TgApi/get_messages',
-            common__pb2.MessagesRequest.SerializeToString,
+            common__pb2.DialogRequest.SerializeToString,
             common__pb2.Messages.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
@@ -177,6 +193,23 @@ class TgApi(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TgApi/send_message',
             common__pb2.Send.SerializeToString,
+            common__pb2.StatusMessage.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def mark_read(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/TgApi/mark_read',
+            common__pb2.DialogRequest.SerializeToString,
             common__pb2.StatusMessage.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

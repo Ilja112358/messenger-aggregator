@@ -12,7 +12,8 @@ message TgAuthRequest {
 service TgApi {
   rpc auth(TgAuthRequest) returns (AuthResponse) {};
   rpc get_dialogs(User) returns (Dialogs) {};
-  rpc get_messages(MessagesRequest) returns (Messages) {};
+  rpc get_messages(DialogRequest) returns (Messages) {};
   rpc send_message(Send) returns (StatusMessage) {};
+  rpc mark_read(DialogRequest) returns (StatusMessage) {};
   rpc test_file(Text) returns (stream Chunk) {};
 }

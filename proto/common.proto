@@ -38,7 +38,7 @@ message Chunk {
   bytes chunk = 1;
 }
 
-message MessagesRequest {
+message DialogRequest {
   string uid = 1;
   int64 dialog_id = 2;
 }

@@ -18,8 +18,8 @@ response = tg_stub.test_file(request)
 for item in response:
     pass
 '''
-request = common_pb2.User(uid='test')
-response = tg_stub.get_dialogs(request)
+request = common_pb2.DialogRequest(uid='test', dialog_id=-595779751)
+response = tg_stub.mark_read(request)
 print(response)
 
 
