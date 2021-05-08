@@ -49,4 +49,11 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         if isinstance(request.message, str):
             client.send_message(request.entity, request.message)
             response = tg_pb2.StatusMessage(status='OK')
-        return response
+            return response
+
+    def test_file(self, request, context):
+        with open('test.txt', 'rb') as f:
+            file = f.read()
+            print(file)
+            file = [tg_pb2.Chunk(chunk=byte) for byte in file]
+            return file
