@@ -11,7 +11,21 @@ client = TelegramClient('sessions/Consumer', api_id, api_hash)
 code = 1234
 #client.sign_in(phone, code)
 client.start()
-dialogs = client.get_messages(423865152, 6)
+dialogs = client.get_messages(423865152, 10)
+temp_dialogs = client.get_dialogs()
+#print(type(dialogs))
+
+#print(len(temp_dialogs))
+for dialog in temp_dialogs:
+    #print(client.get_peer_id(dialog))
+    peer_id = client.get_peer_id(dialog)
+    if peer_id > 0:
+        if peer_id == 423865152:
+            print(dialog.message.peer_id.user_id, ' ', dialog.name)
+
+
+#print(client.get_entity(423865152).first_name + client.get_entity(423865152).last_name, ' ', dialogs[0].)
+
 #print(dialogs[0].message)
 #dialogs = client.get_dialogs()
 #print(dialogs[1].message.from_id.user_id)
@@ -26,13 +40,9 @@ i = 0
 #print(type(client.get_entity(dialogs[i])), dialogs[i].name)
 #print(dialogs[i].id, '', dialogs[i].name)
 
-for dialog in dialogs:
-    i += 1
-    if dialog.out == True:
-        print('OK')
-    else:
-        print('NOT OK')
-    print(dialog)
+#for dialog in dialogs:
+ #   i += 1
+  #  print(dialog)
 #print(dialogs)
 #result = client(functions.messages.GetPeerDialogsRequest(peers=['username']))
 #print(result.dialogs[0].unread_count)

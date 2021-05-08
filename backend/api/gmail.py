@@ -32,8 +32,7 @@ class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
         creds = Credentials.from_authorized_user_file('api/gmail_credentials/' + request.uid + '_token.json', SCOPES)
         service = build('gmail', 'v1', credentials=creds)
 
-        results = service.users().threads().list(userId='me').execute()
-        threads = results.get('threads', [])
+        threads = service.users().threads().list(userId='me').execute().get('threads', [])
         dialogs = [common_pb2.Dialog(message=thread.get('snippet'), thread_id=thread.get('id')) for thread in threads]
         response = common_pb2.Dialogs(dialog=dialogs)
         return response
@@ -42,8 +41,10 @@ class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
         creds = Credentials.from_authorized_user_file('api/gmail_credentials/' + request.uid + '_token.json', SCOPES)
         service = build('gmail', 'v1', credentials=creds)
 
-        result = service.users().threads().get(userId='me', id=request.thread_id).execute()
-        print(result)
+        thread = service.users().threads().get(userId='me', id=request.thread_id).execute().get('messages', '')
+        messages = [common_pb2.Message(message=message.get('snippet')) for message in thread]
+        response = common_pb2.Messages(message=messages)
+        return response
 
     def send_message(self, request, context):
         pass

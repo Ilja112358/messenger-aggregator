@@ -27,8 +27,8 @@ class GmailApiStub(object):
                 )
         self.get_messages = channel.unary_unary(
                 '/GmailApi/get_messages',
-                request_serializer=common__pb2.Text.SerializeToString,
-                response_deserializer=common__pb2.Text.FromString,
+                request_serializer=common__pb2.DialogRequest.SerializeToString,
+                response_deserializer=common__pb2.Messages.FromString,
                 )
         self.send_message = channel.unary_unary(
                 '/GmailApi/send_message',
@@ -79,8 +79,8 @@ def add_GmailApiServicer_to_server(servicer, server):
             ),
             'get_messages': grpc.unary_unary_rpc_method_handler(
                     servicer.get_messages,
-                    request_deserializer=common__pb2.Text.FromString,
-                    response_serializer=common__pb2.Text.SerializeToString,
+                    request_deserializer=common__pb2.DialogRequest.FromString,
+                    response_serializer=common__pb2.Messages.SerializeToString,
             ),
             'send_message': grpc.unary_unary_rpc_method_handler(
                     servicer.send_message,
@@ -143,8 +143,8 @@ class GmailApi(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/GmailApi/get_messages',
-            common__pb2.Text.SerializeToString,
-            common__pb2.Text.FromString,
+            common__pb2.DialogRequest.SerializeToString,
+            common__pb2.Messages.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
