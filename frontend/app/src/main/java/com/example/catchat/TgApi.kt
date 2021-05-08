@@ -1,6 +1,7 @@
 package com.example.catchat
 
 
+import TgApiGrpc
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.models.Dialog

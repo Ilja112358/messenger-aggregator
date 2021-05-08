@@ -68,19 +68,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var fragment: Fragment? = null
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
 
-        when (id) {
-            R.id.nav_gmail -> {
-                toolbar?.title = "Gmail"
-                fragment = GmailFragment()
-            }
-            R.id.nav_facebook -> {
-                toolbar?.title = "Facebook"
-                fragment = FacebookFragment()
-            }
-            else -> {
-                toolbar?.title = "Telegram"
-                fragment = TelegramFragment()
-            }
+        fragment = when (id) {
+            R.id.nav_facebook -> FacebookFragment()
+            R.id.nav_gmail -> GmailFragment()
+            else -> TelegramFragment()
         }
 
         val transaction = supportFragmentManager.beginTransaction()

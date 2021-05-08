@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 
 public val TUID = "test"
@@ -21,6 +22,9 @@ class TelegramFragment : Fragment() {
     ): View? {
         val sharedPref = activity?.getSharedPreferences("mysettings", Context.MODE_PRIVATE)
         val edit = sharedPref?.edit()
+        val toolbar = activity?.findViewById<Toolbar>(R.id.toolbar)
+        toolbar?.title = "Telegram"
+
         if (sharedPref?.contains(TUID)!!) {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.replace(R.id.content_frame, MessagesListFragment())
