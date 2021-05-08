@@ -1,11 +1,13 @@
 package com.example.catchat
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +21,7 @@ class MessagesListFragment : Fragment() {
     private var adapter: RecyclerView.Adapter<DialogsRecyclerAdapter.MyViewHolder>? = null
     private var dialogsList: List<Dialog> = Collections.emptyList()
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,6 +44,8 @@ class MessagesListFragment : Fragment() {
             adapter = DialogsRecyclerAdapter(dialogsList, {
                 val intent = Intent(getActivity()?.getBaseContext(), Chat::class.java)
                 intent.putExtra("chatName", dialogsList[it].name)
+                intent.putExtra("dialogId", dialogsList[it].dialog_id.toString())
+
                 startActivity(intent)
             })
 
