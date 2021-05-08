@@ -1,22 +1,24 @@
-from telethon import TelegramClient, events, sync
+from telethon import TelegramClient, events, sync, functions
 from telethon.tl.types import InputMessagesFilterPhotos
 from time import sleep
 
 
 #user authorizathion
-phone = '<ypur_phone>'
-api_id = <your_api_id>
-api_hash = '<your_api_hash>'
-client = TelegramClient('sessions/uid', api_id, api_hash)
+phone = '+79992083343'
+api_id = 4139893
+api_hash = 'ece013c7c8869d3a584bb2cae5ae3fc7'
+client = TelegramClient('sessions/Consumer', api_id, api_hash)
 code = 1234
 #client.sign_in(phone, code)
 client.start()
+dialogs = client.get_messages(642388933, 2)
 dialogs = client.get_dialogs()
-print(len(dialogs))
+i = 0
+for dialog in dialogs:
+    print(dialog.name, ' ', dialog.unread_count)
 #print(dialogs)
-
-
-
+#result = client(functions.messages.GetPeerDialogsRequest(peers=['username']))
+#print(result.dialogs[0].unread_count)
 
 
 #chat = 'test'

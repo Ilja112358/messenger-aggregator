@@ -11,6 +11,7 @@ api_hash = os.getenv('api_hash')
 
 NUMBER_OF_MESSAGES = 200
 
+
 class TgApiServicer(tg_pb2_grpc.TgApiServicer):
     def auth(self, request, context):
         asyncio.set_event_loop(asyncio.new_event_loop())
@@ -31,8 +32,12 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         client.connect()
         temp_dialogs = client.get_dialogs()
         dialogs = []
+        unread_status = 0
         for temp_dialog in temp_dialogs:
-            dialog = tg_pb2.Dialog(name=temp_dialog.name, dialog_id='1234', date=str(temp_dialog.date), message=temp_dialog.message.message)
+            if temp_dialog.unread_count > 0:
+                unread_status = 1
+            dialog = tg_pb2.Dialog(name=temp_dialog.name, dialog_id='1234', date=str(temp_dialog.date),
+                                   message=temp_dialog.message.message, unread_status=unread_status)
             dialogs.append(dialog)
         response = tg_pb2.Dialogs(dialog=dialogs)
         client.disconnect()
@@ -49,7 +54,6 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
             messages.append(message)
         response = tg_pb2.Messages(message=messages)
         return response
-    
 
     def send_message(self, request, context):
         asyncio.set_event_loop(asyncio.new_event_loop())
