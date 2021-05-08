@@ -99,10 +99,6 @@ class TgApi {
         } else {
             result = cal[Calendar.DAY_OF_MONTH].toString().padStart(2, '0') + "." + (cal[Calendar.MONTH]+1).toString().padStart(2, '0') + "." + cal[Calendar.YEAR].toString().takeLast(2)
         }
-        println("BEGIN")
-        println(date)
-        println(result)
-        println("END")
         return result
     }
 }
