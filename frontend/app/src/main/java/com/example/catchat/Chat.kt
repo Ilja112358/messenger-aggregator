@@ -7,6 +7,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 
@@ -68,6 +69,7 @@ class Chat : AppCompatActivity() {
         tgApi.getMessages(TUID, 423865152L).reversed().forEach {
             addMessageBox(it.text, FRIEND_MESSAGE)
         }
+        mScrollView?.post(Runnable { mScrollView?.fullScroll(ScrollView.FOCUS_DOWN) })
     }
 
     private fun initSendButton(userId: String) {
