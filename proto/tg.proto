@@ -40,9 +40,14 @@ message StatusMessage {
   string status = 1;
 }
 
+message Chunk {
+  bytes chunk = 1;
+}
+
 service TgApi {
   rpc auth(AuthRequest) returns (AuthResponse) {};
   rpc get_dialogs(User) returns (Dialogs) {};
   rpc get_messages(Text) returns (Text) {};
   rpc send_message(Send) returns (StatusMessage) {};
+  rpc test_file(Text) returns (stream Chunk) {};
 }

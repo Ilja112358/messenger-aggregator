@@ -18,11 +18,12 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         client.connect()
         if request.code == '':
             response = tg_pb2.AuthResponse(data=client.send_code_request(request.phone).__dict__['phone_code_hash'])
-            return response
         else:
             client.sign_in(phone=request.phone, code=request.code, phone_code_hash=request.code_hash)
             response = tg_pb2.AuthResponse(data='Test')
-            return response
+
+        client.disconnect()
+        return response
 
     def get_dialogs(self, request, context):
         asyncio.set_event_loop(asyncio.new_event_loop())
@@ -31,9 +32,10 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         temp_dialogs = client.get_dialogs()
         dialogs = []
         for temp_dialog in temp_dialogs:
-            dialog = tg_pb2.Dialog(name=temp_dialog.name, dialog_id=str(temp_dialog.message.peer_id.user_id), date=str(temp_dialog.date), message=temp_dialog.message.message)
+            dialog = tg_pb2.Dialog(name=temp_dialog.name, dialog_id='1234', date=str(temp_dialog.date), message=temp_dialog.message.message)
             dialogs.append(dialog)
         response = tg_pb2.Dialogs(dialog=dialogs)
+        client.disconnect()
         return response
 
     def get_messages(self, request, context):
@@ -42,11 +44,13 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         client.connect()
         messages = []
         temp_messages = client.get_messages(request.dialog_id, NUMBER_OF_MESSAGES)
+        client.disconnect()
         for message in temp_messages:
             messages.append(message)
         response = tg_pb2.Messages(message=messages)
         return response
     
+
     def send_message(self, request, context):
         asyncio.set_event_loop(asyncio.new_event_loop())
         client = TelegramClient('api/tg_sessions/' + str(request.uid), api_id, api_hash)
@@ -55,4 +59,13 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         if isinstance(request.message, str):
             client.send_message(request.entity, request.message)
             response = tg_pb2.StatusMessage(status='OK')
-        return response
+            client.disconnect()
+            return response
+
+    def test_file(self, request, context):
+        with open('test.txt', 'rb') as f:
+            file = f.read()
+            print(file)
+            file = [tg_pb2.Chunk(chunk=byte.to_bytes(1, byteorder='big')) for byte in file]
+            print(file)
+            return file

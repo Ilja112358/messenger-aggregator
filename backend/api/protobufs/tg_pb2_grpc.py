@@ -34,6 +34,11 @@ class TgApiStub(object):
                 request_serializer=tg__pb2.Send.SerializeToString,
                 response_deserializer=tg__pb2.StatusMessage.FromString,
                 )
+        self.test_file = channel.unary_stream(
+                '/TgApi/test_file',
+                request_serializer=tg__pb2.Text.SerializeToString,
+                response_deserializer=tg__pb2.Chunk.FromString,
+                )
 
 
 class TgApiServicer(object):
@@ -63,6 +68,12 @@ class TgApiServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def test_file(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_TgApiServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -85,6 +96,11 @@ def add_TgApiServicer_to_server(servicer, server):
                     servicer.send_message,
                     request_deserializer=tg__pb2.Send.FromString,
                     response_serializer=tg__pb2.StatusMessage.SerializeToString,
+            ),
+            'test_file': grpc.unary_stream_rpc_method_handler(
+                    servicer.test_file,
+                    request_deserializer=tg__pb2.Text.FromString,
+                    response_serializer=tg__pb2.Chunk.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -161,5 +177,22 @@ class TgApi(object):
         return grpc.experimental.unary_unary(request, target, '/TgApi/send_message',
             tg__pb2.Send.SerializeToString,
             tg__pb2.StatusMessage.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def test_file(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_stream(request, target, '/TgApi/test_file',
+            tg__pb2.Text.SerializeToString,
+            tg__pb2.Chunk.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
