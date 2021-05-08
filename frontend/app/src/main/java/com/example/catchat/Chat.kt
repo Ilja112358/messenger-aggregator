@@ -43,7 +43,7 @@ class Chat : AppCompatActivity() {
             val text = mMessageArea?.text ?: ""
             if (text.length > 0) {
                 dialogId?.toLong()?.let { it1 -> tgApi.sendTextMessage(TUID, it1, text.toString()) }
-
+                addMessageBox(text.toString(), USER_MESSAGE)
                 mMessageArea!!.setText(EMPTY_MESSAGE)
             }
         }

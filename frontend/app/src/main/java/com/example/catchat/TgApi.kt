@@ -89,7 +89,7 @@ class TgApi {
     ) : List<Message> {
         val request = Common.DialogRequest.newBuilder().setUid(uid).setDialogId(dialogId).build()
         val response = stub.getMessages(request)
-        return response.messageList.stream().map { d -> Message("", d) }.collect(Collectors.toList())
+        return response.messageList.stream().map { d -> Message("", d.message) }.collect(Collectors.toList())
     }
 
     private fun getShortDate(date: Date?): String {
