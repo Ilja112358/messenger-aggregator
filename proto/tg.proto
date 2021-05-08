@@ -24,6 +24,7 @@ message Dialog {
   string dialog_id = 2;
   string date = 3;
   string message = 4;
+  int32 unread_count = 5;
 }
 
 message Dialogs {
@@ -46,7 +47,7 @@ message Chunk {
 
 message MessagesRequest {
 	string uid = 1;
-	int dialog_id = 2;
+	int32 dialog_id = 2;
 }
 
 message Messages {

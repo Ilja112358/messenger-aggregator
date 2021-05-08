@@ -33,12 +33,9 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         temp_dialogs = client.get_dialogs()
         print(temp_dialogs[4].name, temp_dialogs[4].unread_count)
         dialogs = []
-        unread_status = 0
         for temp_dialog in temp_dialogs:
-            if temp_dialog.unread_count > 0:
-                unread_status = 1
             dialog = tg_pb2.Dialog(name=temp_dialog.name, dialog_id='1234', date=str(temp_dialog.date),
-                                   message=temp_dialog.message.message, unread_count=unread_status)
+                                   message=temp_dialog.message.message, unread_count=temp_dialog.unread_count)
             dialogs.append(dialog)
         response = tg_pb2.Dialogs(dialog=dialogs)
         client.disconnect()
