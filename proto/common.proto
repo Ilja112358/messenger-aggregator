@@ -26,7 +26,7 @@ message Dialogs {
 
 message Send {
   string uid = 1;
-  string entity = 2;
+  int64 entity = 2;
   string message = 3;
 }
 
