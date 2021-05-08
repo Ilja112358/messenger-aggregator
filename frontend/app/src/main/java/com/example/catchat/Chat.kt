@@ -36,7 +36,6 @@ class Chat : AppCompatActivity() {
         backView.setOnClickListener {
             finish()
         }
-
         initializeViews()
 
         mSendButton?.setOnClickListener {
@@ -44,6 +43,12 @@ class Chat : AppCompatActivity() {
             if (text.length > 0) {
                 dialogId?.toLong()?.let { it1 -> tgApi.sendTextMessage(TUID, it1, text.toString()) }
                 addMessageBox(text.toString(), USER_MESSAGE)
+
+                var scrollView = findViewById<ScrollView>(R.id.scrollView)
+                scrollView.post {
+                    scrollView.fullScroll(View.FOCUS_DOWN)
+                }
+
                 mMessageArea!!.setText(EMPTY_MESSAGE)
             }
         }
