@@ -14,17 +14,37 @@ client.start()
 dialogs = client.get_messages(423865152, 10)
 temp_dialogs = client.get_dialogs()
 #print(type(dialogs))
-
+print(client.get_entity(423865152))
 #print(len(temp_dialogs))
-for dialog in temp_dialogs:
+'''for dialog in temp_dialogs:
     #print(client.get_peer_id(dialog))
     peer_id = client.get_peer_id(dialog)
     if peer_id > 0:
         if peer_id == 423865152:
-            print(dialog.message.peer_id.user_id, ' ', dialog.name)
+            print(dialog.message.peer_id.user_id, ' ', dialog.name) 
 
+print(client.get_entity(423865152).first_name) '''
 
-#print(client.get_entity(423865152).first_name + client.get_entity(423865152).last_name, ' ', dialogs[0].)
+dialog_id = -595779751
+temp_messages = client.get_messages(dialog_id, 200)
+if dialog_id > 0:
+    for dialog in temp_dialogs:
+        peer_id = client.get_peer_id(dialog)
+        if peer_id == dialog_id:
+            name = dialog.name
+for temp_message in temp_messages:
+    if temp_message.out == True:
+        sender = 'me'
+    else:
+        if dialog_id > 0:
+            sender = name
+        else:
+            print(client.get_entity(temp_message.from_id.user_id))
+            sender = client.get_entity(temp_message.from_id.user_id).first_name + ' ' + client.get_entity(
+                temp_message.from_id.user_id).last_name
+    print(sender)
+
+#print(client.get_entity(423865152).first_name + ' ' +client.get_entity(423865152).last_name)
 
 #print(dialogs[0].message)
 #dialogs = client.get_dialogs()
