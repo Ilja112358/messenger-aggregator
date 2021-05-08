@@ -49,6 +49,10 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         messages = []
         temp_messages = client.get_messages(request.dialog_id, NUMBER_OF_MESSAGES)
         temp_dialogs = client.get_dialogs()
+<<<<<<< HEAD
+=======
+        client.disconnect()
+>>>>>>> parent of 16f9478 (Merge branch 'master' of https://github.com/Ilja112358/messenger-aggregator)
         name = ''
         if request.dialog_id > 0:
             for dialog in temp_dialogs:
@@ -62,8 +66,13 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
                 if request.dialog_id > 0:
                     sender = name
                 else:
+<<<<<<< HEAD
                     sender = client.get_entity(temp_message.from_id.user_id).first_name + ' ' + client.get_entity(temp_message.from_id.user_id).last_name
             message = common_pb2.Message(message=temp_message.message, sender=sender, date=int(temp_message.date.timestamp()))
+=======
+                    sender = client.get_entity(temp_message.from_id.user_id).fisrt_name + ' ' + client.get_entity(temp_message.from_id.user_id).fisrt_name
+            message = common_pb2.Message(message=temp_message.message, sender=sender, date=str(temp_message.date))
+>>>>>>> parent of 16f9478 (Merge branch 'master' of https://github.com/Ilja112358/messenger-aggregator)
             messages.append(message)
         client.disconnect()
         response = common_pb2.Messages(message=messages)

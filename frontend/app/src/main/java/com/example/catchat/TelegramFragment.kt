@@ -28,7 +28,7 @@ class TelegramFragment : Fragment() {
 
         if (sharedPref?.contains(TUID)!!) {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction?.replace(R.id.content_frame, MessagesListFragment("telegram"))
+            transaction?.replace(R.id.content_frame, MessagesListFragment())
             transaction?.commit()
                 
             return inflater.inflate(R.layout.fragment_messages_list, container, false)
@@ -63,7 +63,7 @@ class TelegramFragment : Fragment() {
                     edit?.apply()
 
                     val transaction = activity?.supportFragmentManager?.beginTransaction()
-                    transaction?.replace(R.id.content_frame, MessagesListFragment("telegram"))
+                    transaction?.replace(R.id.content_frame, MessagesListFragment())
                     transaction?.commit()
                     //TODO : swap
                 }
