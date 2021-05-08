@@ -1,14 +1,20 @@
 package com.example.catchat
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,13 +35,22 @@ class MessagesListFragment : Fragment() {
         val toolbar = activity?.findViewById<Toolbar>(R.id.toolbar)
         toolbar?.title = "Telegram Dialogs"
 
-        dialogsList = tgApi.getDialogs(TUID)
         return inflater.inflate(R.layout.fragment_messages_list, container, false)
     }
 
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
+        setDialogsField()
+    }
 
+    private fun fillList(): List<String> {
+        val data = mutableListOf<String>()
+        (0..30).forEach { i -> data.add("\$i element") }
+        return data
+    }
+
+    private fun setDialogsField() {
+        dialogsList = tgApi.getDialogs(TUID)
         recyclerView.apply {
             // set a LinearLayoutManager to handle Android
             // RecyclerView behavior
@@ -55,11 +70,5 @@ class MessagesListFragment : Fragment() {
             )
             recyclerView.addItemDecoration(dividerItemDecoration)
         }
-    }
-
-    private fun fillList(): List<String> {
-        val data = mutableListOf<String>()
-        (0..30).forEach { i -> data.add("\$i element") }
-        return data
     }
 }
