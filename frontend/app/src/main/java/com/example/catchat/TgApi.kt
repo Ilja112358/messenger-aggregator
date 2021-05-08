@@ -85,19 +85,24 @@ class TgApi {
 
         val curDate = Calendar.getInstance().time
 
-        val cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"))
+        val cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Moscow"))
         cal.time = date
 
-        val calCur = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"))
+        val calCur = Calendar.getInstance(TimeZone.getTimeZone("Europe/Moscow"))
         calCur.time = curDate
 
+        var result: String = ""
         if (cal[Calendar.YEAR] == calCur[Calendar.YEAR] && cal[Calendar.MONTH] == calCur[Calendar.MONTH] && cal[Calendar.DAY_OF_MONTH] == calCur[Calendar.DAY_OF_MONTH]) {
-            return cal[Calendar.HOUR].toString().padStart(2, '0') + ":" + cal[Calendar.MINUTE].toString().padStart(2, '0')
+            result = (cal[Calendar.HOUR_OF_DAY] + 3).toString().padStart(2, '0') + ":" + cal[Calendar.MINUTE].toString().padStart(2, '0')
         } else if (cal[Calendar.YEAR]  == calCur[Calendar.YEAR]) {
-            return cal[Calendar.DAY_OF_MONTH].toString().padStart(2, '0') + "." + cal[Calendar.MONTH].toString().padStart(2, '0')
+            result = cal[Calendar.DAY_OF_MONTH].toString().padStart(2, '0') + "." + (cal[Calendar.MONTH]+1).toString().padStart(2, '0')
+        } else {
+            result = cal[Calendar.DAY_OF_MONTH].toString().padStart(2, '0') + "." + (cal[Calendar.MONTH]+1).toString().padStart(2, '0') + "." + cal[Calendar.YEAR].toString().takeLast(2)
         }
-
-
-        return cal[Calendar.DAY_OF_MONTH].toString().padStart(2, '0') + "." + cal[Calendar.MONTH].toString().padStart(2, '0') + "." + cal[Calendar.YEAR].toString().takeLast(2)
+        println("BEGIN")
+        println(date)
+        println(result)
+        println("END")
+        return result
     }
 }
