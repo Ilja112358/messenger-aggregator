@@ -48,13 +48,23 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         client.connect()
         messages = []
         temp_messages = client.get_messages(request.dialog_id, NUMBER_OF_MESSAGES)
+        temp_dialogs = client.get_dialogs()
         client.disconnect()
+        name = ''
+        if request.dialog_id > 0:
+            for dialog in temp_dialogs:
+                peer_id = client.get_peer_id(dialog)
+                if peer_id == request.dialog_id:
+                    name = dialog.name
         for temp_message in temp_messages:
             if temp_message.out == True:
                 sender = 'me'
             else:
-                sender = 'not me'
-            message = common_pb2.Message(message=temp_message.message, sender=sender)
+                if request.dialog_id > 0:
+                    sender = name
+                else:
+                    sender = client.get_entity(temp_message.from_id.user_id).fisrt_name + ' ' + client.get_entity(temp_message.from_id.user_id).fisrt_name
+            message = common_pb2.Message(message=temp_message.message, sender=sender, date=str(temp_message.date))
             messages.append(message)
         response = common_pb2.Messages(message=messages)
         return response
