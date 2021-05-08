@@ -32,12 +32,8 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         client.connect()
         temp_dialogs = client.get_dialogs()
         dialogs = []
-        dialog_id = 0
         for temp_dialog in temp_dialogs:
-            if str(type(client.get_entity(temp_dialog))) == "<class 'telethon.tl.types.User'>":
-                dialog_id = int(temp_dialog.message.from_id.user_id)
-            elif str(type(client.get_entity(temp_dialog))) == "<class 'telethon.tl.types.Channel'>":
-                dialog_id = int(temp_dialog.message.peer_id.channel_id)
+            dialog_id = client.get_peer_id(dialog)
             dialog = tg_pb2.Dialog(name=temp_dialog.name, dialog_id=dialog_id, date=str(temp_dialog.date),
                                    message=temp_dialog.message.message, unread_count=temp_dialog.unread_count)
             dialogs.append(dialog)
