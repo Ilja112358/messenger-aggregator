@@ -1,5 +1,6 @@
 package com.example.catchat
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -41,13 +42,20 @@ class MessagesListFragment : Fragment() {
             // RecyclerView behavior
             layoutManager = LinearLayoutManager(activity)
             // set the custom adapter to the RecyclerView
-            adapter = DialogsRecyclerAdapter(dialogsList, {
+            adapter = DialogsRecyclerAdapter(dialogsList) {
                 val intent = Intent(getActivity()?.getBaseContext(), Chat::class.java)
                 intent.putExtra("chatName", dialogsList[it].name)
                 intent.putExtra("dialogId", dialogsList[it].dialog_id.toString())
+                val sharedPref = activity?.getSharedPreferences("mysettings", Context.MODE_PRIVATE)
 
+                if (sharedPref?.contains(TUID)!!) {
+                    val UID = "test"
+                    UID?.let { it1 -> TgApi().sendMarkRead(it1, dialogsList[it].dialog_id) }
+                } else {
+                    assert(false)
+                }
                 startActivity(intent)
-            })
+            }
 
             val dividerItemDecoration = DividerItemDecoration(
                 recyclerView.context,

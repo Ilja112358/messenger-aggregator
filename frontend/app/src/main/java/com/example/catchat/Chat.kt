@@ -47,7 +47,7 @@ class Chat : AppCompatActivity() {
                 mMessageArea!!.setText(EMPTY_MESSAGE)
             }
         }
-    
+
         dialogId?.let {
             tgApi.getMessages(TUID, it.toLong()).reversed().forEach {
                 addMessageBox(it.text, FRIEND_MESSAGE)

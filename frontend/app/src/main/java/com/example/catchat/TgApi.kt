@@ -61,7 +61,9 @@ class TgApi {
     }
 
     fun sendMarkRead(uid : String, dialogId: Long) {
-
+        val request = Common.DialogRequest.newBuilder().setDialogId(dialogId).setUid(uid).build()
+        val response = stub.markRead(request)
+        println(response.status)
     }
 
     fun sendTextMessage(uid: String, dialogId: Long, text: String) {
