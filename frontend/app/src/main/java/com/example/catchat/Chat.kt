@@ -34,6 +34,14 @@ class Chat : AppCompatActivity() {
 
         initializeViews()
 
+        mSendButton?.setOnClickListener {
+            val text = mMessageArea?.text ?: ""
+            if (text.length > 0) {
+                tgApi.sendTextMessage(TUID, 423865152L, text.toString())
+
+                mMessageArea!!.setText(EMPTY_MESSAGE)
+            }
+        }
 
         /*val chatPair: Array<String> = java.lang.ModuleLayer.Controller.getChatPair(this@Chat).split(
             PAIR_DELIMITER

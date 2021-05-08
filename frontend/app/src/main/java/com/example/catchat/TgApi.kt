@@ -43,7 +43,7 @@ class TgApi {
         uid: String,
         phone: String
     ): String {
-        val request = Tg.AuthRequest.newBuilder().setUid(uid).setPhone(phone).build()
+        val request = Tg.TgAuthRequest.newBuilder().setUid(uid).setPhone(phone).build()
         val response = stub.auth(request)
 
         return response.data
@@ -55,7 +55,7 @@ class TgApi {
         code: String,
         codeHash: String
     ) {
-        val request = Tg.AuthRequest.newBuilder().setUid(uid).setPhone(phone).setCode(code).setCodeHash(codeHash).build()
+        val request = Tg.TgAuthRequest.newBuilder().setUid(uid).setPhone(phone).setCode(code).setCodeHash(codeHash).build()
         val response = stub.auth(request)
     }
 
@@ -63,11 +63,16 @@ class TgApi {
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
+    fun sendTextMessage(uid: String, dialogId: Long, text: String) {
+        val request = Common.Send.newBuilder().setUid(uid).setEntity(dialogId).setMessage(text).build()
+        val response = stub.sendMessage(request)
+        println(response.status)
+    }
+
     fun getDialogs(
         uid: String
     ) : List<Dialog> {
-        val request = Tg.User.newBuilder().setUid(uid).build()
+        val request = Common.User.newBuilder().setUid(uid).build()
         val response = stub.getDialogs(request)
         val parser =  SimpleDateFormat("yyyy-MM-dd HH:mm:ss+00:00")
         return response.dialogList.stream().map { d -> Dialog(d.name, d.message, getShortDate(parser.parse(d.date)), d.unreadCount ) }.collect(Collectors.toList())
