@@ -27,17 +27,10 @@ class MessagesListFragment : Fragment() {
     private var adapter: RecyclerView.Adapter<DialogsRecyclerAdapter.MyViewHolder>? = null
     private var dialogsList: List<Dialog> = Collections.emptyList()
     val handler = Handler()
-    var task : UpdateTask? = null
 
-    @SuppressLint("StaticFieldLeak")
     inner class UpdateTask: AsyncTask<Unit, Unit, Unit>() {
         override fun doInBackground(vararg params: Unit?) {
-            dialogsList = tgApi.getDialogs(TUID)
-        }
 
-        override fun onPostExecute(result: Unit?) {
-            setDialogsField()
-            super.onPostExecute(result)
         }
     }
 
@@ -54,12 +47,18 @@ class MessagesListFragment : Fragment() {
 
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
-        task = UpdateTask()
-        task!!.execute()
+        handler.post(
+            object : Runnable {
+                override fun run() {
+                    setDialogsField()
+                    handler.postDelayed(this, 3000)
+                }
+            }
+        )
     }
 
     override fun onDestroy() {
-        task!!.cancel(false)
+        handler.removeCallbacksAndMessages(null)
         super.onDestroy()
     }
 
@@ -70,6 +69,7 @@ class MessagesListFragment : Fragment() {
     }
 
     private fun setDialogsField() {
+        dialogsList = tgApi.getDialogs(TUID)
         recyclerView.apply {
             // set a LinearLayoutManager to handle Android
             // RecyclerView behavior
@@ -93,7 +93,5 @@ class MessagesListFragment : Fragment() {
             )
             recyclerView.addItemDecoration(dividerItemDecoration)
         }
-        task = UpdateTask()
-        task!!.execute()
     }
 }

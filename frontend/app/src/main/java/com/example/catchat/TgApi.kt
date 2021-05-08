@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.models.Dialog
 import com.example.models.Message
+import com.example.myapplication.ui.home.Api
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.Dispatchers
@@ -18,11 +19,10 @@ import java.util.logging.Logger
 import java.util.stream.Collectors
 
 
-val tgApi = TgApi()
-
-class TgApi {
+class TgApi : Api {
     private val logger = Logger.getLogger(this.javaClass.name)
     private val stub = TgApiGrpc.newBlockingStub(channel())
+    private val stubGmail = GmailApiGrpc.newBlockingStub(channel())
 
     private fun channel(): ManagedChannel {
         val url = URL("http://84.252.137.106:6066")
@@ -40,7 +40,7 @@ class TgApi {
         return builder.executor(Dispatchers.Default.asExecutor()).build()
     }
 
-    fun sendPhone(
+    override fun sendPhone(
         uid: String,
         phone: String
     ): String {
@@ -50,7 +50,7 @@ class TgApi {
         return response.data
     }
 
-    fun sendCode(
+    override fun sendCode(
         uid: String,
         phone: String,
         code: String,
@@ -60,30 +60,41 @@ class TgApi {
         val response = stub.auth(request)
     }
 
-    fun sendMarkRead(uid : String, dialogId: Long) {
+    override fun sendMarkRead(uid : String, dialogId: Long) {
         val request = Common.DialogRequest.newBuilder().setDialogId(dialogId).setUid(uid).build()
         val response = stub.markRead(request)
         println(response.status)
     }
 
-    fun sendTextMessage(uid: String, dialogId: Long, text: String) {
+    override fun sendTextMessage(uid: String, dialogId: Long, text: String) {
         val request = Common.Send.newBuilder().setUid(uid).setEntity(dialogId).setMessage(text).build()
         val response = stub.sendMessage(request)
         println(response.status)
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
-    fun getDialogs(
+    override fun getDialogs(
         uid: String
     ) : List<Dialog> {
+
+
+        testGmail(uid)
         val request = Common.User.newBuilder().setUid(uid).build()
         val response = stub.getDialogs(request)
         val parser =  SimpleDateFormat("yyyy-MM-dd HH:mm:ss+00:00")
         return response.dialogList.stream().map { d -> Dialog(d.name, d.message, getShortDate(parser.parse(d.date)), d.unreadCount, d.dialogId) }.collect(Collectors.toList())
     }
 
+    private fun testGmail(
+        uid: String
+    ) {
+        val request = Common.User.newBuilder().setUid(uid).build()
+        val response = stubGmail.getDialogs(request)
+        println(response)
+    }
+
     @RequiresApi(Build.VERSION_CODES.N)
-    fun getMessages(
+    override fun getMessages(
         uid: String,
         dialogId: Long
     ) : List<Message> {
