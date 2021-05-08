@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -102,7 +103,7 @@ class Chat : AppCompatActivity() {
         textView.setPadding(32, 32, 32, 32)
         textView.setTextColor(Color.WHITE)
         textView.layoutParams = layoutParams
-
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18.0f)
         val divider = View(this@Chat)
         val dividerLayoutParams = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
