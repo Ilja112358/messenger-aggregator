@@ -4,9 +4,9 @@ from api.protobufs import common_pb2
 from api.protobufs import tg_pb2_grpc
 from api.protobufs import gmail_pb2_grpc
 
-test_number = 6
+test_number = 4
 
-channel = grpc.insecure_channel('localhost:6066')
+channel = grpc.insecure_channel('84.252.137.106:6066')
 tg_stub = tg_pb2_grpc.TgApiStub(channel)
 gmail_stub = gmail_pb2_grpc.GmailApiStub(channel)
 

@@ -35,7 +35,7 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         dialogs = []
         for temp_dialog in temp_dialogs:
             dialog_id = client.get_peer_id(temp_dialog)
-            dialog = common_pb2.Dialog(name=temp_dialog.name, dialog_id=dialog_id, date=str(temp_dialog.date),
+            dialog = common_pb2.Dialog(name=temp_dialog.name, dialog_id=dialog_id, date=int(temp_dialog.date.timestamp()),
                                    message=temp_dialog.message.message, unread_count=temp_dialog.unread_count)
             dialogs.append(dialog)
         response = common_pb2.Dialogs(dialog=dialogs)
@@ -49,7 +49,6 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         messages = []
         temp_messages = client.get_messages(request.dialog_id, NUMBER_OF_MESSAGES)
         temp_dialogs = client.get_dialogs()
-        client.disconnect()
         name = ''
         if request.dialog_id > 0:
             for dialog in temp_dialogs:
@@ -64,8 +63,9 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
                     sender = name
                 else:
                     sender = client.get_entity(temp_message.from_id.user_id).first_name + ' ' + client.get_entity(temp_message.from_id.user_id).last_name
-            message = common_pb2.Message(message=temp_message.message, sender=sender, date=str(temp_message.date))
+            message = common_pb2.Message(message=temp_message.message, sender=sender, date=int(temp_message.date.timestamp()))
             messages.append(message)
+        client.disconnect()
         response = common_pb2.Messages(message=messages)
         return response
     

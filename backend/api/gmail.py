@@ -42,7 +42,7 @@ class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
         service = build('gmail', 'v1', credentials=creds)
 
         thread = service.users().threads().get(userId='me', id=request.thread_id).execute().get('messages', '')
-        messages = [common_pb2.Message(message=message.get('snippet')) for message in thread]
+        messages = [common_pb2.Message(message=message.get('snippet'), date=message.get('internalDate')) for message in thread]
         response = common_pb2.Messages(message=messages)
         return response
 
