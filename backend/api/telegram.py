@@ -37,13 +37,15 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         temp_dialogs = client.get_dialogs()
         dialogs = []
         for temp_dialog in temp_dialogs:
-            dialog = tg_pb2.Dialog(name=temp_dialog.name, date=str(temp_dialog.date), message=temp_dialog.message.message)
+            dialog = tg_pb2.Dialog(name=temp_dialog.name, dialog_id=str(temp_dialog.message.peer_id.user_id), date=str(temp_dialog.date), message=temp_dialog.message.message)
             dialogs.append(dialog)
         response = tg_pb2.Dialogs(dialog=dialogs)
         return response
 
     def get_messages(self, request, context):
-        pass
+        asyncio.set_event_loop(asyncio.new_event_loop())
+        client = TelegramClient('api/tg_sessions/' + str(request.uid), api_id, api_hash)
+        client.connect()
 
     def send_message(self, request, context):
         asyncio.set_event_loop(asyncio.new_event_loop())
