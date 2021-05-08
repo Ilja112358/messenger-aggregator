@@ -6,6 +6,7 @@ import TgApiGrpc
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.models.Dialog
+import com.example.models.Message
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.Dispatchers
@@ -76,6 +77,15 @@ class TgApi {
         val response = stub.getDialogs(request)
         val parser =  SimpleDateFormat("yyyy-MM-dd HH:mm:ss+00:00")
         return response.dialogList.stream().map { d -> Dialog(d.name, d.message, getShortDate(parser.parse(d.date)), d.unreadCount ) }.collect(Collectors.toList())
+    }
+
+    fun getMessages(
+        uid: String,
+        dialogId: Long
+    ) : List<Message> {
+        val request = Common.MessagesRequest.newBuilder().setUid(uid).setDialogId(dialogId).build()
+        val response = stub.getMessages(request)
+        return response.messageList.stream().map { d -> Message("", d) }.collect(Collectors.toList())
     }
 
     private fun getShortDate(date: Date?): String {

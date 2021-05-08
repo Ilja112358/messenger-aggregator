@@ -65,10 +65,9 @@ class Chat : AppCompatActivity() {
                 }
             }
         })*/
-
-        addMessageBox("USER_MESSAGE", USER_MESSAGE)
-        addMessageBox("FRIEND_MESSAGE", FRIEND_MESSAGE)
-        addMessageBox("FRIEND_MESSAGE\nebersgersg", FRIEND_MESSAGE)
+        tgApi.getMessages(TUID, 423865152L).reversed().forEach {
+            addMessageBox(it.text, FRIEND_MESSAGE)
+        }
     }
 
     private fun initSendButton(userId: String) {
