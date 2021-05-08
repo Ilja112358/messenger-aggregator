@@ -2,6 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
+from api.protobufs import common_pb2 as common__pb2
 from api.protobufs import gmail_pb2 as gmail__pb2
 
 
@@ -16,23 +17,23 @@ class GmailApiStub(object):
         """
         self.auth = channel.unary_unary(
                 '/GmailApi/auth',
-                request_serializer=gmail__pb2.AuthRequest.SerializeToString,
-                response_deserializer=gmail__pb2.AuthResponse.FromString,
+                request_serializer=gmail__pb2.GmailAuthRequest.SerializeToString,
+                response_deserializer=common__pb2.AuthResponse.FromString,
                 )
         self.get_dialogs = channel.unary_unary(
                 '/GmailApi/get_dialogs',
-                request_serializer=gmail__pb2.User.SerializeToString,
-                response_deserializer=gmail__pb2.Dialogs.FromString,
+                request_serializer=common__pb2.User.SerializeToString,
+                response_deserializer=common__pb2.Dialogs.FromString,
                 )
         self.get_messages = channel.unary_unary(
                 '/GmailApi/get_messages',
-                request_serializer=gmail__pb2.Text.SerializeToString,
-                response_deserializer=gmail__pb2.Text.FromString,
+                request_serializer=common__pb2.Text.SerializeToString,
+                response_deserializer=common__pb2.Text.FromString,
                 )
         self.send_message = channel.unary_unary(
                 '/GmailApi/send_message',
-                request_serializer=gmail__pb2.Send.SerializeToString,
-                response_deserializer=gmail__pb2.StatusMessage.FromString,
+                request_serializer=common__pb2.Send.SerializeToString,
+                response_deserializer=common__pb2.StatusMessage.FromString,
                 )
 
 
@@ -68,23 +69,23 @@ def add_GmailApiServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'auth': grpc.unary_unary_rpc_method_handler(
                     servicer.auth,
-                    request_deserializer=gmail__pb2.AuthRequest.FromString,
-                    response_serializer=gmail__pb2.AuthResponse.SerializeToString,
+                    request_deserializer=gmail__pb2.GmailAuthRequest.FromString,
+                    response_serializer=common__pb2.AuthResponse.SerializeToString,
             ),
             'get_dialogs': grpc.unary_unary_rpc_method_handler(
                     servicer.get_dialogs,
-                    request_deserializer=gmail__pb2.User.FromString,
-                    response_serializer=gmail__pb2.Dialogs.SerializeToString,
+                    request_deserializer=common__pb2.User.FromString,
+                    response_serializer=common__pb2.Dialogs.SerializeToString,
             ),
             'get_messages': grpc.unary_unary_rpc_method_handler(
                     servicer.get_messages,
-                    request_deserializer=gmail__pb2.Text.FromString,
-                    response_serializer=gmail__pb2.Text.SerializeToString,
+                    request_deserializer=common__pb2.Text.FromString,
+                    response_serializer=common__pb2.Text.SerializeToString,
             ),
             'send_message': grpc.unary_unary_rpc_method_handler(
                     servicer.send_message,
-                    request_deserializer=gmail__pb2.Send.FromString,
-                    response_serializer=gmail__pb2.StatusMessage.SerializeToString,
+                    request_deserializer=common__pb2.Send.FromString,
+                    response_serializer=common__pb2.StatusMessage.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -108,8 +109,8 @@ class GmailApi(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/GmailApi/auth',
-            gmail__pb2.AuthRequest.SerializeToString,
-            gmail__pb2.AuthResponse.FromString,
+            gmail__pb2.GmailAuthRequest.SerializeToString,
+            common__pb2.AuthResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -125,8 +126,8 @@ class GmailApi(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/GmailApi/get_dialogs',
-            gmail__pb2.User.SerializeToString,
-            gmail__pb2.Dialogs.FromString,
+            common__pb2.User.SerializeToString,
+            common__pb2.Dialogs.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -142,8 +143,8 @@ class GmailApi(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/GmailApi/get_messages',
-            gmail__pb2.Text.SerializeToString,
-            gmail__pb2.Text.FromString,
+            common__pb2.Text.SerializeToString,
+            common__pb2.Text.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -159,7 +160,7 @@ class GmailApi(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/GmailApi/send_message',
-            gmail__pb2.Send.SerializeToString,
-            gmail__pb2.StatusMessage.FromString,
+            common__pb2.Send.SerializeToString,
+            common__pb2.StatusMessage.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

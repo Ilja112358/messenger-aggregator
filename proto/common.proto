@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+message AuthResponse {
+  string data = 1;
+}
+
+message Text {
+  string data = 1;
+}
+
+message User {
+  string uid = 1;
+}
+
+message Dialog {
+  string name = 1;
+  int64 dialog_id = 2;
+  string date = 3;
+  string message = 4;
+  int32 unread_count = 5;
+}
+
+message Dialogs {
+  repeated Dialog dialog = 1;
+}
+
+message Send {
+  string uid = 1;
+  string entity = 2;
+  string message = 3;
+}
+
+message StatusMessage {
+  string status = 1;
+}
+
+message Chunk {
+  bytes chunk = 1;
+}
+
+message MessagesRequest {
+  string uid = 1;
+  int64 dialog_id = 2;
+}
+
+message Messages {
+  repeated string message = 1;
+}

@@ -2,6 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
+from api.protobufs import common_pb2 as common__pb2
 from api.protobufs import tg_pb2 as tg__pb2
 
 
@@ -16,28 +17,28 @@ class TgApiStub(object):
         """
         self.auth = channel.unary_unary(
                 '/TgApi/auth',
-                request_serializer=tg__pb2.AuthRequest.SerializeToString,
-                response_deserializer=tg__pb2.AuthResponse.FromString,
+                request_serializer=tg__pb2.TgAuthRequest.SerializeToString,
+                response_deserializer=common__pb2.AuthResponse.FromString,
                 )
         self.get_dialogs = channel.unary_unary(
                 '/TgApi/get_dialogs',
-                request_serializer=tg__pb2.User.SerializeToString,
-                response_deserializer=tg__pb2.Dialogs.FromString,
+                request_serializer=common__pb2.User.SerializeToString,
+                response_deserializer=common__pb2.Dialogs.FromString,
                 )
         self.get_messages = channel.unary_unary(
                 '/TgApi/get_messages',
-                request_serializer=tg__pb2.Text.SerializeToString,
-                response_deserializer=tg__pb2.Text.FromString,
+                request_serializer=common__pb2.MessagesRequest.SerializeToString,
+                response_deserializer=common__pb2.Messages.FromString,
                 )
         self.send_message = channel.unary_unary(
                 '/TgApi/send_message',
-                request_serializer=tg__pb2.Send.SerializeToString,
-                response_deserializer=tg__pb2.StatusMessage.FromString,
+                request_serializer=common__pb2.Send.SerializeToString,
+                response_deserializer=common__pb2.StatusMessage.FromString,
                 )
         self.test_file = channel.unary_stream(
                 '/TgApi/test_file',
-                request_serializer=tg__pb2.Text.SerializeToString,
-                response_deserializer=tg__pb2.Chunk.FromString,
+                request_serializer=common__pb2.Text.SerializeToString,
+                response_deserializer=common__pb2.Chunk.FromString,
                 )
 
 
@@ -79,28 +80,28 @@ def add_TgApiServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'auth': grpc.unary_unary_rpc_method_handler(
                     servicer.auth,
-                    request_deserializer=tg__pb2.AuthRequest.FromString,
-                    response_serializer=tg__pb2.AuthResponse.SerializeToString,
+                    request_deserializer=tg__pb2.TgAuthRequest.FromString,
+                    response_serializer=common__pb2.AuthResponse.SerializeToString,
             ),
             'get_dialogs': grpc.unary_unary_rpc_method_handler(
                     servicer.get_dialogs,
-                    request_deserializer=tg__pb2.User.FromString,
-                    response_serializer=tg__pb2.Dialogs.SerializeToString,
+                    request_deserializer=common__pb2.User.FromString,
+                    response_serializer=common__pb2.Dialogs.SerializeToString,
             ),
             'get_messages': grpc.unary_unary_rpc_method_handler(
                     servicer.get_messages,
-                    request_deserializer=tg__pb2.Text.FromString,
-                    response_serializer=tg__pb2.Text.SerializeToString,
+                    request_deserializer=common__pb2.MessagesRequest.FromString,
+                    response_serializer=common__pb2.Messages.SerializeToString,
             ),
             'send_message': grpc.unary_unary_rpc_method_handler(
                     servicer.send_message,
-                    request_deserializer=tg__pb2.Send.FromString,
-                    response_serializer=tg__pb2.StatusMessage.SerializeToString,
+                    request_deserializer=common__pb2.Send.FromString,
+                    response_serializer=common__pb2.StatusMessage.SerializeToString,
             ),
             'test_file': grpc.unary_stream_rpc_method_handler(
                     servicer.test_file,
-                    request_deserializer=tg__pb2.Text.FromString,
-                    response_serializer=tg__pb2.Chunk.SerializeToString,
+                    request_deserializer=common__pb2.Text.FromString,
+                    response_serializer=common__pb2.Chunk.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -124,8 +125,8 @@ class TgApi(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TgApi/auth',
-            tg__pb2.AuthRequest.SerializeToString,
-            tg__pb2.AuthResponse.FromString,
+            tg__pb2.TgAuthRequest.SerializeToString,
+            common__pb2.AuthResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -141,8 +142,8 @@ class TgApi(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TgApi/get_dialogs',
-            tg__pb2.User.SerializeToString,
-            tg__pb2.Dialogs.FromString,
+            common__pb2.User.SerializeToString,
+            common__pb2.Dialogs.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -158,8 +159,8 @@ class TgApi(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TgApi/get_messages',
-            tg__pb2.Text.SerializeToString,
-            tg__pb2.Text.FromString,
+            common__pb2.MessagesRequest.SerializeToString,
+            common__pb2.Messages.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -175,8 +176,8 @@ class TgApi(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/TgApi/send_message',
-            tg__pb2.Send.SerializeToString,
-            tg__pb2.StatusMessage.FromString,
+            common__pb2.Send.SerializeToString,
+            common__pb2.StatusMessage.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -192,7 +193,7 @@ class TgApi(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_stream(request, target, '/TgApi/test_file',
-            tg__pb2.Text.SerializeToString,
-            tg__pb2.Chunk.FromString,
+            common__pb2.Text.SerializeToString,
+            common__pb2.Chunk.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

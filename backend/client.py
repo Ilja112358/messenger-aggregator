@@ -1,5 +1,6 @@
 import grpc
 from api.protobufs import tg_pb2
+from api.protobufs import common_pb2
 from api.protobufs import tg_pb2_grpc
 
 
@@ -17,7 +18,7 @@ response = tg_stub.test_file(request)
 for item in response:
     pass
 '''
-request = tg_pb2.User(uid='ilyich')
+request = common_pb2.User(uid='test')
 response = tg_stub.get_dialogs(request)
 print(response)
 

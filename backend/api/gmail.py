@@ -15,29 +15,23 @@ class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
     def auth(self, request, context):
         creds = None
         if os.path.exists(request.uid + '_token.json'):
-            creds = Credentials.from_authorized_user_file(request.uid + 'token.json', SCOPES)
+            creds = Credentials.from_authorized_user_file(request.uid + '_token.json', SCOPES)
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
-                flow = InstalledAppFlow.from_client_secrets_file(
-                    'credentials.json', SCOPES)
+                flow = InstalledAppFlow.from_client_secrets_file(request.uid + '_credentials.json', SCOPES)
                 creds = flow.run_local_server(port=0)
-            with open('token.json', 'w') as token:
+            with open(request.uid + '_token.json', 'w') as token:
                 token.write(creds.to_json())
 
     def get_dialogs(self, request, context):
         creds = Credentials.from_authorized_user_file(request.uid + 'token.json', SCOPES)
         service = build('gmail', 'v1', credentials=creds)
 
-        # Call the Gmail API
         results = service.users().threads().list(userId='me').execute()
         threads = results.get('threads', [])
-
-        if not threads:
-            print('No threads found.')
-        else:
-            print('threads:', threads)
+        print(threads)
 
     def get_messages(self, request, context):
         pass
