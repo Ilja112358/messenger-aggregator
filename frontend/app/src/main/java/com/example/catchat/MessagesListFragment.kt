@@ -1,5 +1,6 @@
 package com.example.catchat
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -36,7 +37,9 @@ class MessagesListFragment : Fragment() {
             // RecyclerView behavior
             layoutManager = LinearLayoutManager(activity)
             // set the custom adapter to the RecyclerView
-            adapter = DialogsRecyclerAdapter(dialogsList, { idx -> println(idx)})
+            adapter = DialogsRecyclerAdapter(dialogsList, {
+                startActivity(Intent(getActivity()?.getBaseContext(), Chat::class.java))
+            })
             val dividerItemDecoration = DividerItemDecoration(
                 recyclerView.context,
                 LinearLayoutManager.VERTICAL
