@@ -1,6 +1,5 @@
 package com.example.catchat
 
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -43,17 +42,10 @@ class MessagesListFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
             // set the custom adapter to the RecyclerView
             adapter = DialogsRecyclerAdapter(dialogsList) {
-                val intent = Intent(getActivity()?.getBaseContext(), Chat::class.java)
+                val intent = Intent(activity?.baseContext, Chat::class.java)
                 intent.putExtra("chatName", dialogsList[it].name)
                 intent.putExtra("dialogId", dialogsList[it].dialog_id.toString())
-                val sharedPref = activity?.getSharedPreferences("mysettings", Context.MODE_PRIVATE)
 
-                if (sharedPref?.contains(TUID)!!) {
-                    val UID = "test"
-                    UID?.let { it1 -> TgApi().sendMarkRead(it1, dialogsList[it].dialog_id) }
-                } else {
-                    assert(false)
-                }
                 startActivity(intent)
             }
 
@@ -69,9 +61,5 @@ class MessagesListFragment : Fragment() {
         val data = mutableListOf<String>()
         (0..30).forEach { i -> data.add("\$i element") }
         return data
-    }
-
-    fun updateDialogs() {
-
     }
 }
