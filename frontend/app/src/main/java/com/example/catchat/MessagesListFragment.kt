@@ -38,7 +38,9 @@ class MessagesListFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
             // set the custom adapter to the RecyclerView
             adapter = DialogsRecyclerAdapter(dialogsList, {
-                startActivity(Intent(getActivity()?.getBaseContext(), Chat::class.java))
+                val intent = Intent(getActivity()?.getBaseContext(), Chat::class.java)
+                intent.putExtra("chatName", dialogsList[it].name)
+                startActivity(intent)
             })
             val dividerItemDecoration = DividerItemDecoration(
                 recyclerView.context,

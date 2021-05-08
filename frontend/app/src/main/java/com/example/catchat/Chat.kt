@@ -1,14 +1,13 @@
 package com.example.catchat
 
 
-import android.graphics.Color
+import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import java.util.*
 
 
@@ -24,15 +23,16 @@ class Chat : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar.title = "Telegram"
-        toolbar.setBackgroundColor(Color.parseColor("#859D7D"))
 
-        setSupportActionBar(toolbar)
+        val intent: Intent = intent
+        val titleView = findViewById<TextView>(R.id.navBarDialogName)
+        titleView.text = intent.getStringExtra("chatName") ?: "Telegram chat"
+        val backView = findViewById<ImageView>(R.id.exitDialog)
+        backView.setOnClickListener {
+            finish()
+        }
 
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar()?.setDisplayShowHomeEnabled(true);
-        getSupportActionBar()?.setHomeButtonEnabled(true)
+        initializeViews()
 
 
         /*val chatPair: Array<String> = java.lang.ModuleLayer.Controller.getChatPair(this@Chat).split(
@@ -57,11 +57,10 @@ class Chat : AppCompatActivity() {
                 }
             }
         })*/
-    }
 
-    override fun onSupportNavigateUp(): Boolean {
-        finish()
-        return true
+        addMessageBox("USER_MESSAGE", USER_MESSAGE)
+        addMessageBox("FRIEND_MESSAGE", FRIEND_MESSAGE)
+        addMessageBox("FRIEND_MESSAGE\nebersgersg", FRIEND_MESSAGE)
     }
 
     private fun initSendButton(userId: String) {
