@@ -7,3 +7,4 @@ backend/.env
 backend/api/tg_sessions/
 backend/api/gmail_credentials/
 backend/telethon_test.py
+*.pyc
