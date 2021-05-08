@@ -6,6 +6,7 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from api.protobufs import gmail_pb2_grpc
 from api.protobufs import gmail_pb2
+from api.protobufs import common_pb2
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://mail.google.com/']
@@ -14,27 +15,35 @@ SCOPES = ['https://mail.google.com/']
 class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
     def auth(self, request, context):
         creds = None
-        if os.path.exists(request.uid + '_token.json'):
-            creds = Credentials.from_authorized_user_file(request.uid + '_token.json', SCOPES)
+        if os.path.exists('api/gmail_credentials/' + request.uid + '_token.json'):
+            creds = Credentials.from_authorized_user_file('api/gmail_credentials/' + request.uid + '_token.json', SCOPES)
         if not creds or not creds.valid:
             if creds and creds.expired and creds.refresh_token:
                 creds.refresh(Request())
             else:
-                flow = InstalledAppFlow.from_client_secrets_file(request.uid + '_credentials.json', SCOPES)
+                flow = InstalledAppFlow.from_client_secrets_file('api/gmail_credentials/' + request.uid + '_credentials.json', SCOPES)
                 creds = flow.run_local_server(port=0)
-            with open(request.uid + '_token.json', 'w') as token:
+            with open('api/gmail_credentials/' + request.uid + '_token.json', 'w') as token:
                 token.write(creds.to_json())
+        response = common_pb2.StatusMessage(status='OK AND')
+        return response
 
     def get_dialogs(self, request, context):
-        creds = Credentials.from_authorized_user_file(request.uid + 'token.json', SCOPES)
+        creds = Credentials.from_authorized_user_file('api/gmail_credentials/' + request.uid + '_token.json', SCOPES)
         service = build('gmail', 'v1', credentials=creds)
 
         results = service.users().threads().list(userId='me').execute()
         threads = results.get('threads', [])
-        print(threads)
+        dialogs = [common_pb2.Dialog(message=thread.get('snippet'), thread_id=thread.get('id')) for thread in threads]
+        response = common_pb2.Dialogs(dialog=dialogs)
+        return response
 
     def get_messages(self, request, context):
-        pass
+        creds = Credentials.from_authorized_user_file('api/gmail_credentials/' + request.uid + '_token.json', SCOPES)
+        service = build('gmail', 'v1', credentials=creds)
+
+        result = service.users().threads().get(userId='me', id=request.thread_id).execute()
+        print(result)
 
     def send_message(self, request, context):
         pass

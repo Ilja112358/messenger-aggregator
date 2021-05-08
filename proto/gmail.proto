@@ -10,6 +10,6 @@ message GmailAuthRequest {
 service GmailApi {
   rpc auth(GmailAuthRequest) returns (AuthResponse) {};
   rpc get_dialogs(User) returns (Dialogs) {};
-  rpc get_messages(Text) returns (Text) {};
+  rpc get_messages(DialogRequest) returns (Messages) {};
   rpc send_message(Send) returns (StatusMessage) {};
 }

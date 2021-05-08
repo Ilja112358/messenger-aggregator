@@ -14,10 +14,13 @@ message User {
 
 message Dialog {
   string name = 1;
-  int64 dialog_id = 2;
-  string date = 3;
-  string message = 4;
-  int32 unread_count = 5;
+  oneof id {
+    string thread_id = 2;
+    int64 dialog_id = 3;
+  }
+  string date = 4;
+  string message = 5;
+  int32 unread_count = 6;
 }
 
 message Dialogs {
@@ -40,7 +43,10 @@ message Chunk {
 
 message DialogRequest {
   string uid = 1;
-  int64 dialog_id = 2;
+  oneof id {
+    int64 dialog_id = 2;
+    string thread_id = 3;
+  }
 }
 
 message Message {
