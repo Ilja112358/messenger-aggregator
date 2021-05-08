@@ -31,7 +31,6 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         client = TelegramClient('api/tg_sessions/' + request.uid, api_id, api_hash)
         client.connect()
         temp_dialogs = client.get_dialogs()
-        print(temp_dialogs[4].name, temp_dialogs[4].unread_count)
         dialogs = []
         for temp_dialog in temp_dialogs:
             dialog = tg_pb2.Dialog(name=temp_dialog.name, dialog_id='1234', date=str(temp_dialog.date),
