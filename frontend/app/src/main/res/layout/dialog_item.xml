@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="88dp"
     android:orientation="vertical"
-    android:background="#000000">
+    android:background="#000000"
+    android:id="@+id/dialogBack">
 
     <ImageView
         android:id="@+id/dialogAvatar"

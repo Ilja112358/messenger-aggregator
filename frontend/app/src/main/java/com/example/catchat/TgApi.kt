@@ -3,6 +3,8 @@ package com.example.catchat
 
 import Tg
 import TgApiGrpc
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.models.Dialog
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
@@ -57,6 +59,7 @@ class TgApi {
         val response = stub.auth(request)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     fun getDialogs(
         uid: String
     ) : List<Dialog> {
