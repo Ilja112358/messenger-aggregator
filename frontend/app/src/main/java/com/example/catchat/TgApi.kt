@@ -59,6 +59,10 @@ class TgApi {
         val response = stub.auth(request)
     }
 
+    fun sendMarkRead(uid : String) {
+
+    }
+
     @RequiresApi(Build.VERSION_CODES.N)
     fun getDialogs(
         uid: String
@@ -66,7 +70,7 @@ class TgApi {
         val request = Tg.User.newBuilder().setUid(uid).build()
         val response = stub.getDialogs(request)
         val parser =  SimpleDateFormat("yyyy-MM-dd HH:mm:ss+00:00")
-        return response.dialogList.stream().map { d -> Dialog(d.name, d.message, getShortDate(parser.parse(d.date)) ) }.collect(Collectors.toList())
+        return response.dialogList.stream().map { d -> Dialog(d.name, d.message, getShortDate(parser.parse(d.date)), d.unreadCount ) }.collect(Collectors.toList())
     }
 
     private fun getShortDate(date: Date?): String {

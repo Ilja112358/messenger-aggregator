@@ -47,7 +47,10 @@ class DialogsRecyclerAdapter(private val dialogs: List<Dialog>, var onItemClick:
         holder.dialogTitleView?.text = dialogs[position].name
         holder.dialogLastMessageView?.text = dialogs[position].lastMessage
         holder.dialogLastTimeView?.text = dialogs[position].date
-        holder.dialogBack?.setBackgroundColor(Color.BLACK)
+        if (dialogs[position].unread_count > 0)
+            holder.dialogBack?.setBackgroundColor(Color.parseColor("#2f2f2f"))
+        else
+            holder.dialogBack?.setBackgroundColor(Color.BLACK)
     }
 
     override fun getItemCount(): Int {

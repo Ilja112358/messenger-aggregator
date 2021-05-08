@@ -13,9 +13,15 @@ code = 1234
 client.start()
 dialogs = client.get_messages(642388933, 2)
 dialogs = client.get_dialogs()
+#print(dialogs[1].message.from_id.user_id)
 i = 0
-for dialog in dialogs:
-    print(dialog.name, ' ', dialog.unread_count)
+print(dialogs[i].name)
+print(dialogs[i].message.peer_id.channel_id)
+#print(type(client.get_entity(dialogs[i])), dialogs[i].name)
+#print(dialogs[i].id, '', dialogs[i].name)
+
+#for dialog in dialogs:
+#    print(dialog.name, ' ', dialog.message.from_id.user_id)
 #print(dialogs)
 #result = client(functions.messages.GetPeerDialogsRequest(peers=['username']))
 #print(result.dialogs[0].unread_count)

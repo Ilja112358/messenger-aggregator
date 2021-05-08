@@ -1,14 +1,12 @@
 package com.example.catchat
 
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.view.MenuItem
-import android.view.MotionEvent
-import android.view.View
+import android.widget.Toast
 
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
@@ -17,6 +15,7 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
+import com.google.gson.Gson
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     @SuppressLint("ClickableViewAccessibility")
@@ -65,11 +64,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        var fragment: Fragment? = null
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-
-        fragment = when (id) {
+        val fragment: Fragment = when (item.itemId) {
             R.id.nav_facebook -> FacebookFragment()
             R.id.nav_gmail -> GmailFragment()
             else -> TelegramFragment()
