@@ -9,6 +9,7 @@ load_dotenv('.env')
 api_id = int(os.getenv('api_id'))
 api_hash = os.getenv('api_hash')
 
+NUMBER_OF_MESSAGES = 200
 
 class TgApiServicer(tg_pb2_grpc.TgApiServicer):
     def auth(self, request, context):
@@ -41,8 +42,14 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         asyncio.set_event_loop(asyncio.new_event_loop())
         client = TelegramClient('api/tg_sessions/' + str(request.uid), api_id, api_hash)
         client.connect()
+        messages = []
+        temp_messages = client.get_messages(request.dialog_id, NUMBER_OF_MESSAGES)
         client.disconnect()
-
+        for message in temp_messages:
+            messages.append(message)
+        response = tg_pb2.Messages(message=messages)
+        return response
+    
 
     def send_message(self, request, context):
         asyncio.set_event_loop(asyncio.new_event_loop())
