@@ -26,6 +26,13 @@ class MessagesListFragment : Fragment() {
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: RecyclerView.Adapter<DialogsRecyclerAdapter.MyViewHolder>? = null
     private var dialogsList: List<Dialog> = Collections.emptyList()
+    val handler = Handler()
+
+    inner class UpdateTask: AsyncTask<Unit, Unit, Unit>() {
+        override fun doInBackground(vararg params: Unit?) {
+
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -40,7 +47,19 @@ class MessagesListFragment : Fragment() {
 
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
-        setDialogsField()
+        handler.post(
+            object : Runnable {
+                override fun run() {
+                    setDialogsField()
+                    handler.postDelayed(this, 3000)
+                }
+            }
+        )
+    }
+
+    override fun onDestroy() {
+        handler.removeCallbacksAndMessages(null)
+        super.onDestroy()
     }
 
     private fun fillList(): List<String> {
