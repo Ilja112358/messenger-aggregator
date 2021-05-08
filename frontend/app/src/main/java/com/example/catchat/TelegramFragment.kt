@@ -1,24 +1,18 @@
 package com.example.catchat
 
-import android.R.attr.x
-import android.R.attr.y
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.DialogInterface
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 
-public val TUID = "TUID"
+public val TUID = "test"
 
 class TelegramFragment : Fragment() {
     override fun onCreateView(
@@ -27,30 +21,22 @@ class TelegramFragment : Fragment() {
     ): View? {
         val sharedPref = activity?.getSharedPreferences("mysettings", Context.MODE_PRIVATE)
         val edit = sharedPref?.edit()
-        var view1 = inflater.inflate(R.layout.fragment_telegram_auth, container, false)
-        var view = inflater.inflate(R.layout.fragment_telegram, container, false)
-        //val view1
-        val submitButton = view?.findViewById<Button>(R.id.submit_button)
-        val phoneField = view?.findViewById<EditText>(R.id.phoneInput)
-
         if (sharedPref?.contains(TUID)!!) {
-
             val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction?.replace(R.id.content_frame, TelegramAuthFragment())
+            transaction?.replace(R.id.content_frame, MessagesListFragment())
             transaction?.commit()
 
-            return view1 //TODO: view1
+            return inflater.inflate(R.layout.fragment_messages_list, container, false)
         } else {
+            val view = inflater.inflate(R.layout.fragment_telegram, container, false)
+            val submitButton = view?.findViewById<Button>(R.id.submit_button)
+            val phoneField = view?.findViewById<EditText>(R.id.phoneInput)
 
             submitButton?.setOnClickListener {
                 val phoneText = phoneField?.text ?: ""
                 println(phoneText)
-                val codeHash = "hahahehe" //TgApi().sendPhone("uid4", phoneText.toString())
+                val codeHash = "hehehe"//TgApi().sendPhone(TUID, phoneText.toString())
                 println(codeHash)
-
-                val unixTime = System.currentTimeMillis() / 1000L
-                edit?.putString(TUID, unixTime.toString())
-                edit?.apply()
 
                 if (sharedPref?.contains(TUID)!!) {
                     assert(false)
@@ -64,17 +50,21 @@ class TelegramFragment : Fragment() {
                 alertBuilder.setTitle("Enter code")
                 alertBuilder.setCancelable(true)
                 alertBuilder.setPositiveButton("Send") { dialogInterface: DialogInterface, i: Int ->
-                    //TgApi().sendCode("uid4", phoneText.toString(), codeInputView.text.toString(), codeHash)
+                    //TgApi().sendCode(TUID, phoneText.toString(), codeInputView.text.toString(), codeHash)
                     println("codeSent")
+
+                    val unixTime = System.currentTimeMillis() / 1000L
+                    edit?.putString(TUID, unixTime.toString())
+                    edit?.apply()
+
+                    val transaction = activity?.supportFragmentManager?.beginTransaction()
+                    transaction?.replace(R.id.content_frame, MessagesListFragment())
+                    transaction?.commit()
+                    //TODO : swap
                 }
 
                 alertBuilder.setNegativeButton("Cancel") { dialogInterface: DialogInterface, i: Int -> }
                 alertBuilder.create().show()
-
-                val transaction = activity?.supportFragmentManager?.beginTransaction()
-                transaction?.replace(R.id.content_frame, TelegramAuthFragment())
-                transaction?.commit()
-                //TODO : swap
             }
             return view
         }

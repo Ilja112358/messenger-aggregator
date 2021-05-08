@@ -8,10 +8,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.models.Dialog
 import java.net.URI
 import java.net.URL
 
-class DialogsRecyclerAdapter(private val names: List<String>) :
+class DialogsRecyclerAdapter(private val dialogs: List<Dialog>) :
     RecyclerView.Adapter<DialogsRecyclerAdapter.MyViewHolder>() {
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -39,12 +40,12 @@ class DialogsRecyclerAdapter(private val names: List<String>) :
         //val image = BitmapFactory.decodeStream(URL("https://images.app.goo.gl/WPM37NyC6fDXR7rf7").openConnection().getInputStream())
         //val uri = Uri.parse("https://images.app.goo.gl/WPM37NyC6fDXR7rf7")
         holder.dialogAvatarView?.setImageResource(R.drawable.telegram)
-        holder.dialogTitleView?.text = "Дед дедыч"
-        holder.dialogLastMessageView?.text = "Something takes a part of me, something lost and never seen"
-        holder.dialogLastTimeView?.text = "20:43"
+        holder.dialogTitleView?.text = dialogs[position].name
+        holder.dialogLastMessageView?.text = dialogs[position].lastMessage
+        holder.dialogLastTimeView?.text = dialogs[position].date
     }
 
     override fun getItemCount(): Int {
-        return names.size
+        return dialogs.size
     }
 }

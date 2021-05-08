@@ -3,6 +3,7 @@ package com.example.catchat
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.example.models.Dialog
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.Dispatchers
@@ -51,17 +52,13 @@ class TgApi {
         val stub = TgApiGrpc.newBlockingStub(channel())
         val response = stub.auth(request)
     }
-/*
-    @RequiresApi(Build.VERSION_CODES.N)
+
     fun getDialogs(
         uid: String
-    ) : String {
+    ) : List<Dialog> {
         val request = Tg.User.newBuilder().setUid(uid).build()
         val stub = TgApiGrpc.newBlockingStub(channel())
         val response = stub.getDialogs(request)
-        val tmp = response.dialogList.stream().map ({ d -> d.date }).collect(Collectors.toList())
-        response.itemsList.stream().map { d -> d. }
-        /equest.
-        return ""response.data
-    }*/
+        return response.dialogList.stream().map { d -> Dialog(d.name, d.message, d.date) }.collect(Collectors.toList())
+    }
 }
