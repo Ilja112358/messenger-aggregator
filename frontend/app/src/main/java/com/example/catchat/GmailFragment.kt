@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +20,8 @@ class GmailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val toolbar = activity?.findViewById<Toolbar>(R.id.toolbar)
+        toolbar?.title = "Gmail"
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_gmail, container, false)
     }

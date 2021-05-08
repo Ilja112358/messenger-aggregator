@@ -14,8 +14,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 
 public val TUID = "TUID"
@@ -29,9 +29,10 @@ class TelegramFragment : Fragment() {
         val edit = sharedPref?.edit()
         var view1 = inflater.inflate(R.layout.fragment_telegram_auth, container, false)
         var view = inflater.inflate(R.layout.fragment_telegram, container, false)
-        //val view1
         val submitButton = view?.findViewById<Button>(R.id.submit_button)
         val phoneField = view?.findViewById<EditText>(R.id.phoneInput)
+        val toolbar = activity?.findViewById<Toolbar>(R.id.toolbar)
+        toolbar?.title = "Telegram"
 
         if (sharedPref?.contains(TUID)!!) {
 

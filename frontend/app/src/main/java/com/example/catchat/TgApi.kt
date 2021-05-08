@@ -1,6 +1,7 @@
 package com.example.catchat
 
 
+import TgApiGrpc
 import android.os.Build
 import androidx.annotation.RequiresApi
 import io.grpc.ManagedChannel
@@ -51,6 +52,7 @@ class TgApi {
         val stub = TgApiGrpc.newBlockingStub(channel())
         val response = stub.auth(request)
     }
+
 /*
     @RequiresApi(Build.VERSION_CODES.N)
     fun getDialogs(
