@@ -1,5 +1,5 @@
 syntax = "proto3";
-
+/*
 message AuthRequest {
   string uid = 1;
   string credentials = 2;
@@ -47,4 +47,4 @@ service GmailApi {
   rpc get_dialogs(User) returns (Dialogs) {};
   rpc get_messages(Text) returns (Text) {};
   rpc send_message(Send) returns (StatusMessage) {};
-}
+}*/
