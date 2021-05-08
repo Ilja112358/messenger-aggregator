@@ -44,13 +44,13 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
 
     def get_messages(self, request, context):
         asyncio.set_event_loop(asyncio.new_event_loop())
-        client = TelegramClient('api/tg_sessions/' + str(request.uid), api_id, api_hash)
+        client = TelegramClient('api/tg_sessions/' + request.uid, api_id, api_hash)
         client.connect()
         messages = []
         temp_messages = client.get_messages(request.dialog_id, NUMBER_OF_MESSAGES)
         client.disconnect()
         for message in temp_messages:
-            messages.append(message)
+            messages.append(message.message)
         response = common_pb2.Messages(message=messages)
         return response
 
