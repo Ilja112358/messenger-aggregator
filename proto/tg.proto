@@ -21,8 +21,9 @@ message User {
 
 message Dialog {
   string name = 1;
-  string date = 2;
-  string message = 3;
+  string dialog_id = 2;
+  string date = 3;
+  string message = 4;
 }
 
 message Dialogs {
