@@ -65,6 +65,15 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
             client.disconnect()
             return response
 
+    def mark_read(self, request, context):
+        asyncio.set_event_loop(asyncio.new_event_loop())
+        client = TelegramClient('api/tg_sessions/' + str(request.uid), api_id, api_hash)
+        client.connect()
+        response = common_pb2.StatusMessage(status='OK AND')
+        client.send_read_acknowledge(request.dialog_id)
+        client.disconnect()
+        return response
+
     def test_file(self, request, context):
         with open('photo.jpg', 'rb') as f:
             file = f.read()
