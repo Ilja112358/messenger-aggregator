@@ -49,8 +49,13 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         messages = []
         temp_messages = client.get_messages(request.dialog_id, NUMBER_OF_MESSAGES)
         client.disconnect()
-        for message in temp_messages:
-            messages.append(message.message)
+        for temp_message in temp_messages:
+            if temp_message.out == True:
+                sender = 'me'
+            else:
+                sender = 'not me'
+            message = common_pb2.Message(message=temp_message.message, sender=sender)
+            messages.append(message)
         response = common_pb2.Messages(message=messages)
         return response
 

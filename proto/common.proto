@@ -43,6 +43,11 @@ message DialogRequest {
   int64 dialog_id = 2;
 }
 
+message Message {
+  string message = 1;
+  string sender = 2;
+}
+
 message Messages {
-  repeated string message = 1;
+  repeated Message message = 1;
 }
