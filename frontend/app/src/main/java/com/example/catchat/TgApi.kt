@@ -1,9 +1,8 @@
 package com.example.catchat
 
 
+import Tg
 import TgApiGrpc
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.example.models.Dialog
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
@@ -11,10 +10,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 import java.net.URL
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.logging.Logger
 import java.util.stream.Collectors
+
 
 val tgApi = TgApi()
 
@@ -74,18 +73,19 @@ class TgApi {
 
         val curDate = Calendar.getInstance().time
 
-        if (date.year == curDate.year && date.month == curDate.month && date.day == curDate.day) {
-            return " \n" + date.hours.toString().padStart(2, '0') + ":" + date.minutes.toString().padStart(2, '0')
-        } else if (date.year == curDate.year) {
-            return date.day.toString() + " " + intToMonth[date.month] + "\n" + date.hours.toString().padStart(2, '0') + ":" + date.minutes.toString().padStart(2, '0')
+        val cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"))
+        cal.time = date
+
+        val calCur = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"))
+        calCur.time = curDate
+
+        if (cal[Calendar.YEAR] == calCur[Calendar.YEAR] && cal[Calendar.MONTH] == calCur[Calendar.MONTH] && cal[Calendar.DAY_OF_MONTH] == calCur[Calendar.DAY_OF_MONTH]) {
+            return cal[Calendar.HOUR].toString().padStart(2, '0') + ":" + cal[Calendar.MINUTE].toString().padStart(2, '0')
+        } else if (cal[Calendar.YEAR]  == calCur[Calendar.YEAR]) {
+            return cal[Calendar.DAY_OF_MONTH].toString().padStart(2, '0') + "." + cal[Calendar.MONTH].toString().padStart(2, '0')
         }
 
-        return date.day.toString() + " " + intToMonth[date.month] + " " + date.year.toString() + "\n" + date.hours.toString().padStart(2, '0') + ":" + date.minutes.toString().padStart(2, '0')
-    }
 
-    private val intToMonth = mapOf(
-        1 to "января", 2 to "февраля", 3 to "марта",
-        4 to "апреля" , 5 to "мая" , 6 to "июня",
-        7 to "июля", 8 to "августа", 9 to "сентября",
-        10 to "октября" , 11 to "ноября" , 12 to "декабря")
+        return cal[Calendar.DAY_OF_MONTH].toString().padStart(2, '0') + "." + cal[Calendar.MONTH].toString().padStart(2, '0') + "." + cal[Calendar.YEAR].toString().takeLast(2)
+    }
 }
