@@ -31,13 +31,14 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         client = TelegramClient('api/tg_sessions/' + request.uid, api_id, api_hash)
         client.connect()
         temp_dialogs = client.get_dialogs()
+        print(temp_dialogs[4].name, temp_dialogs[4].unread_count)
         dialogs = []
         unread_status = 0
         for temp_dialog in temp_dialogs:
             if temp_dialog.unread_count > 0:
                 unread_status = 1
             dialog = tg_pb2.Dialog(name=temp_dialog.name, dialog_id='1234', date=str(temp_dialog.date),
-                                   message=temp_dialog.message.message, unread_status=unread_status)
+                                   message=temp_dialog.message.message, unread_count=unread_status)
             dialogs.append(dialog)
         response = tg_pb2.Dialogs(dialog=dialogs)
         client.disconnect()
@@ -67,9 +68,8 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
             return response
 
     def test_file(self, request, context):
-        with open('test.txt', 'rb') as f:
+        with open('photo.jpg', 'rb') as f:
             file = f.read()
-            print(file)
-            file = [tg_pb2.Chunk(chunk=byte.to_bytes(1, byteorder='big')) for byte in file]
-            print(file)
-            return file
+            # print(file)
+            for byte in file:
+                yield tg_pb2.Chunk(chunk=byte.to_bytes(1, byteorder='big'))

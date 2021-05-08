@@ -4,62 +4,43 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
+from api.protobufs import gmail_pb2_grpc
+from api.protobufs import gmail_pb2
 
 # If modifying these scopes, delete the file token.json.
-SCOPES = ['https://www.googleapis.com/auth/gmail.readonly']
+SCOPES = ['https://mail.google.com/']
 
 
-def main():
-    """Shows basic usage of the Gmail API.
-    Lists the user's Gmail labels.
-    """
-    creds = None
-    # The file token.json stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-    if os.path.exists('token.json'):
-        creds = Credentials.from_authorized_user_file('token.json', SCOPES)
-    # If there are no (valid) credentials available, let the user log in.
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
+class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
+    def auth(self, request, context):
+        creds = None
+        if os.path.exists(request.uid + '_token.json'):
+            creds = Credentials.from_authorized_user_file(request.uid + 'token.json', SCOPES)
+        if not creds or not creds.valid:
+            if creds and creds.expired and creds.refresh_token:
+                creds.refresh(Request())
+            else:
+                flow = InstalledAppFlow.from_client_secrets_file(
+                    'credentials.json', SCOPES)
+                creds = flow.run_local_server(port=0)
+            with open('token.json', 'w') as token:
+                token.write(creds.to_json())
+
+    def get_dialogs(self, request, context):
+        creds = Credentials.from_authorized_user_file(request.uid + 'token.json', SCOPES)
+        service = build('gmail', 'v1', credentials=creds)
+
+        # Call the Gmail API
+        results = service.users().threads().list(userId='me').execute()
+        threads = results.get('threads', [])
+
+        if not threads:
+            print('No threads found.')
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
-            creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open('token.json', 'w') as token:
-            token.write(creds.to_json())
+            print('threads:', threads)
 
-    service = build('gmail', 'v1', credentials=creds)
-
-    # Call the Gmail API
-    results = service.users().threads().list(userId='me').execute()
-    threads = results.get('threads', [])
-
-    if not threads:
-        print('No threads found.')
-    else:
-        print('threads:', threads)
-        #for thread in threads:
-        #    print(thread['messages'])
-
-
-main()
-
-
-class ApiGmail:
-    def auth(self):
+    def get_messages(self, request, context):
         pass
 
-    def get_dialogs(self):
-        pass
-
-    def get_messages(self):
-        pass
-
-    def send_message(self):
-        pass
-
-    def logout(self):
+    def send_message(self, request, context):
         pass
