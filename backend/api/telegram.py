@@ -50,15 +50,15 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         temp_messages = client.get_messages(request.dialog_id, NUMBER_OF_MESSAGES)
         temp_dialogs = client.get_dialogs()
         name = ''
-        if type(client.get_entity(request.dialog_id)) == "<class 'telethon.tl.types.Channel'>":
+        if str(type(client.get_entity(request.dialog_id))) == "<class 'telethon.tl.types.Channel'>":
             sender = client.get_entity(request.dialog_id).title
-        if request.dialog_id > 0 and type(client.get_entity(request.dialog_id)) != "<class 'telethon.tl.types.Channel'>":
+        if request.dialog_id > 0 and str(type(client.get_entity(request.dialog_id))) != "<class 'telethon.tl.types.Channel'>":
             for dialog in temp_dialogs:
                 peer_id = client.get_peer_id(dialog)
                 if peer_id == request.dialog_id:
                     name = dialog.name
         for temp_message in temp_messages:
-            if type(client.get_entity(request.dialog_id)) != "<class 'telethon.tl.types.Channel'>":
+            if str(type(client.get_entity(request.dialog_id))) != "<class 'telethon.tl.types.Channel'>":
                 if temp_message.out == True:
                     sender = 'me'
                 else:
