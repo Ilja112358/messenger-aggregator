@@ -1,6 +1,7 @@
 package com.aggregator.ui.activities
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
@@ -16,10 +17,16 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.aggregator.api.API
+import com.aggregator.models.Message
 import com.aggregator.ui.fragments.TUID
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
 //
 
@@ -33,6 +40,8 @@ class ChatActivity : AppCompatActivity() {
     private var mScrollView: ScrollView? = null
     private var dialogId: String? = null
     private var navDialogAvatarView: CircleImageView? = null
+    private var apiType: String? = null
+    private val messagesGetter = MessagesGetter()
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,7 +49,7 @@ class ChatActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chat)
 
         val intent: Intent = intent
-        val apiType: String = intent.getStringExtra("api")!!
+        apiType = intent.getStringExtra("api")!!
         val titleView = findViewById<TextView>(R.id.navBarDialogName)
         titleView.text = intent.getStringExtra("chatName") ?: "Telegram chat"
         val backView = findViewById<ImageView>(R.id.exitDialog)
@@ -52,7 +61,7 @@ class ChatActivity : AppCompatActivity() {
         mSendButton?.setOnClickListener {
             val text = mMessageArea?.text ?: ""
             if (text.length > 0) {
-                dialogId?.let { it1 -> API.api[apiType]!!.sendTextMessage(TUID, it1, text.toString()) }
+                dialogId?.let { it1 -> API.api[apiType!!]!!.sendTextMessage(TUID, it1, text.toString()) }
                 addMessageBox("Name", "20:20", text.toString(), USER_MESSAGE)
 
                 val scrollView = findViewById<ScrollView>(R.id.scrollView)
@@ -64,17 +73,7 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
-        dialogId?.let {
-            API.api[apiType]!!.getMessages(TUID, it).reversed().forEach {
-                var messageType = FRIEND_MESSAGE
-                if (it.isUserMessage) {
-                    messageType = USER_MESSAGE
-                }
-                addMessageBox(it.userName, it.timestamp, it.text, messageType)
-            }
-        }
-        mScrollView?.post(Runnable { mScrollView?.fullScroll(ScrollView.FOCUS_DOWN) })
-
+        messagesGetter.getMessages()
     }
 
     private fun initSendButton(userId: String) {
@@ -208,5 +207,24 @@ class ChatActivity : AppCompatActivity() {
         private const val EMPTY_MESSAGE = ""
         private const val USER_MESSAGE = 1
         private const val FRIEND_MESSAGE = 2
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    inner class MessagesGetter : ViewModel() {
+        val messages : List<Message>? = null
+        fun getMessages() {
+            viewModelScope.launch {
+                dialogId?.let {
+                    withContext(Dispatchers.IO) { API.api[apiType!!]!!.getMessages(TUID, it).reversed() }.forEach {
+                        var messageType = FRIEND_MESSAGE
+                        if (it.isUserMessage) {
+                            messageType = USER_MESSAGE
+                        }
+                        addMessageBox(it.userName, it.timestamp, it.text, messageType)
+                    }
+                }
+                mScrollView?.post(Runnable { mScrollView?.fullScroll(ScrollView.FOCUS_DOWN) })
+            }
+        }
     }
 }
