@@ -38,7 +38,7 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
             if client.download_profile_photo(dialog_id, 'avatars/' + str(dialog_id) + '.jpg') == None:
                 avatar_url = ''
             else:
-                avatar_url = 'http://84.252.137.106/avatars/' + str(dialog_id) + 'jpg'
+                avatar_url = 'http://84.252.137.106/avatars/' + str(dialog_id) + '.jpg'
             dialog = common_pb2.Dialog(name=temp_dialog.name, dialog_id=dialog_id, date=int(temp_dialog.date.timestamp()),
                                    message=temp_dialog.message.message, unread_count=temp_dialog.unread_count, avatar_url=avatar_url)
             dialogs.append(dialog)
@@ -52,7 +52,6 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         client.connect()
         messages = []
         temp_messages = client.get_messages(request.dialog_id, NUMBER_OF_MESSAGES)
-        temp_dialogs = client.get_dialogs()
         print(request)
         name = ''
         if str(type(client.get_entity(request.dialog_id))) == "<class 'telethon.tl.types.Channel'>":
