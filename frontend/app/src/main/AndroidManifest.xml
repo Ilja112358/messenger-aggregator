@@ -27,6 +27,9 @@
         <activity
             android:name="com.aggregator.ui.activities.ChatActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.aggregator.ui.activities.ImageViewActivity"
+            android:screenOrientation="portrait"/>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.aggregator.provider"

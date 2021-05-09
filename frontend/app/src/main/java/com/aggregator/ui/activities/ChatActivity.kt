@@ -86,7 +86,6 @@ class ChatActivity : AppCompatActivity() {
                 mMessageArea!!.setText(EMPTY_MESSAGE)
             }
         }
-
         messagesGetter.getMessages()
     }
 
@@ -219,6 +218,12 @@ class ChatActivity : AppCompatActivity() {
             val messageImageContentView = textMessageView.findViewById<ImageView>(R.id.messageImageContent)
             val messageTimestampView = textMessageView.findViewById<TextView>(R.id.messageBoxTimestamp)
 
+            messageImageContentView.setOnClickListener {
+                val myIntent = Intent(this, ImageViewActivity::class.java)
+                myIntent.putExtra("url", imageUrl)
+                startActivity(myIntent)
+            }
+
             messageSubmitterView.text = userName
             messageSubmitterView.setTypeface(null, Typeface.BOLD);
             messageSubmitterView.setTextColor(Color.WHITE)
@@ -260,6 +265,11 @@ class ChatActivity : AppCompatActivity() {
             val textMessageView = inflater.inflate(R.layout.image_message_box_dialog, mLinearLayout, false)
             val messageImageContentView = textMessageView.findViewById<ImageView>(R.id.messageImageContent)
             val messageTimestampView = textMessageView.findViewById<TextView>(R.id.messageBoxTimestamp)
+
+
+            messageImageContentView.setOnClickListener {
+
+            }
 
             messageTimestampView.text = timestamp
 
@@ -422,8 +432,6 @@ class ChatActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val MESSAGE_KEY = "message"
-        private const val USER_KEY = "user"
         private const val EMPTY_MESSAGE = ""
         private const val USER_MESSAGE = 1
         private const val FRIEND_MESSAGE = 2
@@ -479,127 +487,9 @@ class ChatActivity : AppCompatActivity() {
 
                 val progressBar = findViewById<ProgressBar>(R.id.progress)
                 progressBar.visibility = View.INVISIBLE
+
+
             }
         }
     }
-
-    private fun readFile(fileName: String) {
-        return try {
-            try {
-                println("filesDir")
-                baseContext.filesDir.list().forEach { println(it) }
-                println("cacheDir")
-                baseContext.cacheDir.list().forEach { println(it) }
-                println("codeCacheDir")
-                baseContext.codeCacheDir.list().forEach { println(it) }
-                println("dataDir")
-                baseContext.dataDir.list().forEach { println(it) }
-                println("END")
-                //baseContext.externalCacheDir
-                //fileName
-                val file = File(baseContext.filesDir.absolutePath + "/" + fileName)
-                println(file.totalSpace)
-                println(file.isDirectory)
-                println(file.isAbsolute)
-                println(file.isFile)
-            } catch (e: Exception) {
-                println(e.toString())
-            }
-
-            val reader = BufferedReader(InputStreamReader(baseContext.openFileInput(fileName)))
-            reader.use {
-                val sb = StringBuilder()
-                var line: String?
-                while (reader.readLine().also { line = it } != null) {
-                    sb.append(line)
-                }
-                val text = sb.toString()
-                Toast.makeText(baseContext, text, Toast.LENGTH_LONG).show()
-            }
-        } catch (ex: FileNotFoundException) {
-            Toast.makeText(baseContext, "Error in reading the file $fileName", Toast.LENGTH_SHORT)
-                .show()
-        }
-    }
-    /**
-     * Background Async Task to download file
-     */
-    /*internal class DownloadFileFromURL() : AsyncTask<String?, String?, String?>() {
-        /**
-         * Before starting background thread Show Progress Bar Dialog
-         */
-        override fun onPreExecute() {
-            super.onPreExecute()
-            //showDialog(progress_bar_type)
-        }
-
-        /**
-         * Downloading file in background thread
-         */
-        protected override fun doInBackground(vararg x: String?): String? {
-            var count: Int = 0
-            try {
-                val url = URL(x[0])
-                //val connection: URLConnection = url.openConnection()
-                //connection.connect()
-
-                // this will be useful so that you can show a tipical 0-100%
-                // progress bar
-                //val lenghtOfFile: Int = connection.getContentLength()
-
-                // download the file
-                val input: InputStream = BufferedInputStream(
-                    url.openStream(),
-                    8192
-                )
-
-                // Output stream
-                val output: OutputStream = FileOutputStream(
-                    Environment
-                        .getExternalStorageDirectory().toString()
-                            + "/" + x[1]
-                )
-                println(Environment
-                    .getExternalStorageDirectory().toString()
-                        + "/" + x[1])
-                val data = ByteArray(1024)
-                var total: Long = 0
-                while ((input.read(data).also({ count = it })) != -1) {
-                    total += count.toLong()
-                    // publishing the progress....
-                    // After this onProgressUpdate will be called
-                    //publishProgress("" + ((total * 100) / lenghtOfFile).toInt())
-
-                    // writing data to file
-                    output.write(data, 0, count)
-                }
-
-                // flushing output
-                output.flush()
-
-                // closing streams
-                output.close()
-                input.close()
-            } catch (e: Exception) {
-                //Log.e("Error: ", e.message)
-            }
-            return Environment.getExternalStorageDirectory().toString() + "/" + x[1]
-        }
-
-        /**
-         * Updating progress bar
-         */
-        protected override fun onProgressUpdate(vararg values: String?) {
-            // setting progress percentage
-            //pDialog.setProgress(progress[0].toInt())
-        }
-
-        /**
-         * After completing background task Dismiss the progress dialog
-         */
-        override fun onPostExecute(file_url: String?) {
-            // dismiss the dialog after the file was downloaded
-            //dismissDialog(progress_bar_type)
-        }
-    }*/
 }
