@@ -2,10 +2,8 @@ package com.aggregator.ui.fragments
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +37,10 @@ class MessagesListFragment(val apiType: String) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val toolbar = activity?.findViewById<Toolbar>(R.id.toolbar)
-        toolbar?.title = "Telegram Dialogs"
+        toolbar?.title = when (apiType) {
+            "gmail" -> "Gmail"
+            else -> "Telegram"
+        }
         return inflater.inflate(R.layout.fragment_messages_list, container, false)
     }
 
