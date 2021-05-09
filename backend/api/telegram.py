@@ -66,7 +66,6 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         for temp_message in temp_messages:
             file_type = ''
             file_url = ''
-
             if temp_message is not None:
                 if str(type(temp_message.media)) == "<class 'telethon.tl.types.MessageMediaPhoto'>":
                     file_type = 'photo'
@@ -83,6 +82,7 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
                                               '/var/www/html/files/' + str(temp_message.media.document.id) + temp_file_type)
                     file_url = 'http://84.252.137.106/files/' + str(temp_message.media.document.id) + temp_file_type
             attachment = common_pb2.Attachment(type=file_type, url=file_url)
+
             if str(type(client.get_entity(request.dialog_id))) != "<class 'telethon.tl.types.Channel'>":
                 if temp_message.out == True:
                     sender = 'me'
