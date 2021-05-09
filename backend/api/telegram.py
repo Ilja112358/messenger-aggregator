@@ -63,35 +63,36 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
     def get_messages(self, request, context, client):
         messages = []
         temp_messages = client.get_messages(request.dialog_id, NUMBER_OF_MESSAGES)
+        dialog_entity = client.get_entity(request.dialog_id)
 
         name = ''
-        if request.dialog_id > 0 and type(client.get_entity(request.dialog_id)).__name__ != 'Channel':
+        if request.dialog_id > 0 and type(dialog_entity).__name__ != 'Channel':
             name = 'not me'
 
         for temp_message in temp_messages:
-            file_type = ''
-            file_url = ''
+            media_type = ''
+            media_url = ''
             if temp_message.media is not None:
                 if type(temp_message.media).__name__ == 'MessageMediaPhoto':
-                    file_type = 'photo'
+                    media_type = 'photo'
                     photo_path = WEB_PATH + 'photos/' + str(temp_message.media.photo.id) + '.jpg'
                     if not os.path.exists(photo_path):
                         client.download_media(temp_message, photo_path)
-                    file_url = 'http://84.252.137.106/photos/' + str(temp_message.media.photo.id) + '.jpg'
+                    media_url = 'http://84.252.137.106/photos/' + str(temp_message.media.photo.id) + '.jpg'
                 elif type(temp_message.media).__name__ == 'MessageMediaDocument':
-                    temp_mime_type = temp_message.media.document.mime_type.split("/")
-                    if (temp_mime_type[0] in ['text', 'application']) and temp_mime_type[1] != 'x-tgsticker':
-                        file_type = 'file'
+                    mime_type = temp_message.media.document.mime_type.split("/")
+                    if (mime_type[0] in ['text', 'application']) and mime_type[1] != 'x-tgsticker':
+                        media_type = 'file'
                         extension = '.' + temp_message.media.document.attributes[0].file_name.split('.')[-1]
-                        if not os.path.exists(WEB_PATH + 'files/' + str(temp_message.media.document.id) + extension):
-                            client.download_media(temp_message,
-                                                  WEB_PATH + 'files/' + str(temp_message.media.document.id) + extension)
-                        file_url = 'http://84.252.137.106/files/' + str(temp_message.media.document.id) + extension
+                        file_path = WEB_PATH + 'files/' + str(temp_message.media.document.id) + extension
+                        if not os.path.exists(file_path):
+                            client.download_media(temp_message, file_path)
+                        media_url = 'http://84.252.137.106/files/' + str(temp_message.media.document.id) + extension
 
-            attachment = common_pb2.Attachment(type=file_type, url=file_url)
+            attachment = common_pb2.Attachment(type=media_type, url=media_url)
 
             sender = ''
-            if type(client.get_entity(request.dialog_id)).__name__ != 'Channel':
+            if type(dialog_entity).__name__ != 'Channel':
                 sender = 'me'
                 if not temp_message.out:
                     if request.dialog_id > 0:
