@@ -36,11 +36,13 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
 
         for temp_dialog in temp_dialogs:
             dialog_id = client.get_peer_id(temp_dialog)
-            if client.download_profile_photo(dialog_id, 'avatars/' + str(dialog_id) + '.jpg') == None:
-                avatar_url = ''
+            if not os.path.exists('avatars/' + str(dialog_id) + '.jpg'):
+                if client.download_profile_photo(dialog_id, 'avatars/' + str(dialog_id) + '.jpg') == None:
+                    avatar_url = ''
+                else:
+                    avatar_url = 'http://84.252.137.106/avatars/' + str(dialog_id) + '.jpg'
             else:
                 avatar_url = 'http://84.252.137.106/avatars/' + str(dialog_id) + '.jpg'
-
             dialogs.append(common_pb2.Dialog(name=temp_dialog.name, dialog_id=dialog_id,
                                      date=int(temp_dialog.date.timestamp()),
                                      message=temp_dialog.message.message, unread_count=temp_dialog.unread_count,
