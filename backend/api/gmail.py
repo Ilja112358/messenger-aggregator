@@ -13,11 +13,12 @@ import base64
 SCOPES = ['https://mail.google.com/']
 
 
-def list_names(request_id, response, exception):
-    if exception is not None:
-        print(response)
-    else:
-        print('Nu i pofig')
+def gmail_auth(func):
+    def wrapper(self, request, context):
+        creds = Credentials.from_authorized_user_file('api/gmail_credentials/' + request.uid + '_token.json', SCOPES)
+        service = build('gmail', 'v1', credentials=creds)
+        return func(self, request, context, service)
+    return wrapper
 
 
 class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
@@ -38,10 +39,9 @@ class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
         response = common_pb2.StatusMessage(status='OK AND')
         return response
 
-    def get_dialogs(self, request, context):
+    @gmail_auth
+    def get_dialogs(self, request, context, service):
         r = redis.Redis(host='localhost', port=6379, db=0)
-        creds = Credentials.from_authorized_user_file('api/gmail_credentials/' + request.uid + '_token.json', SCOPES)
-        service = build('gmail', 'v1', credentials=creds)
 
         threads = service.users().threads().list(userId='me').execute().get('threads', [])
 
@@ -59,10 +59,8 @@ class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
         response = common_pb2.Dialogs(dialog=dialogs)
         return response
 
-    def get_messages(self, request, context):
-        creds = Credentials.from_authorized_user_file('api/gmail_credentials/' + request.uid + '_token.json', SCOPES)
-        service = build('gmail', 'v1', credentials=creds)
-
+    @gmail_auth
+    def get_messages(self, request, context, service):
         me_email = service.users().getProfile(userId='me').execute().get('emailAddress')
 
         thread = service.users().threads().get(userId='me', id=request.thread_id).execute().get('messages', [])
@@ -79,10 +77,8 @@ class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
         response = common_pb2.Messages(message=messages)
         return response
 
-    def send_message(self, request, context):
-        creds = Credentials.from_authorized_user_file('api/gmail_credentials/' + request.uid + '_token.json', SCOPES)
-        service = build('gmail', 'v1', credentials=creds)
-
+    @gmail_auth
+    def send_message(self, request, context, service):
         me_email = service.users().getProfile(userId='me').execute().get('emailAddress')
 
         headers = service.users().threads() \
