@@ -50,7 +50,8 @@ class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
             name = r.get(thread.get('id'))
             if name is None:
                 name = service.users().threads().get(userId='me', id=thread.get('id'),
-                                                     format='metadata', metadataHeaders=['Subject']).execute().get('messages')[0].get('payload').get('headers')[0].get('value')
+                                                     format='metadata', metadataHeaders=['Subject']).execute().get(
+                    'messages')[0].get('payload').get('headers')[0].get('value')
                 r.set(thread.get('id'), name)
             dialog = common_pb2.Dialog(message=thread.get('snippet'), thread_id=thread.get('id'), name=name)
             dialogs.append(dialog)
@@ -82,9 +83,13 @@ class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
         creds = Credentials.from_authorized_user_file('api/gmail_credentials/' + request.uid + '_token.json', SCOPES)
         service = build('gmail', 'v1', credentials=creds)
 
-        to = 'Sasha Orlov <sasaorlov20123478@gmail.com>'
+        me_email = service.users().getProfile(userId='me').execute().get('emailAddress')
+
+        headers = service.users().threads() \
+            .get(userId='me', id=request.thread_id, format='metadata', metadataHeaders=['From', 'To']).execute() \
+            .get('messages')[0].get('payload').get('headers')
+        to = headers[0].get('value') if me_email in headers[1].get('value') else headers[1].get('value')
         smtp = 'To: ' + to + '\nSubject: ' + request.subject + '\n\n' + request.message
         raw = base64.b64encode(bytes(smtp, encoding='utf8')).decode('utf-8')
         service.users().messages().send(userId='me', body={'raw': raw, 'threadId': request.thread_id}).execute()
         return common_pb2.StatusMessage(status='OK AND')
-
