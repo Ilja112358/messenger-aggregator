@@ -15,7 +15,7 @@ import android.widget.ScrollView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
-
+//
 
 /**
  * A class that represents chat dialog between two users in the application
