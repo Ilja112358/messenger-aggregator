@@ -56,7 +56,7 @@ class GmailApi : Api {
 
         val request = Common.User.newBuilder().setUid(uid).build()
         val response = stub.getDialogs(request)
-        return response.dialogList.stream().map { d -> Dialog(d.name, d.message, d.date, d.unreadCount, d.dialogId) }.collect(Collectors.toList())
+        return response.dialogList.stream().map { d -> Dialog(d.name, d.message, "", d.unreadCount, d.dialogId) }.collect(Collectors.toList())
     }
 
     override fun getMessages(uid: String, dialogId: Long): List<Message> {

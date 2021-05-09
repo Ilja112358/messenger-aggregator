@@ -74,8 +74,8 @@ class TgApi : Api {
     ) : List<Dialog> {
         val request = Common.User.newBuilder().setUid(uid).build()
         val response = stub.getDialogs(request)
-        val parser =  SimpleDateFormat("yyyy-MM-dd HH:mm:ss+00:00")
-        return response.dialogList.stream().map { d -> Dialog(d.name, d.message, d.date, d.unreadCount, d.dialogId) }.collect(Collectors.toList())
+        //val parser =  SimpleDateFormat("yyyy-MM-dd HH:mm:ss+00:00")
+        return response.dialogList.stream().map { d -> Dialog(d.name, d.message, getShortDate(Date(d.date * 1000)), d.unreadCount, d.dialogId) }.collect(Collectors.toList())
     }
 
     override fun getMessages(
