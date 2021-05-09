@@ -10,7 +10,6 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
@@ -21,10 +20,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import android.widget.*
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
