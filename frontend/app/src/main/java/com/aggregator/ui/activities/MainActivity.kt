@@ -30,8 +30,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolbar)
 
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.content_frame, GmailFragment())
-        //transaction.add(R.id.content_frame, TelegramFragment())
+        //transaction.add(R.id.content_frame, GmailFragment())
+        transaction.add(R.id.content_frame, TelegramFragment())
         transaction.commit()
 
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)

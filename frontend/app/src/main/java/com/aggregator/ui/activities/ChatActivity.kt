@@ -347,7 +347,7 @@ class ChatActivity : AppCompatActivity() {
                         }
                         if (it.attachementUrl.length > 0) {
                             if (it.attachementType == "photo") {
-                                //addImageMessageBox(it.userName, it.timestamp, it.attachementUrl, messageType)
+                                addImageMessageBox(it.userName, it.timestamp, it.attachementUrl, messageType)
                             } else {
                                 //Todo file
                             }
