@@ -10,6 +10,7 @@ import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.asExecutor
 import java.net.URL
+import java.util.*
 import java.util.logging.Logger
 import java.util.stream.Collectors
 
@@ -56,13 +57,21 @@ class GmailApi : Api {
 
         val request = Common.User.newBuilder().setUid(uid).build()
         val response = stub.getDialogs(request)
-        return response.dialogList.stream().map { d -> Dialog(d.name, d.message, "", d.unreadCount, d.threadId) }.collect(Collectors.toList())
+        return response.dialogList.stream().map { d -> Dialog(d.name, d.message, "", d.unreadCount, d.threadId, d.avatarUrl) }.collect(Collectors.toList())
     }
 
     override fun getMessages(uid: String, dialogId: String): List<Message> {
         val request = Common.DialogRequest.newBuilder().setUid(uid).setThreadId(dialogId).build()
         val response = stub.getMessages(request)
-        return response.messageList.stream().map { d -> Message("", d.message, d.sender == "me") }.filter { it.text.length > 0 }.collect(Collectors.toList())
+        return response.messageList.stream().map { d -> Message(d.sender, d.message, getTime(d.date), d.sender == "me") }.filter { it.text.length > 0 }.collect(Collectors.toList())
 
+    }
+
+    private fun getTime(dateRaw: Long) : String {
+        val date = Date(dateRaw)
+        val cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Moscow"))
+        cal.time = date
+
+        return cal[Calendar.HOUR_OF_DAY].toString() + ":" + cal[Calendar.MINUTE].toString().padStart(2, '0')
     }
 }
