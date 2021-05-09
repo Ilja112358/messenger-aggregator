@@ -89,10 +89,7 @@ class ChatActivity : AppCompatActivity() {
                 mMessageArea!!.setText(EMPTY_MESSAGE)
             }
         }
-
-        addImageMessageBox(null, "20:20", "http://84.252.137.106/avatars/-1001103359717.jpg", FRIEND_MESSAGE)
-        addImageMessageBox(null, "20:21", "http://84.252.137.106/photos/5240047619848385219.jpg", FRIEND_MESSAGE)
-        addImageMessageBox(null, "20:21", "http://84.252.137.106/files/0a4dcb92fa2d3c601b58d72720d6bec4.jpg", FRIEND_MESSAGE)
+        //progressBar.visibility = View.VISIBLE
         messagesGetter.getMessages()
     }
 
@@ -351,6 +348,9 @@ class ChatActivity : AppCompatActivity() {
                     }
                 }
                 mScrollView?.post(Runnable { mScrollView?.fullScroll(ScrollView.FOCUS_DOWN) })
+
+                val progressBar = findViewById<ProgressBar>(R.id.progress)
+                progressBar.visibility = View.INVISIBLE
             }
         }
     }
