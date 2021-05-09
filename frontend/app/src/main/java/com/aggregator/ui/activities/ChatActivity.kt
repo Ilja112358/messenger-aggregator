@@ -89,9 +89,9 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
-        addImageMessageBox(null, "20:20", "http://84.252.137.106/avatars/-1001103359717.jpg", FRIEND_MESSAGE)
-        addImageMessageBox(null, "20:21", "http://84.252.137.106/photos/5240047619848385219.jpg", FRIEND_MESSAGE)
-        addImageMessageBox(null, "20:21", "http://84.252.137.106/files/0a4dcb92fa2d3c601b58d72720d6bec4.jpg", FRIEND_MESSAGE)
+        //addImageMessageBox(null, "20:20", "http://84.252.137.106/avatars/-1001103359717.jpg", FRIEND_MESSAGE)
+        //addImageMessageBox(null, "20:21", "http://84.252.137.106/photos/5240047619848385219.jpg", FRIEND_MESSAGE)
+        //addImageMessageBox(null, "20:21", "http://84.252.137.106/files/0a4dcb92fa2d3c601b58d72720d6bec4.jpg", FRIEND_MESSAGE)
         messagesGetter.getMessages()
     }
 
@@ -325,9 +325,6 @@ class ChatActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val MESSAGES_LOCATION = "https://placemedemo-676f5.firebaseio.com/messages/"
-        private const val DELIMITER = "_"
-        private const val PAIR_DELIMITER = ","
         private const val MESSAGE_KEY = "message"
         private const val USER_KEY = "user"
         private const val EMPTY_MESSAGE = ""
@@ -346,7 +343,16 @@ class ChatActivity : AppCompatActivity() {
                         if (it.isUserMessage) {
                             messageType = USER_MESSAGE
                         }
-                        addMessageBox(it.userName, it.timestamp, it.text, messageType)
+                        if (it.attachementUrl.length > 0) {
+                            if (it.attachementType == "photo") {
+                                //addImageMessageBox(it.userName, it.timestamp, it.attachementUrl, messageType)
+                            } else {
+                                //Todo file
+                            }
+                        } else {
+                            addMessageBox(it.userName, it.timestamp, it.text, messageType)
+                        }
+
                     }
                 }
                 mScrollView?.post(Runnable { mScrollView?.fullScroll(ScrollView.FOCUS_DOWN) })
