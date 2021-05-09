@@ -50,19 +50,22 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         temp_messages = client.get_messages(request.dialog_id, NUMBER_OF_MESSAGES)
         temp_dialogs = client.get_dialogs()
         name = ''
-        if request.dialog_id > 0:
+        if str(type(client.get_entity(request.dialog_id))) == "<class 'telethon.tl.types.Channel'>":
+            sender = client.get_entity(request.dialog_id).title
+        if request.dialog_id > 0 and str(type(client.get_entity(request.dialog_id))) != "<class 'telethon.tl.types.Channel'>":
             for dialog in temp_dialogs:
                 peer_id = client.get_peer_id(dialog)
                 if peer_id == request.dialog_id:
                     name = dialog.name
         for temp_message in temp_messages:
-            if temp_message.out == True:
-                sender = 'me'
-            else:
-                if request.dialog_id > 0:
-                    sender = name
+            if str(type(client.get_entity(request.dialog_id))) != "<class 'telethon.tl.types.Channel'>":
+                if temp_message.out == True:
+                    sender = 'me'
                 else:
-                    sender = client.get_entity(temp_message.from_id.user_id).first_name + ' ' + client.get_entity(temp_message.from_id.user_id).last_name
+                    if request.dialog_id > 0:
+                        sender = name
+                    else:
+                        sender = client.get_entity(temp_message.from_id.user_id).first_name + ' ' + client.get_entity(temp_message.from_id.user_id).last_name
             message = common_pb2.Message(message=temp_message.message, sender=sender, date=int(temp_message.date.timestamp()))
             messages.append(message)
         client.disconnect()

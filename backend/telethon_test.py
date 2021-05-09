@@ -1,20 +1,34 @@
-from telethon import TelegramClient, events, sync, functions
+from telethon import TelegramClient, events, sync, functions, utils
 from telethon.tl.types import InputMessagesFilterPhotos
 from time import sleep
 
 
 #user authorizathion
-phone = 'your_phone'
-api_id = <your_id>
-api_hash = 'your_hash'
-client = TelegramClient('sessions/Consumer', api_id, api_hash)
+phone = '+79213010190'
+api_id = 4139893
+api_hash = 'ece013c7c8869d3a584bb2cae5ae3fc7'
+client = TelegramClient('sessions/Andrew', api_id, api_hash)
 code = 1234
 #client.sign_in(phone, code)
 client.start()
-dialogs = client.get_messages(423865152, 10)
+#dialogs = client.get_messages(423865152, 10)
+dialogs = client.get_messages(-1001389304944, 10)
 temp_dialogs = client.get_dialogs()
+'''for dialog in temp_dialogs:
+    print(dialog.name + ' ' + str(client.get_peer_id(dialog)))'''
+print(client.get_entity(-1001389304944))
 #print(type(dialogs))
-print(client.get_entity(423865152))
+#print(client.get_entity(423865152))
+
+#print(utils.get_input_location(dialogs[0]))
+#print(dialogs[0])
+test_str =str
+#print(test_str)
+#dialogs[0].download_media(dialogs[0], test_str)
+#print(dialogs[0].download_media(test_str))
+#print(utils.get_attributes(dialogs[0].media.document.id))
+
+
 #print(len(temp_dialogs))
 '''for dialog in temp_dialogs:
     #print(client.get_peer_id(dialog))
@@ -25,7 +39,7 @@ print(client.get_entity(423865152))
 
 print(client.get_entity(423865152).first_name) '''
 
-dialog_id = -595779751
+'''dialog_id = -595779751
 temp_messages = client.get_messages(dialog_id, 200)
 if dialog_id > 0:
     for dialog in temp_dialogs:
@@ -42,7 +56,7 @@ for temp_message in temp_messages:
             print(client.get_entity(temp_message.from_id.user_id))
             sender = client.get_entity(temp_message.from_id.user_id).first_name + ' ' + client.get_entity(
                 temp_message.from_id.user_id).last_name
-    print(sender)
+    print(sender)'''
 
 #print(client.get_entity(423865152).first_name + ' ' +client.get_entity(423865152).last_name)
 
