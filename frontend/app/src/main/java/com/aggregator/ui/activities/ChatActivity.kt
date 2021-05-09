@@ -47,7 +47,7 @@ class ChatActivity : AppCompatActivity() {
         mSendButton?.setOnClickListener {
             val text = mMessageArea?.text ?: ""
             if (text.length > 0) {
-                dialogId?.toLong()?.let { it1 -> API.api[apiType]!!.sendTextMessage(TUID, it1, text.toString()) }
+                dialogId?.let { it1 -> API.api[apiType]!!.sendTextMessage(TUID, it1, text.toString()) }
                 addMessageBox(text.toString(), USER_MESSAGE)
 
                 var scrollView = findViewById<ScrollView>(R.id.scrollView)
@@ -60,7 +60,7 @@ class ChatActivity : AppCompatActivity() {
         }
 
         dialogId?.let {
-            API.api[apiType]!!.getMessages(TUID, it.toLong()).reversed().forEach {
+            API.api[apiType]!!.getMessages(TUID, it).reversed().forEach {
                 var messageType = FRIEND_MESSAGE
                 if (it.isUserMessage) {
                     messageType = USER_MESSAGE

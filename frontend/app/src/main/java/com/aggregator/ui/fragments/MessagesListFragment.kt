@@ -47,18 +47,19 @@ class MessagesListFragment(val apiType: String) : Fragment() {
 
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
-        handler.post(
+        setDialogsField()
+        /*handler.post(
             object : Runnable {
                 override fun run() {
                     setDialogsField()
                     handler.postDelayed(this, 3000)
                 }
             }
-        )
+        )*/
     }
 
     override fun onDestroy() {
-        handler.removeCallbacksAndMessages(null)
+        //handler.removeCallbacksAndMessages(null)
         super.onDestroy()
     }
 

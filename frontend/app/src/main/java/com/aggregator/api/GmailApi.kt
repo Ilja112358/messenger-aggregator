@@ -41,11 +41,11 @@ class GmailApi : Api {
         TODO("Not yet implemented")
     }
 
-    override fun sendMarkRead(uid: String, dialogId: Long) {
+    override fun sendMarkRead(uid: String, dialogId: String) {
         TODO("Not yet implemented")
     }
 
-    override fun sendTextMessage(uid: String, dialogId: Long, text: String) {
+    override fun sendTextMessage(uid: String, dialogId: String, text: String) {
         TODO("Not yet implemented")
     }
 
@@ -56,11 +56,11 @@ class GmailApi : Api {
 
         val request = Common.User.newBuilder().setUid(uid).build()
         val response = stub.getDialogs(request)
-        return response.dialogList.stream().map { d -> Dialog(d.name, d.message, "", d.unreadCount, d.dialogId) }.collect(Collectors.toList())
+        return response.dialogList.stream().map { d -> Dialog(d.name, d.message, "", d.unreadCount, d.threadId) }.collect(Collectors.toList())
     }
 
-    override fun getMessages(uid: String, dialogId: Long): List<Message> {
-        val request = Common.DialogRequest.newBuilder().setUid(uid).setDialogId(dialogId).build()
+    override fun getMessages(uid: String, dialogId: String): List<Message> {
+        val request = Common.DialogRequest.newBuilder().setUid(uid).setThreadId(dialogId).build()
         val response = stub.getMessages(request)
         return response.messageList.stream().map { d -> Message("", d.message, d.sender == "me") }.filter { it.text.length > 0 }.collect(Collectors.toList())
 

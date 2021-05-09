@@ -57,14 +57,14 @@ class TgApi : Api {
         val response = stub.auth(request)
     }
 
-    override fun sendMarkRead(uid : String, dialogId: Long) {
-        val request = Common.DialogRequest.newBuilder().setDialogId(dialogId).setUid(uid).build()
+    override fun sendMarkRead(uid : String, dialogId: String) {
+        val request = Common.DialogRequest.newBuilder().setDialogId(dialogId.toLong()).setUid(uid).build()
         val response = stub.markRead(request)
         println(response.status)
     }
 
-    override fun sendTextMessage(uid: String, dialogId: Long, text: String) {
-        val request = Common.Send.newBuilder().setUid(uid).setEntity(dialogId).setMessage(text).build()
+    override fun sendTextMessage(uid: String, dialogId: String, text: String) {
+        val request = Common.Send.newBuilder().setUid(uid).setEntity(dialogId.toLong()).setMessage(text).build()
         val response = stub.sendMessage(request)
         println(response.status)
     }
@@ -75,14 +75,14 @@ class TgApi : Api {
         val request = Common.User.newBuilder().setUid(uid).build()
         val response = stub.getDialogs(request)
         //val parser =  SimpleDateFormat("yyyy-MM-dd HH:mm:ss+00:00")
-        return response.dialogList.stream().map { d -> Dialog(d.name, d.message, getShortDate(Date(d.date * 1000)), d.unreadCount, d.dialogId) }.collect(Collectors.toList())
+        return response.dialogList.stream().map { d -> Dialog(d.name, d.message, getShortDate(Date(d.date * 1000)), d.unreadCount, d.dialogId.toString()) }.collect(Collectors.toList())
     }
 
     override fun getMessages(
         uid: String,
-        dialogId: Long
+        dialogId: String
     ) : List<Message> {
-        val request = Common.DialogRequest.newBuilder().setUid(uid).setDialogId(dialogId).build()
+        val request = Common.DialogRequest.newBuilder().setUid(uid).setDialogId(dialogId.toLong()).build()
         val response = stub.getMessages(request)
         return response.messageList.stream().map { d -> Message("", d.message, d.sender == "me") }.filter { it.text.length > 0 }.collect(Collectors.toList())
     }
