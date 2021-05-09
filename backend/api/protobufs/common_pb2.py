@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0c\x63ommon.proto\"\x1c\n\x0c\x41uthResponse\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x14\n\x04Text\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x13\n\x04User\x12\x0b\n\x03uid\x18\x01 \x01(\t\"\x8f\x01\n\x06\x44ialog\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\tthread_id\x18\x02 \x01(\tH\x00\x12\x13\n\tdialog_id\x18\x03 \x01(\x03H\x00\x12\x0c\n\x04\x64\x61te\x18\x04 \x01(\x03\x12\x0f\n\x07message\x18\x05 \x01(\t\x12\x14\n\x0cunread_count\x18\x06 \x01(\x05\x12\x12\n\navatar_url\x18\x07 \x01(\tB\x04\n\x02id\"\"\n\x07\x44ialogs\x12\x17\n\x06\x64ialog\x18\x01 \x03(\x0b\x32\x07.Dialog\"4\n\x04Send\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x0e\n\x06\x65ntity\x18\x02 \x01(\x03\x12\x0f\n\x07message\x18\x03 \x01(\t\"\x1f\n\rStatusMessage\x12\x0e\n\x06status\x18\x01 \x01(\t\"\x16\n\x05\x43hunk\x12\r\n\x05\x63hunk\x18\x01 \x01(\x0c\"L\n\rDialogRequest\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x13\n\tdialog_id\x18\x02 \x01(\x03H\x00\x12\x13\n\tthread_id\x18\x03 \x01(\tH\x00\x42\x04\n\x02id\"8\n\x07Message\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0e\n\x06sender\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x03 \x01(\x03\"%\n\x08Messages\x12\x19\n\x07message\x18\x01 \x03(\x0b\x32\x08.Messageb\x06proto3'
+  serialized_pb=b'\n\x0c\x63ommon.proto\"\x1c\n\x0c\x41uthResponse\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x14\n\x04Text\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x13\n\x04User\x12\x0b\n\x03uid\x18\x01 \x01(\t\"\x8f\x01\n\x06\x44ialog\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\tthread_id\x18\x02 \x01(\tH\x00\x12\x13\n\tdialog_id\x18\x03 \x01(\x03H\x00\x12\x0c\n\x04\x64\x61te\x18\x04 \x01(\x03\x12\x0f\n\x07message\x18\x05 \x01(\t\x12\x14\n\x0cunread_count\x18\x06 \x01(\x05\x12\x12\n\navatar_url\x18\x07 \x01(\tB\x04\n\x02id\"\"\n\x07\x44ialogs\x12\x17\n\x06\x64ialog\x18\x01 \x03(\x0b\x32\x07.Dialog\"e\n\x04Send\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x13\n\tdialog_id\x18\x02 \x01(\x03H\x00\x12\x13\n\tthread_id\x18\x03 \x01(\tH\x00\x12\x0f\n\x07message\x18\x04 \x01(\t\x12\x0f\n\x07subject\x18\x05 \x01(\tB\x04\n\x02id\"\x1f\n\rStatusMessage\x12\x0e\n\x06status\x18\x01 \x01(\t\"\x16\n\x05\x43hunk\x12\r\n\x05\x63hunk\x18\x01 \x01(\x0c\"L\n\rDialogRequest\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x13\n\tdialog_id\x18\x02 \x01(\x03H\x00\x12\x13\n\tthread_id\x18\x03 \x01(\tH\x00\x42\x04\n\x02id\"\'\n\nAttachment\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x0b\n\x03url\x18\x02 \x01(\t\"Y\n\x07Message\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0e\n\x06sender\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x03 \x01(\x03\x12\x1f\n\nattachment\x18\x04 \x01(\x0b\x32\x0b.Attachment\"%\n\x08Messages\x12\x19\n\x07message\x18\x01 \x03(\x0b\x32\x08.Messageb\x06proto3'
 )
 
 
@@ -248,15 +248,29 @@ _SEND = _descriptor.Descriptor(
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='entity', full_name='Send.entity', index=1,
+      name='dialog_id', full_name='Send.dialog_id', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='message', full_name='Send.message', index=2,
+      name='thread_id', full_name='Send.thread_id', index=2,
       number=3, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='message', full_name='Send.message', index=3,
+      number=4, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='subject', full_name='Send.subject', index=4,
+      number=5, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -272,9 +286,14 @@ _SEND = _descriptor.Descriptor(
   syntax='proto3',
   extension_ranges=[],
   oneofs=[
+    _descriptor.OneofDescriptor(
+      name='id', full_name='Send.id',
+      index=0, containing_type=None,
+      create_key=_descriptor._internal_create_key,
+    fields=[]),
   ],
   serialized_start=271,
-  serialized_end=323,
+  serialized_end=372,
 )
 
 
@@ -305,8 +324,8 @@ _STATUSMESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=325,
-  serialized_end=356,
+  serialized_start=374,
+  serialized_end=405,
 )
 
 
@@ -337,8 +356,8 @@ _CHUNK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=358,
-  serialized_end=380,
+  serialized_start=407,
+  serialized_end=429,
 )
 
 
@@ -388,8 +407,47 @@ _DIALOGREQUEST = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=382,
-  serialized_end=458,
+  serialized_start=431,
+  serialized_end=507,
+)
+
+
+_ATTACHMENT = _descriptor.Descriptor(
+  name='Attachment',
+  full_name='Attachment',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='type', full_name='Attachment.type', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='url', full_name='Attachment.url', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=509,
+  serialized_end=548,
 )
 
 
@@ -422,6 +480,13 @@ _MESSAGE = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='attachment', full_name='Message.attachment', index=3,
+      number=4, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -434,8 +499,8 @@ _MESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=460,
-  serialized_end=516,
+  serialized_start=550,
+  serialized_end=639,
 )
 
 
@@ -466,8 +531,8 @@ _MESSAGES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=518,
-  serialized_end=555,
+  serialized_start=641,
+  serialized_end=678,
 )
 
 _DIALOG.oneofs_by_name['id'].fields.append(
@@ -477,12 +542,19 @@ _DIALOG.oneofs_by_name['id'].fields.append(
   _DIALOG.fields_by_name['dialog_id'])
 _DIALOG.fields_by_name['dialog_id'].containing_oneof = _DIALOG.oneofs_by_name['id']
 _DIALOGS.fields_by_name['dialog'].message_type = _DIALOG
+_SEND.oneofs_by_name['id'].fields.append(
+  _SEND.fields_by_name['dialog_id'])
+_SEND.fields_by_name['dialog_id'].containing_oneof = _SEND.oneofs_by_name['id']
+_SEND.oneofs_by_name['id'].fields.append(
+  _SEND.fields_by_name['thread_id'])
+_SEND.fields_by_name['thread_id'].containing_oneof = _SEND.oneofs_by_name['id']
 _DIALOGREQUEST.oneofs_by_name['id'].fields.append(
   _DIALOGREQUEST.fields_by_name['dialog_id'])
 _DIALOGREQUEST.fields_by_name['dialog_id'].containing_oneof = _DIALOGREQUEST.oneofs_by_name['id']
 _DIALOGREQUEST.oneofs_by_name['id'].fields.append(
   _DIALOGREQUEST.fields_by_name['thread_id'])
 _DIALOGREQUEST.fields_by_name['thread_id'].containing_oneof = _DIALOGREQUEST.oneofs_by_name['id']
+_MESSAGE.fields_by_name['attachment'].message_type = _ATTACHMENT
 _MESSAGES.fields_by_name['message'].message_type = _MESSAGE
 DESCRIPTOR.message_types_by_name['AuthResponse'] = _AUTHRESPONSE
 DESCRIPTOR.message_types_by_name['Text'] = _TEXT
@@ -493,6 +565,7 @@ DESCRIPTOR.message_types_by_name['Send'] = _SEND
 DESCRIPTOR.message_types_by_name['StatusMessage'] = _STATUSMESSAGE
 DESCRIPTOR.message_types_by_name['Chunk'] = _CHUNK
 DESCRIPTOR.message_types_by_name['DialogRequest'] = _DIALOGREQUEST
+DESCRIPTOR.message_types_by_name['Attachment'] = _ATTACHMENT
 DESCRIPTOR.message_types_by_name['Message'] = _MESSAGE
 DESCRIPTOR.message_types_by_name['Messages'] = _MESSAGES
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
@@ -559,6 +632,13 @@ DialogRequest = _reflection.GeneratedProtocolMessageType('DialogRequest', (_mess
   # @@protoc_insertion_point(class_scope:DialogRequest)
   })
 _sym_db.RegisterMessage(DialogRequest)
+
+Attachment = _reflection.GeneratedProtocolMessageType('Attachment', (_message.Message,), {
+  'DESCRIPTOR' : _ATTACHMENT,
+  '__module__' : 'common_pb2'
+  # @@protoc_insertion_point(class_scope:Attachment)
+  })
+_sym_db.RegisterMessage(Attachment)
 
 Message = _reflection.GeneratedProtocolMessageType('Message', (_message.Message,), {
   'DESCRIPTOR' : _MESSAGE,

@@ -36,11 +36,13 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
 
         for temp_dialog in temp_dialogs:
             dialog_id = client.get_peer_id(temp_dialog)
-            if client.download_profile_photo(dialog_id, 'avatars/' + str(dialog_id) + '.jpg') == None:
-                avatar_url = ''
+            if not os.path.exists('avatars/' + str(dialog_id) + '.jpg'):
+                if client.download_profile_photo(dialog_id, 'avatars/' + str(dialog_id) + '.jpg') == None:
+                    avatar_url = ''
+                else:
+                    avatar_url = 'http://84.252.137.106/avatars/' + str(dialog_id) + '.jpg'
             else:
                 avatar_url = 'http://84.252.137.106/avatars/' + str(dialog_id) + '.jpg'
-
             dialogs.append(common_pb2.Dialog(name=temp_dialog.name, dialog_id=dialog_id,
                                      date=int(temp_dialog.date.timestamp()),
                                      message=temp_dialog.message.message, unread_count=temp_dialog.unread_count,
@@ -64,23 +66,30 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         for temp_message in temp_messages:
             file_type = ''
             file_url = ''
-
-            if temp_message is not None:
+            if temp_message.media is not None:
                 if str(type(temp_message.media)) == "<class 'telethon.tl.types.MessageMediaPhoto'>":
                     file_type = 'photo'
                     if not os.path.exists('/var/www/html/photos/' + str(temp_message.media.photo.id) + '.jpg'):
                         client.download_media(temp_message, '/var/www/html/photos/' + str(temp_message.media.photo.id) + '.jpg')
                     file_url = 'http://84.252.137.106/photos/' + str(temp_message.media.photo.id) + '.jpg'
                 elif str(type(temp_message.media)) == "<class 'telethon.tl.types.MessageMediaDocument'>":
-                    file_type = 'file'
-                    temp_file_type_mas = temp_message.media.document.attributes[0].file_name.split(".")
-                    temp_file_type_mas.reverse()
-                    temp_file_type = '.' + temp_file_type_mas[0]
-                    if not os.path.exists('/var/www/html/files/' + str(temp_message.media.document.id) + temp_file_type):
-                        client.download_media(temp_message,
-                                              '/var/www/html/files/' + str(temp_message.media.document.id) + temp_file_type)
-                    file_url = 'http://84.252.137.106/files/' + str(temp_message.media.document.id) + temp_file_type
+                    temp_mime_type = temp_message.media.document.mime_type.split("/")
+                    if (temp_mime_type[0] == 'image' or temp_mime_type[0] == 'text' or temp_mime_type[0] == 'application') and temp_mime_type[1] != 'webp' and temp_mime_type[1] != 'x-tgsticker':
+                        file_type = 'file'
+
+                        if temp_mime_type[0] == 'image':
+                            temp_file_type_mas = temp_message.media.document.attributes[1].file_name.split(".")
+                        else:
+                            temp_file_type_mas = temp_message.media.document.attributes[0].file_name.split(".")
+
+                        temp_file_type_mas.reverse()
+                        temp_file_type = '.' + temp_file_type_mas[0]
+                        if not os.path.exists('/var/www/html/files/' + str(temp_message.media.document.id) + temp_file_type):
+                            client.download_media(temp_message,
+                                                  '/var/www/html/files/' + str(temp_message.media.document.id) + temp_file_type)
+                        file_url = 'http://84.252.137.106/files/' + str(temp_message.media.document.id) + temp_file_type
             attachment = common_pb2.Attachment(type=file_type, url=file_url)
+
             if str(type(client.get_entity(request.dialog_id))) != "<class 'telethon.tl.types.Channel'>":
                 if temp_message.out == True:
                     sender = 'me'

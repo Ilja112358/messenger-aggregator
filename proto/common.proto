@@ -30,8 +30,12 @@ message Dialogs {
 
 message Send {
   string uid = 1;
-  int64 entity = 2;
-  string message = 3;
+  oneof id {
+    int64 dialog_id = 2;
+    string thread_id = 3;
+  }
+  string message = 4;
+  string subject = 5;
 }
 
 message StatusMessage {
