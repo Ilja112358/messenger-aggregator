@@ -46,7 +46,7 @@ class DialogsRecyclerAdapter(private val dialogs: List<Dialog>, var onItemClick:
         holder.dialogAvatarView?.setImageResource(R.drawable.telegram)
         holder.dialogTitleView?.text = dialogs[position].name
         holder.dialogLastMessageView?.text = dialogs[position].lastMessage
-        holder.dialogLastTimeView?.text = dialogs[position].date
+        holder.dialogLastTimeView?.text = dialogs[position].date.toString()
         if (dialogs[position].unread_count > 0)
             holder.dialogBack?.setBackgroundColor(Color.parseColor("#2f2f2f"))
         else
