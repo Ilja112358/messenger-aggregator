@@ -79,8 +79,9 @@ class MessagesListFragment(val apiType: String) : Fragment() {
             adapter = DialogsRecyclerAdapter(dialogsList) {
                 val intent = Intent(activity?.baseContext, ChatActivity::class.java)
                 intent.putExtra("chatName", dialogsList[it].name)
-                intent.putExtra("dialogId", dialogsList[it].dialog_id.toString())
+                intent.putExtra("dialogId", dialogsList[it].dialog_id)
                 intent.putExtra("api", apiType)
+                intent.putExtra("avatarUrl", dialogsList[it].avaUrl)
                 if (dialogsList[it].unread_count > 0) {
                     API.api[apiType]!!.sendMarkRead("test", dialogsList[it].dialog_id)
                 }

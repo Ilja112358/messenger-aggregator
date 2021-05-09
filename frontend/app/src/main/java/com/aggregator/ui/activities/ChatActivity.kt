@@ -18,6 +18,8 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.aggregator.api.API
 import com.aggregator.ui.fragments.TUID
+import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
 //
 
@@ -30,6 +32,7 @@ class ChatActivity : AppCompatActivity() {
     private var mMessageArea: EditText? = null
     private var mScrollView: ScrollView? = null
     private var dialogId: String? = null
+    private var navDialogAvatarView: CircleImageView? = null
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -165,6 +168,13 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun initializeViews() {
+        val avatarUrl: String = intent.getStringExtra("avatarUrl")!!
+        navDialogAvatarView = findViewById(R.id.navDialogAvatar)
+        if (avatarUrl.length > 0) {
+            Picasso.with(this).load(avatarUrl)
+                .placeholder(R.drawable.telegram)
+                .into(navDialogAvatarView)
+        }
         mLinearLayout = findViewById(R.id.layout1)
         mSendButton = findViewById(R.id.sendButton)
         mMessageArea = findViewById(R.id.messageArea)
