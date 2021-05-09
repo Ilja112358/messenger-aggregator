@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0c\x63ommon.proto\"\x1c\n\x0c\x41uthResponse\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x14\n\x04Text\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x13\n\x04User\x12\x0b\n\x03uid\x18\x01 \x01(\t\"\x8f\x01\n\x06\x44ialog\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\tthread_id\x18\x02 \x01(\tH\x00\x12\x13\n\tdialog_id\x18\x03 \x01(\x03H\x00\x12\x0c\n\x04\x64\x61te\x18\x04 \x01(\x03\x12\x0f\n\x07message\x18\x05 \x01(\t\x12\x14\n\x0cunread_count\x18\x06 \x01(\x05\x12\x12\n\navatar_url\x18\x07 \x01(\tB\x04\n\x02id\"\"\n\x07\x44ialogs\x12\x17\n\x06\x64ialog\x18\x01 \x03(\x0b\x32\x07.Dialog\"T\n\x04Send\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x13\n\tdialog_id\x18\x02 \x01(\x03H\x00\x12\x13\n\tthread_id\x18\x03 \x01(\tH\x00\x12\x0f\n\x07message\x18\x04 \x01(\tB\x04\n\x02id\"\x1f\n\rStatusMessage\x12\x0e\n\x06status\x18\x01 \x01(\t\"\x16\n\x05\x43hunk\x12\r\n\x05\x63hunk\x18\x01 \x01(\x0c\"L\n\rDialogRequest\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x13\n\tdialog_id\x18\x02 \x01(\x03H\x00\x12\x13\n\tthread_id\x18\x03 \x01(\tH\x00\x42\x04\n\x02id\"\'\n\nAttachment\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x0b\n\x03url\x18\x02 \x01(\t\"Y\n\x07Message\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0e\n\x06sender\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x03 \x01(\x03\x12\x1f\n\nattachment\x18\x04 \x01(\x0b\x32\x0b.Attachment\"%\n\x08Messages\x12\x19\n\x07message\x18\x01 \x03(\x0b\x32\x08.Messageb\x06proto3'
+  serialized_pb=b'\n\x0c\x63ommon.proto\"\x1c\n\x0c\x41uthResponse\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x14\n\x04Text\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x13\n\x04User\x12\x0b\n\x03uid\x18\x01 \x01(\t\"\x8f\x01\n\x06\x44ialog\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\tthread_id\x18\x02 \x01(\tH\x00\x12\x13\n\tdialog_id\x18\x03 \x01(\x03H\x00\x12\x0c\n\x04\x64\x61te\x18\x04 \x01(\x03\x12\x0f\n\x07message\x18\x05 \x01(\t\x12\x14\n\x0cunread_count\x18\x06 \x01(\x05\x12\x12\n\navatar_url\x18\x07 \x01(\tB\x04\n\x02id\"\"\n\x07\x44ialogs\x12\x17\n\x06\x64ialog\x18\x01 \x03(\x0b\x32\x07.Dialog\"e\n\x04Send\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x13\n\tdialog_id\x18\x02 \x01(\x03H\x00\x12\x13\n\tthread_id\x18\x03 \x01(\tH\x00\x12\x0f\n\x07message\x18\x04 \x01(\t\x12\x0f\n\x07subject\x18\x05 \x01(\tB\x04\n\x02id\"\x1f\n\rStatusMessage\x12\x0e\n\x06status\x18\x01 \x01(\t\"\x16\n\x05\x43hunk\x12\r\n\x05\x63hunk\x18\x01 \x01(\x0c\"L\n\rDialogRequest\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x13\n\tdialog_id\x18\x02 \x01(\x03H\x00\x12\x13\n\tthread_id\x18\x03 \x01(\tH\x00\x42\x04\n\x02id\"\'\n\nAttachment\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x0b\n\x03url\x18\x02 \x01(\t\"Y\n\x07Message\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0e\n\x06sender\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x03 \x01(\x03\x12\x1f\n\nattachment\x18\x04 \x01(\x0b\x32\x0b.Attachment\"%\n\x08Messages\x12\x19\n\x07message\x18\x01 \x03(\x0b\x32\x08.Messageb\x06proto3'
 )
 
 
@@ -268,6 +268,13 @@ _SEND = _descriptor.Descriptor(
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+    _descriptor.FieldDescriptor(
+      name='subject', full_name='Send.subject', index=4,
+      number=5, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
   ],
   extensions=[
   ],
@@ -286,7 +293,7 @@ _SEND = _descriptor.Descriptor(
     fields=[]),
   ],
   serialized_start=271,
-  serialized_end=355,
+  serialized_end=372,
 )
 
 
@@ -317,8 +324,8 @@ _STATUSMESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=357,
-  serialized_end=388,
+  serialized_start=374,
+  serialized_end=405,
 )
 
 
@@ -349,8 +356,8 @@ _CHUNK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=390,
-  serialized_end=412,
+  serialized_start=407,
+  serialized_end=429,
 )
 
 
@@ -400,8 +407,8 @@ _DIALOGREQUEST = _descriptor.Descriptor(
       create_key=_descriptor._internal_create_key,
     fields=[]),
   ],
-  serialized_start=414,
-  serialized_end=490,
+  serialized_start=431,
+  serialized_end=507,
 )
 
 
@@ -439,8 +446,8 @@ _ATTACHMENT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=492,
-  serialized_end=531,
+  serialized_start=509,
+  serialized_end=548,
 )
 
 
@@ -492,8 +499,8 @@ _MESSAGE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=533,
-  serialized_end=622,
+  serialized_start=550,
+  serialized_end=639,
 )
 
 
@@ -524,8 +531,8 @@ _MESSAGES = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=624,
-  serialized_end=661,
+  serialized_start=641,
+  serialized_end=678,
 )
 
 _DIALOG.oneofs_by_name['id'].fields.append(

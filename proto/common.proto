@@ -35,6 +35,7 @@ message Send {
     string thread_id = 3;
   }
   string message = 4;
+  string subject = 5;
 }
 
 message StatusMessage {

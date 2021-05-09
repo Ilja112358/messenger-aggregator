@@ -62,6 +62,8 @@ class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
         creds = Credentials.from_authorized_user_file('api/gmail_credentials/' + request.uid + '_token.json', SCOPES)
         service = build('gmail', 'v1', credentials=creds)
 
+        me_email = service.users().getProfile(userId='me').execute().get('emailAddress')
+
         thread = service.users().threads().get(userId='me', id=request.thread_id).execute().get('messages', [])
         messages = []
         for message in thread:
@@ -70,7 +72,7 @@ class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
             name = ''
             for header in message.get('payload').get('headers'):
                 if header.get('name') == 'From':
-                    name = header.get('value')
+                    name = 'me' if me_email in header.get('value') else header.get('value')
             messages.append(common_pb2.Message(message=snippet, date=date, sender=name))
         print(messages)
         response = common_pb2.Messages(message=messages)
@@ -81,7 +83,7 @@ class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
         service = build('gmail', 'v1', credentials=creds)
 
         to = 'Sasha Orlov <sasaorlov20123478@gmail.com>'
-        smtp = 'To: ' + to + '\n\n' + request.message
+        smtp = 'To: ' + to + '\nSubject: ' + request.subject + '\n\n' + request.message
         raw = base64.b64encode(bytes(smtp, encoding='utf8')).decode('utf-8')
         service.users().messages().send(userId='me', body={'raw': raw, 'threadId': request.thread_id}).execute()
         return common_pb2.StatusMessage(status='OK AND')
