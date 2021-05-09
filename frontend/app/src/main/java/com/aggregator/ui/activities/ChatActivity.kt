@@ -329,7 +329,7 @@ class ChatActivity : AppCompatActivity() {
         fun getMessages() {
             viewModelScope.launch {
                 dialogId?.let {
-                    withContext(Dispatchers.IO) { API.api[apiType!!]!!.getMessages(TUID, it).reversed() }.forEach {
+                    withContext(Dispatchers.IO) { API.api[apiType!!]!!.getMessages(TUID, it).sortedBy { it.unixTs } }.forEach {
                         var messageType = FRIEND_MESSAGE
                         if (it.isUserMessage) {
                             messageType = USER_MESSAGE
