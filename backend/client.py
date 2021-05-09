@@ -4,7 +4,7 @@ from api.protobufs import common_pb2
 from api.protobufs import tg_pb2_grpc
 from api.protobufs import gmail_pb2_grpc
 
-test_number = 6
+test_number = 8
 
 channel = grpc.insecure_channel('localhost:6066')
 tg_stub = tg_pb2_grpc.TgApiStub(channel)
@@ -26,7 +26,7 @@ elif test_number == 3:
     request = common_pb2.DialogRequest(uid='test', dialog_id=-595779751)
     response = tg_stub.mark_read(request)
 elif test_number == 4:
-    request = common_pb2.DialogRequest(uid='test', dialog_id=-1001173526090)
+    request = common_pb2.DialogRequest(uid='test', dialog_id=405376789)
     response = tg_stub.get_messages(request)
 elif test_number == 5:
     request = common_pb2.User(uid='test')
@@ -37,6 +37,9 @@ elif test_number == 6:
 elif test_number == 7:
     request = common_pb2.DialogRequest(uid='test', thread_id='1794cd87dca5fff6')
     response = gmail_stub.get_messages(request)
+elif test_number == 8:
+    request = common_pb2.Send(uid='test', thread_id='1794cd87dca5fff6', message='Test')
+    response = gmail_stub.send_message(request)
 
 print(response)
 
