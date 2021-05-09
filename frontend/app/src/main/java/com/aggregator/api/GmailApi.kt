@@ -64,7 +64,7 @@ class GmailApi : Api {
     override fun getMessages(uid: String, dialogId: String): List<Message> {
         val request = Common.DialogRequest.newBuilder().setUid(uid).setThreadId(dialogId).build()
         val response = stub.getMessages(request)
-        return response.messageList.stream().map { d -> Message(d.sender, d.message, getTime(d.date), d.sender == "me", d.date, d.attachment.type, d.attachment.url) }.filter { it.text.length > 0 }.collect(Collectors.toList())
+        return response.messageList.stream().map { d -> Message(d.sender, d.message, getTime(d.date), d.sender == "me", d.date, d.attachment.type, d.attachment.url) }.filter { it.attachementType.length >0 || it.text.length > 0 }.collect(Collectors.toList())
 
     }
 
