@@ -25,6 +25,9 @@
         <activity
             android:name="com.aggregator.ui.activities.ChatActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.aggregator.ui.activities.ImageViewActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

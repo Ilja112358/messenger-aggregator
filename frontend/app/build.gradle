@@ -71,6 +71,8 @@ dependencies {
     implementation 'io.grpc:grpc-okhttp:1.37.0'
     implementation 'io.grpc:grpc-protobuf-lite:1.37.0'
     implementation 'io.grpc:grpc-stub:1.37.0'
+    implementation 'com.commit451:PhotoView:1.2.4'
+    
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.code.gson:gson:2.8.6'
     //noinspection GradleCompatible

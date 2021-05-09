@@ -90,6 +90,7 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
+
         //addImageMessageBox(null, "20:20", "http://84.252.137.106/avatars/-1001103359717.jpg", FRIEND_MESSAGE)
         //addImageMessageBox(null, "20:21", "http://84.252.137.106/photos/5240047619848385219.jpg", FRIEND_MESSAGE)
         //addImageMessageBox(null, "20:21", "http://84.252.137.106/files/0a4dcb92fa2d3c601b58d72720d6bec4.jpg", FRIEND_MESSAGE)
@@ -120,6 +121,12 @@ class ChatActivity : AppCompatActivity() {
             val messageSubmitterView = textMessageView.findViewById<TextView>(R.id.userName)
             val messageImageContentView = textMessageView.findViewById<ImageView>(R.id.messageImageContent)
             val messageTimestampView = textMessageView.findViewById<TextView>(R.id.messageBoxTimestamp)
+
+            messageImageContentView.setOnClickListener {
+                val myIntent = Intent(this, ImageViewActivity::class.java)
+                myIntent.putExtra("url", imageUrl)
+                startActivity(myIntent)
+            }
 
             messageSubmitterView.text = userName
             messageSubmitterView.setTypeface(null, Typeface.BOLD);
@@ -162,6 +169,11 @@ class ChatActivity : AppCompatActivity() {
             val textMessageView = inflater.inflate(R.layout.image_message_box_dialog, mLinearLayout, false)
             val messageImageContentView = textMessageView.findViewById<ImageView>(R.id.messageImageContent)
             val messageTimestampView = textMessageView.findViewById<TextView>(R.id.messageBoxTimestamp)
+
+
+            messageImageContentView.setOnClickListener {
+
+            }
 
             messageTimestampView.text = timestamp
 
@@ -361,10 +373,11 @@ class ChatActivity : AppCompatActivity() {
 
                 val progressBar = findViewById<ProgressBar>(R.id.progress)
                 progressBar.visibility = View.INVISIBLE
+
+
             }
         }
     }
-
     /**
      * Background Async Task to download file
      */
