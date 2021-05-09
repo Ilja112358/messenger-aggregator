@@ -7,6 +7,7 @@ from google.oauth2.credentials import Credentials
 from api.protobufs import gmail_pb2_grpc, gmail_pb2
 from api.protobufs import common_pb2
 import redis
+import base64
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://mail.google.com/']
@@ -76,4 +77,12 @@ class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
         return response
 
     def send_message(self, request, context):
-        pass
+        creds = Credentials.from_authorized_user_file('api/gmail_credentials/' + request.uid + '_token.json', SCOPES)
+        service = build('gmail', 'v1', credentials=creds)
+
+        to = 'Sasha Orlov <sasaorlov20123478@gmail.com>'
+        smtp = 'To: ' + to + '\n\n' + request.message
+        raw = base64.b64encode(bytes(smtp, encoding='utf8')).decode('utf-8')
+        service.users().messages().send(userId='me', body={'raw': raw, 'threadId': request.thread_id}).execute()
+        return common_pb2.StatusMessage(status='OK AND')
+
