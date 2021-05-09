@@ -10,6 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.aggregator.models.Dialog
 import com.aggregator.ui.activities.R
+import com.squareup.picasso.Picasso
 
 
 class DialogsRecyclerAdapter(private val dialogs: List<Dialog>, var onItemClick: ((Int) -> Unit)?) :
@@ -44,7 +45,13 @@ class DialogsRecyclerAdapter(private val dialogs: List<Dialog>, var onItemClick:
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         //val image = BitmapFactory.decodeStream(URL("https://images.app.goo.gl/WPM37NyC6fDXR7rf7").openConnection().getInputStream())
         //val uri = Uri.parse("https://images.app.goo.gl/WPM37NyC6fDXR7rf7")
-        holder.dialogAvatarView?.setImageResource(R.drawable.telegram)
+        if (dialogs[position].avaUrl.length > 0) {
+            Picasso.with(holder.dialogAvatarView?.context).load(dialogs[position].avaUrl)
+                .placeholder(R.drawable.telegram)
+                .into(holder.dialogAvatarView)
+        }
+
+        //holder.dialogAvatarView?.setImageResource(R.drawable.telegram)
         holder.dialogTitleView?.text = dialogs[position].name
         holder.dialogLastMessageView?.text = dialogs[position].lastMessage
         holder.dialogLastTimeView?.text = dialogs[position].date.toString()
