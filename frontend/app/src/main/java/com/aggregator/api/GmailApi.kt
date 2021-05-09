@@ -1,13 +1,10 @@
-package com.example.catchat
+package com.aggregator.api
 
 
 import Common
 import GmailApiGrpc
-import android.os.Build
-import androidx.annotation.RequiresApi
-import com.example.models.Dialog
-import com.example.models.Message
-import com.example.myapplication.ui.home.Api
+import com.aggregator.models.Dialog
+import com.aggregator.models.Message
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
 import kotlinx.coroutines.Dispatchers

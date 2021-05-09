@@ -1,6 +1,5 @@
-package com.example.catchat
+package com.aggregator.ui.fragments
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Build
@@ -9,16 +8,17 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.models.Dialog
+import com.aggregator.api.API
+import com.aggregator.ui.adapters.DialogsRecyclerAdapter
+import com.aggregator.models.Dialog
+import com.aggregator.ui.activities.ChatActivity
+import com.aggregator.ui.activities.R
 import kotlinx.android.synthetic.main.fragment_gmail.*
 import java.util.*
 
@@ -76,7 +76,7 @@ class MessagesListFragment(val apiType: String) : Fragment() {
             layoutManager = LinearLayoutManager(activity)
             // set the custom adapter to the RecyclerView
             adapter = DialogsRecyclerAdapter(dialogsList) {
-                val intent = Intent(activity?.baseContext, Chat::class.java)
+                val intent = Intent(activity?.baseContext, ChatActivity::class.java)
                 intent.putExtra("chatName", dialogsList[it].name)
                 intent.putExtra("dialogId", dialogsList[it].dialog_id.toString())
                 intent.putExtra("api", apiType)

@@ -1,4 +1,4 @@
-package com.example.catchat
+package com.aggregator.ui.activities
 
 
 import android.content.Intent
@@ -14,13 +14,15 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.aggregator.api.API
+import com.aggregator.ui.fragments.TUID
 import java.util.*
 
 
 /**
  * A class that represents chat dialog between two users in the application
  */
-class Chat : AppCompatActivity() {
+class ChatActivity : AppCompatActivity() {
     private var mLinearLayout: LinearLayout? = null
     private var mSendButton: ImageView? = null
     private var mMessageArea: EditText? = null
@@ -86,7 +88,7 @@ class Chat : AppCompatActivity() {
     }
 
     private fun addMessageBox(message: String, type: Int) {
-        val textView = TextView(this@Chat)
+        val textView = TextView(this@ChatActivity)
         textView.text = message
         val layoutParams = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -105,7 +107,7 @@ class Chat : AppCompatActivity() {
         textView.setTextColor(Color.WHITE)
         textView.layoutParams = layoutParams
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18.0f)
-        val divider = View(this@Chat)
+        val divider = View(this@ChatActivity)
         val dividerLayoutParams = LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             16

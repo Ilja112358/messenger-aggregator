@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".TelegramFragment"
+    tools:context="com.aggregator.ui.fragments.TelegramFragment"
     android:background="#ffffff">
 
     <androidx.recyclerview.widget.RecyclerView

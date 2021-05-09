@@ -1,9 +1,8 @@
-package com.example.catchat
+package com.aggregator.ui.fragments
 
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +12,16 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
+import com.aggregator.ui.activities.R
+import com.aggregator.ui.adapters.DialogsRecyclerAdapter
 
-public val TUID = "test"
 
-class TelegramFragment : Fragment() {
-    private val apiType = "telegram"
+class GmailFragment : Fragment() {
+    private val apiType = "gmail"
+    private var layoutManager: RecyclerView.LayoutManager? = null
+    private var adapter: RecyclerView.Adapter<DialogsRecyclerAdapter.MyViewHolder>? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,9 +33,9 @@ class TelegramFragment : Fragment() {
 
         if (sharedPref?.contains(TUID)!!) {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction?.replace(R.id.content_frame, MessagesListFragment("telegram"))
+            transaction?.replace(R.id.content_frame, MessagesListFragment("gmail"))
             transaction?.commit()
-                
+
             return inflater.inflate(R.layout.fragment_messages_list, container, false)
         } else {
             val view = inflater.inflate(R.layout.fragment_telegram, container, false)
@@ -41,7 +45,7 @@ class TelegramFragment : Fragment() {
             submitButton?.setOnClickListener {
                 val phoneText = phoneField?.text ?: ""
                 println(phoneText)
-                val codeHash = "hehehe" //API.api[apiType]!!.sendPhone(TUID, phoneText.toString())
+                val codeHash = "hehehe"//API.api[apiType]!!.sendPhone(TUID, phoneText.toString())
                 println(codeHash)
 
                 if (sharedPref?.contains(TUID)!!) {
@@ -66,6 +70,7 @@ class TelegramFragment : Fragment() {
                     val transaction = activity?.supportFragmentManager?.beginTransaction()
                     transaction?.replace(R.id.content_frame, MessagesListFragment(apiType))
                     transaction?.commit()
+                    //TODO : swap
                 }
 
                 alertBuilder.setNegativeButton("Cancel") { dialogInterface: DialogInterface, i: Int -> }

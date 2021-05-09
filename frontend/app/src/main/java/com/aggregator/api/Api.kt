@@ -1,8 +1,8 @@
-package com.example.myapplication.ui.home
+package com.aggregator.api
 
 
-import com.example.models.Dialog
-import com.example.models.Message
+import com.aggregator.models.Dialog
+import com.aggregator.models.Message
 
 interface Api {
     fun sendPhone(uid: String, phone: String): String

@@ -1,4 +1,4 @@
-package com.example.catchat
+package com.aggregator.ui.adapters
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -8,7 +8,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import com.example.models.Dialog
+import com.aggregator.models.Dialog
+import com.aggregator.ui.activities.R
 
 
 class DialogsRecyclerAdapter(private val dialogs: List<Dialog>, var onItemClick: ((Int) -> Unit)?) :

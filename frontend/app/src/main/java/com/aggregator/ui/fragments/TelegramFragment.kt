@@ -1,4 +1,4 @@
-package com.example.catchat
+package com.aggregator.ui.fragments
 
 import android.content.Context
 import android.content.DialogInterface
@@ -12,17 +12,12 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_gmail.*
+import com.aggregator.ui.activities.R
 
+val TUID = "test"
 
-class GmailFragment : Fragment() {
-    private val apiType = "gmail"
-    private var layoutManager: RecyclerView.LayoutManager? = null
-    private var adapter: RecyclerView.Adapter<DialogsRecyclerAdapter.MyViewHolder>? = null
-
+class TelegramFragment : Fragment() {
+    private val apiType = "telegram"
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,9 +29,9 @@ class GmailFragment : Fragment() {
 
         if (sharedPref?.contains(TUID)!!) {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction?.replace(R.id.content_frame, MessagesListFragment("gmail"))
+            transaction?.replace(R.id.content_frame, MessagesListFragment("telegram"))
             transaction?.commit()
-
+                
             return inflater.inflate(R.layout.fragment_messages_list, container, false)
         } else {
             val view = inflater.inflate(R.layout.fragment_telegram, container, false)
@@ -46,7 +41,7 @@ class GmailFragment : Fragment() {
             submitButton?.setOnClickListener {
                 val phoneText = phoneField?.text ?: ""
                 println(phoneText)
-                val codeHash = "hehehe"//API.api[apiType]!!.sendPhone(TUID, phoneText.toString())
+                val codeHash = "hehehe" //API.api[apiType]!!.sendPhone(TUID, phoneText.toString())
                 println(codeHash)
 
                 if (sharedPref?.contains(TUID)!!) {
@@ -71,7 +66,6 @@ class GmailFragment : Fragment() {
                     val transaction = activity?.supportFragmentManager?.beginTransaction()
                     transaction?.replace(R.id.content_frame, MessagesListFragment(apiType))
                     transaction?.commit()
-                    //TODO : swap
                 }
 
                 alertBuilder.setNegativeButton("Cancel") { dialogInterface: DialogInterface, i: Int -> }
