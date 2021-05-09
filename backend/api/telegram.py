@@ -74,7 +74,7 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
                     file_url = 'http://84.252.137.106/photos/' + str(temp_message.media.photo.id) + '.jpg'
                 elif str(type(temp_message.media)) == "<class 'telethon.tl.types.MessageMediaDocument'>":
                     temp_mime_type = temp_message.media.document.mime_type.split("/")
-                    if (temp_mime_type[0] == 'image' or temp_mime_type[0] == 'video' or temp_mime_type[0] == 'text' or temp_mime_type[0] == 'application') and temp_mime_type[1] != 'webp':
+                    if (temp_mime_type[0] == 'image' or temp_mime_type[0] == 'video' or temp_mime_type[0] == 'text' or temp_mime_type[0] == 'application') and temp_mime_type[1] != 'webp' and temp_mime_type[1] != 'x-tgsticker':
                         file_type = 'file'
 
                         if temp_mime_type[0] == 'image':
