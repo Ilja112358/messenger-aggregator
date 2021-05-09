@@ -20,15 +20,15 @@ temp_dialogs = client.get_dialogs()
 filename = "test_image"
 '''if client.download_media(dialogs[0], 'images/testphoto') == None:
     pass'''
-
+print(str(type(client.get_entity(-595779751))))
 i = 0
-for temp_dialog in temp_dialogs:
+'''for temp_dialog in temp_dialogs:
     temp_dialog_id = client.get_peer_id(temp_dialog)
     if client.download_profile_photo(temp_dialog_id, 'avatars/' + str(temp_dialog_id) + '.jpg') == None:
         avatar_url = ''
     else:
         avatar_url = 'http://84.252.137.106:6066/avatars/' + str(temp_dialog_id) + 'jpg'
-    print(avatar_url)
+    print(avatar_url)'''
 '''temp_dialog_id = -595779751
 if os.path.exists('avatars/' + str(temp_dialog_id) + '.jpg'):
    print('exists')
