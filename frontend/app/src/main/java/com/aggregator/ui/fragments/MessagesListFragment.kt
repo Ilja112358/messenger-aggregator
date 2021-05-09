@@ -1,5 +1,6 @@
 package com.aggregator.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Build
@@ -8,9 +9,12 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,19 +24,14 @@ import com.aggregator.models.Dialog
 import com.aggregator.ui.activities.ChatActivity
 import com.aggregator.ui.activities.R
 import kotlinx.android.synthetic.main.fragment_gmail.*
+import kotlinx.coroutines.*
 import java.util.*
 
 class MessagesListFragment(val apiType: String) : Fragment() {
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: RecyclerView.Adapter<DialogsRecyclerAdapter.MyViewHolder>? = null
     private var dialogsList: List<Dialog> = Collections.emptyList()
-    val handler = Handler()
-
-    inner class UpdateTask: AsyncTask<Unit, Unit, Unit>() {
-        override fun doInBackground(vararg params: Unit?) {
-
-        }
-    }
+    private val getter = DialogsGetter()
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(
@@ -41,36 +40,15 @@ class MessagesListFragment(val apiType: String) : Fragment() {
     ): View? {
         val toolbar = activity?.findViewById<Toolbar>(R.id.toolbar)
         toolbar?.title = "Telegram Dialogs"
-
         return inflater.inflate(R.layout.fragment_messages_list, container, false)
     }
 
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
-        setDialogsField()
-        /*handler.post(
-            object : Runnable {
-                override fun run() {
-                    setDialogsField()
-                    handler.postDelayed(this, 3000)
-                }
-            }
-        )*/
-    }
-
-    override fun onDestroy() {
-        //handler.removeCallbacksAndMessages(null)
-        super.onDestroy()
-    }
-
-    private fun fillList(): List<String> {
-        val data = mutableListOf<String>()
-        (0..30).forEach { i -> data.add("\$i element") }
-        return data
+        getter.setDialogs()
     }
 
     private fun setDialogsField() {
-        dialogsList = API.api[apiType]!!.getDialogs(TUID)
         recyclerView.apply {
             // set a LinearLayoutManager to handle Android
             // RecyclerView behavior
@@ -94,6 +72,19 @@ class MessagesListFragment(val apiType: String) : Fragment() {
                 LinearLayoutManager.VERTICAL
             )
             recyclerView.addItemDecoration(dividerItemDecoration)
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    inner class DialogsGetter : ViewModel() {
+        fun setDialogs() {
+            viewModelScope.launch {
+                dialogsList = withContext(Dispatchers.IO) {
+                    API.api[apiType]!!.getDialogs(TUID)
+                }
+                if (activity != null)
+                    setDialogsField()
+            }
         }
     }
 }
