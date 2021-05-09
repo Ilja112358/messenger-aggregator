@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from api.protobufs import tg_pb2_grpc
 from api.protobufs import tg_pb2
 from api.protobufs import common_pb2
+from multiprocessing.pool import ThreadPool
 import asyncio
 
 load_dotenv('.env')
@@ -32,16 +33,21 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         client = TelegramClient('api/tg_sessions/' + request.uid, api_id, api_hash)
         client.connect()
         temp_dialogs = client.get_dialogs()
-        dialogs = []
-        for temp_dialog in temp_dialogs:
+        pool = ThreadPool(64)
+
+        def process_single(temp_dialog):
             dialog_id = client.get_peer_id(temp_dialog)
             if client.download_profile_photo(dialog_id, 'avatars/' + str(dialog_id) + '.jpg') == None:
                 avatar_url = ''
             else:
                 avatar_url = 'http://84.252.137.106/avatars/' + str(dialog_id) + '.jpg'
-            dialog = common_pb2.Dialog(name=temp_dialog.name, dialog_id=dialog_id, date=int(temp_dialog.date.timestamp()),
-                                   message=temp_dialog.message.message, unread_count=temp_dialog.unread_count, avatar_url=avatar_url)
-            dialogs.append(dialog)
+
+            return common_pb2.Dialog(name=temp_dialog.name, dialog_id=dialog_id,
+                                       date=int(temp_dialog.date.timestamp()),
+                                       message=temp_dialog.message.message, unread_count=temp_dialog.unread_count,
+                                       avatar_url=avatar_url)
+
+        dialogs = pool.map(process_single, temp_dialogs)
         response = common_pb2.Dialogs(dialog=dialogs)
         client.disconnect()
         return response
