@@ -53,6 +53,7 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         messages = []
         temp_messages = client.get_messages(request.dialog_id, NUMBER_OF_MESSAGES)
         temp_dialogs = client.get_dialogs()
+        print(request)
         name = ''
         if str(type(client.get_entity(request.dialog_id))) == "<class 'telethon.tl.types.Channel'>":
             sender = client.get_entity(request.dialog_id).title
