@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_gmail.*
 
 
 class GmailFragment : Fragment() {
+    private val apiType = "gmail"
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: RecyclerView.Adapter<DialogsRecyclerAdapter.MyViewHolder>? = null
 
@@ -45,7 +46,7 @@ class GmailFragment : Fragment() {
             submitButton?.setOnClickListener {
                 val phoneText = phoneField?.text ?: ""
                 println(phoneText)
-                val codeHash = "hehehe"//TgApi().sendPhone(TUID, phoneText.toString())
+                val codeHash = "hehehe"//API.api[apiType]!!.sendPhone(TUID, phoneText.toString())
                 println(codeHash)
 
                 if (sharedPref?.contains(TUID)!!) {
@@ -60,7 +61,7 @@ class GmailFragment : Fragment() {
                 alertBuilder.setTitle("Enter code")
                 alertBuilder.setCancelable(true)
                 alertBuilder.setPositiveButton("Send") { dialogInterface: DialogInterface, i: Int ->
-                    //TgApi().sendCode(TUID, phoneText.toString(), codeInputView.text.toString(), codeHash)
+                    //API.api[apiType]!!.sendCode(TUID, phoneText.toString(), codeInputView.text.toString(), codeHash)
                     println("codeSent")
 
                     val unixTime = System.currentTimeMillis() / 1000L
@@ -68,7 +69,7 @@ class GmailFragment : Fragment() {
                     edit?.apply()
 
                     val transaction = activity?.supportFragmentManager?.beginTransaction()
-                    transaction?.replace(R.id.content_frame, MessagesListFragment("gmail"))
+                    transaction?.replace(R.id.content_frame, MessagesListFragment(apiType))
                     transaction?.commit()
                     //TODO : swap
                 }

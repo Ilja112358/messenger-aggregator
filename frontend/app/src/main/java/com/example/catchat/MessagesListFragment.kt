@@ -81,7 +81,7 @@ class MessagesListFragment(val apiType: String) : Fragment() {
                 intent.putExtra("dialogId", dialogsList[it].dialog_id.toString())
                 intent.putExtra("api", apiType)
                 if (dialogsList[it].unread_count > 0) {
-                    TgApi().sendMarkRead("test", dialogsList[it].dialog_id)
+                    API.api[apiType]!!.sendMarkRead("test", dialogsList[it].dialog_id)
                 }
 
                 startActivity(intent)
