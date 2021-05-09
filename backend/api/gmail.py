@@ -49,15 +49,15 @@ class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
         for thread in threads:
             name = r.get(thread.get('id'))
             if name is None:
-                name = service.users().threads().get(userId='me', id=thread.get('id'),
-                                                     format='metadata', metadataHeaders=['Subject']).execute().get(
-                    'messages')[0].get('payload').get('headers')[0].get('value')
+                name = service.users().threads() \
+                    .get(userId='me', id=thread.get('id'), format='metadata', metadataHeaders=['Subject']).execute() \
+                    .get('messages')[0].get('payload').get('headers')[0].get('value')
                 r.set(thread.get('id'), name)
+
             dialog = common_pb2.Dialog(message=thread.get('snippet'), thread_id=thread.get('id'), name=name)
             dialogs.append(dialog)
 
-        response = common_pb2.Dialogs(dialog=dialogs)
-        return response
+        return common_pb2.Dialogs(dialog=dialogs)
 
     @gmail_auth
     def get_messages(self, request, context, service):
@@ -84,6 +84,7 @@ class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
         headers = service.users().threads() \
             .get(userId='me', id=request.thread_id, format='metadata', metadataHeaders=['From', 'To']).execute() \
             .get('messages')[0].get('payload').get('headers')
+
         to = headers[0].get('value') if me_email in headers[1].get('value') else headers[1].get('value')
         smtp = 'To: ' + to + '\nSubject: ' + request.subject + '\n\n' + request.message
         raw = base64.b64encode(bytes(smtp, encoding='utf8')).decode('utf-8')
