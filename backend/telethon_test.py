@@ -1,5 +1,6 @@
 from telethon import TelegramClient, events, sync, functions, utils
 from telethon.tl.types import InputMessagesFilterPhotos
+import os
 from time import sleep
 
 
@@ -12,11 +13,43 @@ code = 1234
 #client.sign_in(phone, code)
 client.start()
 #dialogs = client.get_messages(423865152, 10)
-dialogs = client.get_messages(-1001389304944, 10)
+
+
+dialogs = client.get_messages(-1001173245559, 200)
 temp_dialogs = client.get_dialogs()
+filename = "test_image"
+'''if client.download_media(dialogs[0], 'images/testphoto') == None:
+    pass'''
+
+i = 0
+for temp_dialog in temp_dialogs:
+    temp_dialog_id = client.get_peer_id(temp_dialog)
+    if client.download_profile_photo(temp_dialog_id, 'avatars/' + str(temp_dialog_id) + '.jpg') == None:
+        avatar_url = ''
+    else:
+        avatar_url = 'http://84.252.137.106:6066/avatars/' + str(temp_dialog_id) + 'jpg'
+    print(avatar_url)
+'''temp_dialog_id = -595779751
+if os.path.exists('avatars/' + str(temp_dialog_id) + '.jpg'):
+   print('exists')
+
+if client.download_profile_photo(temp_dialog_id, 'avatars/' + str(temp_dialog_id) + '.jpg') == None:
+    avatar_url = ''
+else:
+    avatar_url = 'http://84.252.137.106:6066/avatars/' + str(temp_dialog_id) + 'jpg'''''
+
+'''for dialog in dialogs:
+    if i < 20:
+        client.download_profile_photo(client.get_entity(dialog.from_id.user_id), 'avatars/')
+        i += 1'''
+
+
+
+
+#print(dialogs)
 '''for dialog in temp_dialogs:
     print(dialog.name + ' ' + str(client.get_peer_id(dialog)))'''
-print(client.get_entity(-1001389304944))
+#print(client.get_entity(-1001389304944))
 #print(type(dialogs))
 #print(client.get_entity(423865152))
 

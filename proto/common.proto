@@ -21,6 +21,7 @@ message Dialog {
   int64 date = 4;
   string message = 5;
   int32 unread_count = 6;
+  string avatar_url = 7;
 }
 
 message Dialogs {
