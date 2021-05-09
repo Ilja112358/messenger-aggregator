@@ -33,6 +33,7 @@ class ChatActivity : AppCompatActivity() {
     private var mScrollView: ScrollView? = null
     private var dialogId: String? = null
     private var navDialogAvatarView: CircleImageView? = null
+    private var navDialogAvatarStub: TextView? = null
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,12 +43,13 @@ class ChatActivity : AppCompatActivity() {
         val intent: Intent = intent
         val apiType: String = intent.getStringExtra("api")!!
         val titleView = findViewById<TextView>(R.id.navBarDialogName)
-        titleView.text = intent.getStringExtra("chatName") ?: "Telegram chat"
+        val chatName = intent.getStringExtra("chatName") ?: "Telegram chat"
+        titleView.text = chatName
         val backView = findViewById<ImageView>(R.id.exitDialog)
         backView.setOnClickListener {
             finish()
         }
-        initializeViews()
+        initializeViews(chatName)
 
         mSendButton?.setOnClickListener {
             val text = mMessageArea?.text ?: ""
@@ -172,13 +174,34 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    private fun initializeViews() {
+    private fun initializeViews(chatName: String) {
         val avatarUrl: String = intent.getStringExtra("avatarUrl")!!
         navDialogAvatarView = findViewById(R.id.navDialogAvatar)
         if (avatarUrl.length > 0) {
             Picasso.with(this).load(avatarUrl)
                 .placeholder(R.drawable.telegram)
                 .into(navDialogAvatarView)
+        } else {
+            val prefix = chatName.take(2).toUpperCase(Locale.ROOT)
+            val rnd = Random()
+            val color = rnd.nextInt(5)
+            if (color == 0) {
+                navDialogAvatarView?.setImageResource(R.drawable.red)
+            } else if (color == 1) {
+                navDialogAvatarView?.setImageResource(R.drawable.green)
+            } else if (color == 2) {
+                navDialogAvatarView?.setImageResource(R.drawable.blue)
+            } else if (color == 3) {
+                navDialogAvatarView?.setImageResource(R.drawable.purple)
+            } else {
+                navDialogAvatarView?.setImageResource(R.drawable.yellow)
+            }
+
+            navDialogAvatarStub = findViewById(R.id.navDialogAvatarStub)
+            navDialogAvatarStub?.text = prefix
+            navDialogAvatarStub?.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18.0f);
+            navDialogAvatarStub?.setTypeface(null, Typeface.BOLD);
+            navDialogAvatarStub?.setTextColor(Color.WHITE)
         }
         mLinearLayout = findViewById(R.id.layout1)
         mSendButton = findViewById(R.id.sendButton)

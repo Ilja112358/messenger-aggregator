@@ -1,6 +1,8 @@
 package com.aggregator.ui.adapters
 
 import android.graphics.Color
+import android.graphics.Typeface
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aggregator.models.Dialog
 import com.aggregator.ui.activities.R
 import com.squareup.picasso.Picasso
+import java.util.*
 
 
 class DialogsRecyclerAdapter(private val dialogs: List<Dialog>, var onItemClick: ((Int) -> Unit)?) :
@@ -22,12 +25,15 @@ class DialogsRecyclerAdapter(private val dialogs: List<Dialog>, var onItemClick:
         var dialogLastMessageView: TextView? = null
         var dialogLastTimeView: TextView? = null
         var dialogBack: ConstraintLayout? = null
+        var dialogPrefix: TextView? = null
+
         init {
             dialogAvatarView = itemView.findViewById(R.id.dialogAvatar)
             dialogTitleView = itemView.findViewById(R.id.dialogName)
             dialogLastMessageView = itemView.findViewById(R.id.dialogLastMessage)
             dialogLastTimeView = itemView.findViewById(R.id.lastMessageTime)
             dialogBack = itemView.findViewById(R.id.dialogBack)
+            dialogPrefix = itemView.findViewById(R.id.dialogPrefix)
 
             itemView.setOnClickListener {
                 onItemClick?.invoke(adapterPosition)
@@ -49,6 +55,26 @@ class DialogsRecyclerAdapter(private val dialogs: List<Dialog>, var onItemClick:
             Picasso.with(holder.dialogAvatarView?.context).load(dialogs[position].avaUrl)
                 .placeholder(R.drawable.telegram)
                 .into(holder.dialogAvatarView)
+        } else {
+            val prefix = dialogs[position].name.take(2).toUpperCase(Locale.ROOT)
+            val rnd = Random()
+            val color = rnd.nextInt(5)
+            if (color == 0) {
+                holder.dialogAvatarView?.setImageResource(R.drawable.red)
+            } else if (color == 1) {
+                holder.dialogAvatarView?.setImageResource(R.drawable.green)
+            } else if (color == 2) {
+                holder.dialogAvatarView?.setImageResource(R.drawable.blue)
+            } else if (color == 3) {
+                holder.dialogAvatarView?.setImageResource(R.drawable.purple)
+            } else {
+                holder.dialogAvatarView?.setImageResource(R.drawable.yellow)
+            }
+
+            holder.dialogPrefix?.text = prefix
+            holder.dialogPrefix?.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18.0f);
+            holder.dialogPrefix?.setTypeface(null, Typeface.BOLD);
+            holder.dialogPrefix?.setTextColor(Color.WHITE)
         }
 
         //holder.dialogAvatarView?.setImageResource(R.drawable.telegram)
