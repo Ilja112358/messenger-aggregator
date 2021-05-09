@@ -4,7 +4,7 @@ from api.protobufs import common_pb2
 from api.protobufs import tg_pb2_grpc
 from api.protobufs import gmail_pb2_grpc
 
-test_number = 8
+test_number = 7
 
 channel = grpc.insecure_channel('84.252.137.106:6066')
 tg_stub = tg_pb2_grpc.TgApiStub(channel)
