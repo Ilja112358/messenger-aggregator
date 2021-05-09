@@ -12,7 +12,6 @@ api_hash = os.getenv('api_hash')
 
 NUMBER_OF_MESSAGES = 200
 
-pool = ThreadPool(64)
 
 class TgApiServicer(tg_pb2_grpc.TgApiServicer):
     def auth(self, request, context):
@@ -36,7 +35,6 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         dialogs = []
         for temp_dialog in temp_dialogs:
             dialog_id = client.get_peer_id(temp_dialog)
-            print(2)
             if client.download_profile_photo(dialog_id, '/var/www/html/avatars/' + str(dialog_id) + '.jpg') == None:
                 avatar_url = ''
             else:
