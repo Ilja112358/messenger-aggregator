@@ -52,7 +52,6 @@ class GmailApi : Api {
         TODO("Not yet implemented")
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun getDialogs(
         uid: String
     ) : List<Dialog> {
@@ -64,6 +63,9 @@ class GmailApi : Api {
     }
 
     override fun getMessages(uid: String, dialogId: Long): List<Message> {
-        TODO("Not yet implemented")
+        val request = Common.DialogRequest.newBuilder().setUid(uid).setDialogId(dialogId).build()
+        val response = stub.getMessages(request)
+        return response.messageList.stream().map { d -> Message("", d.message, d.sender == "me") }.filter { it.text.length > 0 }.collect(Collectors.toList())
+
     }
 }

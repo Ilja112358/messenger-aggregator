@@ -72,28 +72,15 @@ class TgApi : Api {
         println(response.status)
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun getDialogs(
         uid: String
     ) : List<Dialog> {
-
-
-        testGmail(uid)
         val request = Common.User.newBuilder().setUid(uid).build()
         val response = stub.getDialogs(request)
         val parser =  SimpleDateFormat("yyyy-MM-dd HH:mm:ss+00:00")
         return response.dialogList.stream().map { d -> Dialog(d.name, d.message, getShortDate(parser.parse(d.date)), d.unreadCount, d.dialogId) }.collect(Collectors.toList())
     }
 
-    private fun testGmail(
-        uid: String
-    ) {
-        val request = Common.User.newBuilder().setUid(uid).build()
-        val response = stubGmail.getDialogs(request)
-        println(response)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun getMessages(
         uid: String,
         dialogId: Long

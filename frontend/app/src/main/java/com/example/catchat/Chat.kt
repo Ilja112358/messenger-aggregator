@@ -33,6 +33,7 @@ class Chat : AppCompatActivity() {
         setContentView(R.layout.activity_chat)
 
         val intent: Intent = intent
+        val apiType: String = intent.getStringExtra("api")!!
         val titleView = findViewById<TextView>(R.id.navBarDialogName)
         titleView.text = intent.getStringExtra("chatName") ?: "Telegram chat"
         val backView = findViewById<ImageView>(R.id.exitDialog)
@@ -44,7 +45,7 @@ class Chat : AppCompatActivity() {
         mSendButton?.setOnClickListener {
             val text = mMessageArea?.text ?: ""
             if (text.length > 0) {
-                dialogId?.toLong()?.let { it1 -> tgApi.sendTextMessage(TUID, it1, text.toString()) }
+                dialogId?.toLong()?.let { it1 -> API.api[apiType]!!.sendTextMessage(TUID, it1, text.toString()) }
                 addMessageBox(text.toString(), USER_MESSAGE)
 
                 var scrollView = findViewById<ScrollView>(R.id.scrollView)
@@ -57,7 +58,7 @@ class Chat : AppCompatActivity() {
         }
 
         dialogId?.let {
-            tgApi.getMessages(TUID, it.toLong()).reversed().forEach {
+            API.api[apiType]!!.getMessages(TUID, it.toLong()).reversed().forEach {
                 var messageType = FRIEND_MESSAGE
                 if (it.isUserMessage) {
                     messageType = USER_MESSAGE
