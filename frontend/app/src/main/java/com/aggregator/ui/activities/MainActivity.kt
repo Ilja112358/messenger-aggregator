@@ -16,6 +16,8 @@ import com.aggregator.catchat.*
 import com.aggregator.ui.fragments.FacebookFragment
 import com.aggregator.ui.fragments.GmailFragment
 import com.aggregator.ui.fragments.TelegramFragment
+import com.downloader.PRDownloader
+import com.downloader.PRDownloaderConfig
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -63,6 +65,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.setNavigationItemSelectedListener(this)
         navigationView.itemIconTintList = null
 
+        // Initialize PRDownloader with read and connection timeout
+        val config = PRDownloaderConfig.newBuilder()
+            .setReadTimeout(30000)
+            .setConnectTimeout(30000)
+            .build()
+        PRDownloader.initialize(applicationContext, config)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
