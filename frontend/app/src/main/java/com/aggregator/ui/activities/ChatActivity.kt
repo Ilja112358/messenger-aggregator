@@ -93,7 +93,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun addMessageBox(userName: String?, timestamp: String?, message: String, type: Int) {
-        if (userName != null) {
+        if ((userName != null) && (userName != "me") && (userName != "not me")){
             val inflater = LayoutInflater.from(this)
             val textMessageView = inflater.inflate(R.layout.text_message_box, mLinearLayout, false)
             val messageSubmitterView = textMessageView.findViewById<TextView>(R.id.userName)
@@ -134,8 +134,13 @@ class ChatActivity : AppCompatActivity() {
             mLinearLayout!!.addView(textMessageView)
             mScrollView!!.fullScroll(View.FOCUS_DOWN)
         } else {
-            val textView = TextView(this@ChatActivity)
-            textView.text = message
+            val inflater = LayoutInflater.from(this)
+            val textMessageView = inflater.inflate(R.layout.text_message_box_dialog, mLinearLayout, false)
+            val messageContentView = textMessageView.findViewById<TextView>(R.id.messageContent)
+            val messageTimestampView = textMessageView.findViewById<TextView>(R.id.messageBoxTimestamp)
+
+            messageTimestampView.text = timestamp
+            messageContentView.text = message
             val layoutParams = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
@@ -143,16 +148,16 @@ class ChatActivity : AppCompatActivity() {
             layoutParams.weight = 1f
             if (type == USER_MESSAGE) {
                 layoutParams.gravity = Gravity.RIGHT
-                textView.setBackgroundResource(R.drawable.bubble_in_new)
+                textMessageView.setBackgroundResource(R.drawable.bubble_in_new)
             } else {
                 layoutParams.gravity = Gravity.LEFT
-                textView.setBackgroundResource(R.drawable.bubble_out_new)
+                textMessageView.setBackgroundResource(R.drawable.bubble_out_new)
             }
 
-            textView.setPadding(32, 32, 32, 32)
-            textView.setTextColor(Color.WHITE)
-            textView.layoutParams = layoutParams
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18.0f)
+            //textView.setPadding(32, 32, 32, 32)
+            messageContentView.setTextColor(Color.WHITE)
+            textMessageView.layoutParams = layoutParams
+            messageContentView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16.0f)
             val divider = View(this@ChatActivity)
             val dividerLayoutParams = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -162,7 +167,7 @@ class ChatActivity : AppCompatActivity() {
             divider.layoutParams = dividerLayoutParams
             mLinearLayout!!.addView(divider)
 
-            mLinearLayout!!.addView(textView)
+            mLinearLayout!!.addView(textMessageView)
             mScrollView!!.fullScroll(View.FOCUS_DOWN)
         }
     }
