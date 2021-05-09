@@ -55,13 +55,31 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         client.connect()
         messages = []
         temp_messages = client.get_messages(request.dialog_id, NUMBER_OF_MESSAGES)
-        print(request)
         name = ''
         if str(type(client.get_entity(request.dialog_id))) == "<class 'telethon.tl.types.Channel'>":
             sender = client.get_entity(request.dialog_id).title
         if request.dialog_id > 0 and str(type(client.get_entity(request.dialog_id))) != "<class 'telethon.tl.types.Channel'>":
             name = 'not me'
         for temp_message in temp_messages:
+            file_type = ''
+            file_url = ''
+
+            if temp_message is not None:
+                if str(type(temp_message.media)) == "<class 'telethon.tl.types.MessageMediaPhoto'>":
+                    file_type = 'photo'
+                    if not os.path.exists('/var/www/html/photos/' + str(temp_message.media.photo.id) + '.jpg'):
+                        client.download_media(temp_message, '/var/www/html/photos/' + str(temp_message.media.photo.id) + '.jpg')
+                    file_url = 'http://84.252.137.106/photos/' + str(temp_message.media.photo.id) + '.jpg'
+                elif str(type(temp_message.media)) == "<class 'telethon.tl.types.MessageMediaDocument'>":
+                    file_type = 'file'
+                    temp_file_type_mas = temp_message.media.document.attributes[0].file_name.split(".")
+                    temp_file_type_mas.reverse()
+                    temp_file_type = '.' + temp_file_type_mas[0]
+                    if not os.path.exists('/var/www/html/files/' + str(temp_message.media.document.id) + temp_file_type):
+                        client.download_media(temp_message,
+                                              '/var/www/html/files/' + str(temp_message.media.document.id) + temp_file_type)
+                    file_url = 'http://84.252.137.106/files/' + str(temp_message.media.document.id) + temp_file_type
+            attachment = common_pb2.Attachment(type=file_type, url=file_url)
             if str(type(client.get_entity(request.dialog_id))) != "<class 'telethon.tl.types.Channel'>":
                 if temp_message.out == True:
                     sender = 'me'
@@ -70,7 +88,7 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
                         sender = name
                     else:
                         sender = client.get_entity(temp_message.from_id.user_id).first_name + ' ' + client.get_entity(temp_message.from_id.user_id).last_name
-            message = common_pb2.Message(message=temp_message.message, sender=sender, date=int(temp_message.date.timestamp()))
+            message = common_pb2.Message(message=temp_message.message, sender=sender, date=int(temp_message.date.timestamp()), attachment=attachment)
             messages.append(message)
         client.disconnect()
         response = common_pb2.Messages(message=messages)

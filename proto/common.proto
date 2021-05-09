@@ -50,10 +50,16 @@ message DialogRequest {
   }
 }
 
+message Attachment {
+  string type = 1;
+  string url = 2;
+}
+
 message Message {
   string message = 1;
   string sender = 2;
   int64 date = 3;
+  Attachment attachment = 4;
 }
 
 message Messages {
