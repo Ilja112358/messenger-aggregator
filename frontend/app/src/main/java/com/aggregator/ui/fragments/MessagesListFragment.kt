@@ -17,6 +17,7 @@ import com.aggregator.api.*
 import com.aggregator.ui.adapters.DialogsRecyclerAdapter
 import com.aggregator.models.Dialog
 import com.aggregator.store.Callback
+import com.aggregator.store.RespType
 import com.aggregator.store.Response
 import com.aggregator.store.Storage
 import com.aggregator.ui.activities.ChatActivity
@@ -45,7 +46,7 @@ class MessagesListFragment(private val apiType: String) : Fragment(), Callback {
 
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
-        Storage.onLoad(Response(1, apiType))
+        Storage.onLoad(Response(RespType.getDIALOGS, apiType))
     }
 
     private fun setDialogsField() {
@@ -82,4 +83,8 @@ class MessagesListFragment(private val apiType: String) : Fragment(), Callback {
         setDialogsField()
     }
 
+    override fun onDestroy() {
+        Storage.unsubscribe(this)
+        super.onDestroy()
+    }
 }
