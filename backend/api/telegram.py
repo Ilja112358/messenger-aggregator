@@ -113,7 +113,7 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
     def send_message(self, request, context, client):
         response = common_pb2.StatusMessage(status='FAIL')
         if isinstance(request.message, str):
-            client.send_message(request.entity, request.message)
+            client.send_message(request.dialog_id, request.message)
             client.disconnect()
             response = common_pb2.StatusMessage(status='OK')
         return response
