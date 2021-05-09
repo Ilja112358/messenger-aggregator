@@ -75,7 +75,7 @@ class TgApi : Api {
         val request = Common.User.newBuilder().setUid(uid).build()
         val response = stub.getDialogs(request)
         //val parser =  SimpleDateFormat("yyyy-MM-dd HH:mm:ss+00:00")
-        return response.dialogList.stream().map { d -> Dialog(d.name, d.message, getShortDate(Date(d.date * 1000)), d.unreadCount, d.dialogId.toString()) }.collect(Collectors.toList())
+        return response.dialogList.stream().map { d -> Dialog(d.name, d.message, getShortDate(Date(d.date * 1000)), d.unreadCount, d.dialogId.toString(), d.avatarUrl) }.collect(Collectors.toList())
     }
 
     override fun getMessages(
@@ -84,7 +84,15 @@ class TgApi : Api {
     ) : List<Message> {
         val request = Common.DialogRequest.newBuilder().setUid(uid).setDialogId(dialogId.toLong()).build()
         val response = stub.getMessages(request)
-        return response.messageList.stream().map { d -> Message("", d.message, d.sender == "me") }.filter { it.text.length > 0 }.collect(Collectors.toList())
+        return response.messageList.stream().map { d -> Message(d.sender, d.message, getTime(d.date), d.sender == "me") }.filter { it.text.length > 0 }.collect(Collectors.toList())
+    }
+
+    private fun getTime(dateRaw: Long) : String {
+        val date = Date(dateRaw)
+        val cal = Calendar.getInstance(TimeZone.getTimeZone("Europe/Moscow"))
+        cal.time = date
+
+        return cal[Calendar.HOUR_OF_DAY].toString() + ":" + cal[Calendar.MINUTE].toString().padStart(2, '0')
     }
 
     private fun getShortDate(date: Date?): String {
@@ -102,7 +110,7 @@ class TgApi : Api {
 
         var result: String = ""
         if (cal[Calendar.YEAR] == calCur[Calendar.YEAR] && cal[Calendar.MONTH] == calCur[Calendar.MONTH] && cal[Calendar.DAY_OF_MONTH] == calCur[Calendar.DAY_OF_MONTH]) {
-            result = (cal[Calendar.HOUR_OF_DAY] + 3).toString().padStart(2, '0') + ":" + cal[Calendar.MINUTE].toString().padStart(2, '0')
+            result = cal[Calendar.HOUR_OF_DAY].toString() + ":" + cal[Calendar.MINUTE].toString().padStart(2, '0')
         } else if (cal[Calendar.YEAR]  == calCur[Calendar.YEAR]) {
             result = cal[Calendar.DAY_OF_MONTH].toString().padStart(2, '0') + "." + (cal[Calendar.MONTH]+1).toString().padStart(2, '0')
         } else {

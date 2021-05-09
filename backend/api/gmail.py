@@ -6,12 +6,17 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from api.protobufs import gmail_pb2_grpc, gmail_pb2
 from api.protobufs import common_pb2
-from googleapiclient.http import BatchHttpRequest
-
-import httplib2
+import redis
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = ['https://mail.google.com/']
+
+
+def list_names(request_id, response, exception):
+    if exception is not None:
+        print(response)
+    else:
+        print('Nu i pofig')
 
 
 class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
@@ -33,35 +38,24 @@ class GmailApiServicer(gmail_pb2_grpc.GmailApiServicer):
         return response
 
     def get_dialogs(self, request, context):
+        r = redis.Redis(host='localhost', port=6379, db=0)
         creds = Credentials.from_authorized_user_file('api/gmail_credentials/' + request.uid + '_token.json', SCOPES)
         service = build('gmail', 'v1', credentials=creds)
 
         threads = service.users().threads().list(userId='me').execute().get('threads', [])
 
-        names = []
-
-        def list_names(request_id, response, exception):
-            if exception is not None:
-                print(response)
-            else:
-                print('Nu i pofig')
-
-        batch = BatchHttpRequest()
-        for thread in threads:
-            batch.add(service.users().threads()
-                      .get(userId='me', id=thread.get('id'),
-                           format='metadata', metadataHeaders=['Subject']), list_names)
-        http = httplib2.Http()
-        batch.execute(http=http)
-        print(names)
-
         dialogs = []
         for thread in threads:
-            dialog = common_pb2.Dialog(message=thread.get('snippet'), thread_id=thread.get('id'))
+            name = r.get(thread.get('id'))
+            if name is None:
+                name = service.users().threads().get(userId='me', id=thread.get('id'),
+                                                     format='metadata', metadataHeaders=['Subject']).execute().get('messages')[0].get('payload').get('headers')[0].get('value')
+                r.set(thread.get('id'), name)
+            dialog = common_pb2.Dialog(message=thread.get('snippet'), thread_id=thread.get('id'), name=name)
             dialogs.append(dialog)
 
-        response2 = common_pb2.Dialogs(dialog=dialogs)
-        return response2
+        response = common_pb2.Dialogs(dialog=dialogs)
+        return response
 
     def get_messages(self, request, context):
         creds = Credentials.from_authorized_user_file('api/gmail_credentials/' + request.uid + '_token.json', SCOPES)
