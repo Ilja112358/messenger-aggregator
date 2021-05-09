@@ -93,6 +93,91 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    private fun addImageMessageBox(userName: String?, timestamp: String?, imageUrl: String, type: Int) {
+        if ((userName != null) && (userName != "me") && (userName != "not me")){
+            val inflater = LayoutInflater.from(this)
+            val textMessageView = inflater.inflate(R.layout.image_message_box, mLinearLayout, false)
+            val messageSubmitterView = textMessageView.findViewById<TextView>(R.id.userName)
+            val messageImageContentView = textMessageView.findViewById<ImageView>(R.id.messageImageContent)
+            val messageTimestampView = textMessageView.findViewById<TextView>(R.id.messageBoxTimestamp)
+
+            messageSubmitterView.text = userName
+            messageSubmitterView.setTypeface(null, Typeface.BOLD);
+            messageSubmitterView.setTextColor(Color.WHITE)
+            messageTimestampView.text = timestamp
+
+            Picasso.with(this).load(imageUrl)
+                .placeholder(R.drawable.telegram)
+                .into(messageImageContentView)
+
+            val layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            layoutParams.weight = 1f
+            if (type == USER_MESSAGE) {
+                layoutParams.gravity = Gravity.RIGHT
+                textMessageView.setBackgroundResource(R.drawable.bubble_in_new)
+            } else {
+                layoutParams.gravity = Gravity.LEFT
+                textMessageView.setBackgroundResource(R.drawable.bubble_out_new)
+            }
+
+            //textView.setPadding(32, 32, 32, 32)
+            textMessageView.layoutParams = layoutParams
+            //messageContentView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16.0f)
+            val divider = View(this@ChatActivity)
+            val dividerLayoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                16
+            )
+            divider.setBackgroundColor(Color.BLACK)
+            divider.layoutParams = dividerLayoutParams
+            mLinearLayout!!.addView(divider)
+
+            mLinearLayout!!.addView(textMessageView)
+            mScrollView!!.fullScroll(View.FOCUS_DOWN)
+        } else {
+            val inflater = LayoutInflater.from(this)
+            val textMessageView = inflater.inflate(R.layout.image_message_box_dialog, mLinearLayout, false)
+            val messageImageContentView = textMessageView.findViewById<ImageView>(R.id.messageImageContent)
+            val messageTimestampView = textMessageView.findViewById<TextView>(R.id.messageBoxTimestamp)
+
+            messageTimestampView.text = timestamp
+
+            Picasso.with(this).load(imageUrl)
+                .placeholder(R.drawable.telegram)
+                .into(messageImageContentView)
+
+            val layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            layoutParams.weight = 1f
+            if (type == USER_MESSAGE) {
+                layoutParams.gravity = Gravity.RIGHT
+                textMessageView.setBackgroundResource(R.drawable.bubble_in_new)
+            } else {
+                layoutParams.gravity = Gravity.LEFT
+                textMessageView.setBackgroundResource(R.drawable.bubble_out_new)
+            }
+
+            //textView.setPadding(32, 32, 32, 32)
+            textMessageView.layoutParams = layoutParams
+            val divider = View(this@ChatActivity)
+            val dividerLayoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                16
+            )
+            divider.setBackgroundColor(Color.BLACK)
+            divider.layoutParams = dividerLayoutParams
+            mLinearLayout!!.addView(divider)
+
+            mLinearLayout!!.addView(textMessageView)
+            mScrollView!!.fullScroll(View.FOCUS_DOWN)
+        }
+    }
+
     private fun addMessageBox(userName: String?, timestamp: String?, message: String, type: Int) {
         if ((userName != null) && (userName != "me") && (userName != "not me")){
             val inflater = LayoutInflater.from(this)
@@ -175,6 +260,8 @@ class ChatActivity : AppCompatActivity() {
 
     private fun initializeViews(chatName: String) {
         val avatarUrl: String = intent.getStringExtra("avatarUrl")!!
+        println("URLLLL")
+        println(avatarUrl)
         navDialogAvatarView = findViewById(R.id.navDialogAvatar)
         if (avatarUrl.length > 0) {
             Picasso.with(this).load(avatarUrl)
