@@ -47,7 +47,8 @@ class GmailApi : Api {
     }
 
     override fun sendTextMessage(uid: String, dialogId: String, text: String) {
-        TODO("Not yet implemented")
+        val request = Common.Send.newBuilder().setUid(uid).setThreadId(dialogId).setMessage(text).build()
+        val response = stub.sendMessage(request)
     }
 
     override fun getDialogs(

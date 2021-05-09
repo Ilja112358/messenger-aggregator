@@ -64,9 +64,8 @@ class TgApi : Api {
     }
 
     override fun sendTextMessage(uid: String, dialogId: String, text: String) {
-        val request = Common.Send.newBuilder().setUid(uid).setEntity(dialogId.toLong()).setMessage(text).build()
+        val request = Common.Send.newBuilder().setUid(uid).setDialogId(dialogId.toLong()).setMessage(text).build()
         val response = stub.sendMessage(request)
-        println(response.status)
     }
 
     override fun getDialogs(
