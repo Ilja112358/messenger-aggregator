@@ -26,7 +26,7 @@ elif test_number == 3:
     request = common_pb2.DialogRequest(uid='test', dialog_id=-595779751)
     response = tg_stub.mark_read(request)
 elif test_number == 4:
-    request = common_pb2.DialogRequest(uid='test', dialog_id=-595779751)
+    request = common_pb2.DialogRequest(uid='test', dialog_id=-1001389304944)
     response = tg_stub.get_messages(request)
 elif test_number == 5:
     request = common_pb2.User(uid='test')
