@@ -17,7 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.aggregator.api.API
 import com.aggregator.ui.fragments.TUID
 import java.util.*
-
+//
 
 /**
  * A class that represents chat dialog between two users in the application

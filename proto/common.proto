@@ -18,7 +18,7 @@ message Dialog {
     string thread_id = 2;
     int64 dialog_id = 3;
   }
-  string date = 4;
+  int64 date = 4;
   string message = 5;
   int32 unread_count = 6;
 }
