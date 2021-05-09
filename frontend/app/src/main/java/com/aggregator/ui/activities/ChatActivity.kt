@@ -121,7 +121,7 @@ class ChatActivity : AppCompatActivity() {
             //textView.setPadding(32, 32, 32, 32)
             messageContentView.setTextColor(Color.WHITE)
             textMessageView.layoutParams = layoutParams
-            messageContentView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16.0f)
+            //messageContentView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16.0f)
             val divider = View(this@ChatActivity)
             val dividerLayoutParams = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
