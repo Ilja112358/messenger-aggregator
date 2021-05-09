@@ -74,7 +74,13 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
                     file_url = 'http://84.252.137.106/photos/' + str(temp_message.media.photo.id) + '.jpg'
                 elif str(type(temp_message.media)) == "<class 'telethon.tl.types.MessageMediaDocument'>":
                     file_type = 'file'
-                    temp_file_type_mas = temp_message.media.document.attributes[0].file_name.split(".")
+
+                    temp_mime_type = temp_message.media.document.mime_type.split("/")
+                    if temp_mime_type[0] == 'image':
+                        temp_file_type_mas = temp_message.media.document.attributes[1].file_name.split(".")
+                    else:
+                        temp_file_type_mas = temp_message.media.document.attributes[0].file_name.split(".")
+
                     temp_file_type_mas.reverse()
                     temp_file_type = '.' + temp_file_type_mas[0]
                     if not os.path.exists('/var/www/html/files/' + str(temp_message.media.document.id) + temp_file_type):
