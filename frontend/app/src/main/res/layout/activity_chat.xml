@@ -6,6 +6,9 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:orientation="vertical"
+    android:descendantFocusability="beforeDescendants"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context="com.aggregator.catchat.com.aggregator.ui.activities.ChatActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,7 +16,10 @@
         android:layout_height="64dp"
         android:orientation="vertical"
         android:background="#859D7D"
-        android:id="@+id/dialogBack">
+        android:id="@+id/dialogBack"
+        android:descendantFocusability="beforeDescendants"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <ImageView
             android:id="@+id/exitDialog"
@@ -95,11 +101,17 @@
         android:layout_width="match_parent"
         android:layout_weight="20"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView">
+        android:id="@+id/scrollView"
+        android:descendantFocusability="beforeDescendants"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/layout2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:descendantFocusability="beforeDescendants"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
             <ProgressBar
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

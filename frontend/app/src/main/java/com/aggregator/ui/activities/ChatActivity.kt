@@ -5,18 +5,25 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
+import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.text.*
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.ScrollView
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
@@ -27,7 +34,6 @@ import com.aggregator.ui.fragments.TUID
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.BufferedInputStream
@@ -37,6 +43,7 @@ import java.io.OutputStream
 import java.net.URL
 import java.net.URLConnection
 import java.util.*
+import java.util.regex.Pattern
 
 
 //
@@ -251,6 +258,7 @@ class ChatActivity : AppCompatActivity() {
 
             mLinearLayout!!.addView(textMessageView)
             mScrollView!!.fullScroll(View.FOCUS_DOWN)
+
         } else {
             val inflater = LayoutInflater.from(this)
             val textMessageView = inflater.inflate(R.layout.text_message_box_dialog, mLinearLayout, false)
@@ -287,7 +295,82 @@ class ChatActivity : AppCompatActivity() {
 
             mLinearLayout!!.addView(textMessageView)
             mScrollView!!.fullScroll(View.FOCUS_DOWN)
+            messageContentView.makeLinks(
+                getEmailAddressesInString(message)!!.map {
+                    Pair(it, View.OnClickListener {view ->
+                        intent.putExtra("chatName", it)
+                        intent.putExtra("dialogId", "")
+                        intent.putExtra("api", "gmail")
+                        intent.putExtra("avatarUrl", "")
+//                        if (dialogsList[it].unread_count > 0) {
+//                            API.api[apiType]!!.sendMarkRead("test", dialogsList[it].dialog_id)
+//                        }
+
+                        startActivity(intent)
+                    })
+                })
+
+            messageContentView.makeLinks(
+                getLinksInString(message)!!.map {
+                    Pair(it, View.OnClickListener { view ->
+                        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+                        startActivity(browserIntent)
+                    })
+                })
         }
+    }
+
+    private fun getEmailAddressesInString(text: String): ArrayList<String>? {
+        val emails: ArrayList<String> = ArrayList()
+        val matcher =
+            Pattern.compile("[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}")
+                .matcher(text)
+        while (matcher.find()) {
+            emails.add(matcher.group())
+        }
+        return emails
+    }
+
+    private fun getLinksInString(text: String): ArrayList<String>? {
+        val links: ArrayList<String> = ArrayList()
+        val matcher =
+            Pattern.compile("\\b((?:https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|])")
+                .matcher(text)
+        while (matcher.find()) {
+            links.add(matcher.group())
+        }
+        return links
+    }
+
+    private fun TextView.makeLinks(links: List<Pair<String, View.OnClickListener>>) {
+        val spannableString = SpannableString(this.text)
+        var startIndexOfLink = -1
+        for (link in links) {
+            val clickableSpan = object : ClickableSpan() {
+                override fun updateDrawState(textPaint: TextPaint) {
+                    // use this to change the link color
+                    textPaint.color = textPaint.linkColor
+                    // toggle below value to enable/disable
+                    // the underline shown below the clickable text
+                    textPaint.isUnderlineText = true
+                }
+
+                override fun onClick(view: View) {
+                    Selection.setSelection((view as TextView).text as Spannable, 0)
+                    view.invalidate()
+                    link.second.onClick(view)
+                }
+            }
+            startIndexOfLink = this.text.toString().indexOf(link.first, startIndexOfLink + 1)
+//      if(startIndexOfLink == -1) continue // todo if you want to verify your texts contains links text
+            spannableString.setSpan(
+                clickableSpan, startIndexOfLink, startIndexOfLink + link.first.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+        this.movementMethod =
+            LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
+        this.setText(spannableString, TextView.BufferType.SPANNABLE)
     }
 
     private fun initializeViews(chatName: String) {
