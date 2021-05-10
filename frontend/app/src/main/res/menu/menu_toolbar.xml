@@ -8,4 +8,9 @@
         android:orderInCategory="100"
         android:title="@string/copy_name"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/copy_nick"
+        android:orderInCategory="100"
+        android:title="@string/copy_nick"
+        app:showAsAction="never" />
 </menu>

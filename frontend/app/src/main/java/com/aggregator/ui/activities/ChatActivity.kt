@@ -30,6 +30,7 @@ import androidx.core.content.FileProvider.getUriForFile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aggregator.api.API
+import com.aggregator.api.TgApi
 import com.aggregator.models.Message
 import com.aggregator.store.Callback
 import com.aggregator.store.RespType
@@ -77,10 +78,12 @@ class ChatActivity : AppCompatActivity(), Callback {
         val intent: Intent = intent
         apiType = intent.getStringExtra("api")!!
         val titleView = findViewById<TextView>(R.id.navBarDialogName)
+        val avatar = findViewById<TextView>(R.id.navDialogAvatarStub)
         val chatName = intent.getStringExtra("chatName") ?: "Telegram chat"
         titleView.text = chatName
 
         registerForContextMenu(titleView)
+        registerForContextMenu(avatar)
 
         val backView = findViewById<ImageView>(R.id.exitDialog)
         backView.setOnClickListener {
@@ -146,6 +149,16 @@ class ChatActivity : AppCompatActivity(), Callback {
                 val titleView = findViewById<TextView>(R.id.navBarDialogName)
                 clipboard.setText( titleView.text )
 
+                return true
+            }
+            R.id.copy_nick -> {
+                dialogId?.let {
+
+                    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val user_nick = TgApi().getUsernameById(TUID, it)
+                    clipboard.setText( user_nick )
+
+                }
                 return true
             }
             else -> super.onOptionsItemSelected(item)
@@ -410,6 +423,41 @@ class ChatActivity : AppCompatActivity(), Callback {
 
             mLinearLayout!!.addView(textMessageView)
             mScrollView!!.fullScroll(View.FOCUS_DOWN)
+
+            messageContentView.makeLinks(
+                getEmailAddressesInString(message)!!.map {
+                    Pair(it, View.OnClickListener {view ->
+                        val contactIntent = Intent(this, ChatActivity::class.java)
+                        contactIntent.putExtra("chatName", it)
+                        contactIntent.putExtra("dialogId", "")
+                        contactIntent.putExtra("api", "gmail")
+                        contactIntent.putExtra("avatarUrl", "")
+
+                        startActivity(contactIntent)
+                    })
+                })
+
+            messageContentView.makeLinks(
+                getLinksInString(message)!!.map {
+                    Pair(it, View.OnClickListener { view ->
+                        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+                        startActivity(browserIntent)
+                    })
+                })
+            messageContentView.makeLinks(
+                getNicksInString(message)!!.map{
+                    Pair(it, View.OnClickListener { view ->
+                        val nickDId = TgApi().getIdByUsername(TUID, it)
+                        println(nickDId)
+                        val contactIntent = Intent(this, ChatActivity::class.java)
+                        contactIntent.putExtra("chatName", it)
+                        contactIntent.putExtra("dialogId", nickDId)
+                        contactIntent.putExtra("api", "telegram")
+                        contactIntent.putExtra("avatarUrl", "")
+                        startActivity(contactIntent)
+                    })
+                })
+            messageContentView.movementMethod = LinkMovementMethod.getInstance();
         } else {
             val inflater = LayoutInflater.from(this)
             val textMessageView = inflater.inflate(R.layout.text_message_box_dialog, mLinearLayout, false)
@@ -449,10 +497,11 @@ class ChatActivity : AppCompatActivity(), Callback {
             messageContentView.makeLinks(
                 getEmailAddressesInString(message)!!.map {
                     Pair(it, View.OnClickListener {view ->
-                        intent.putExtra("chatName", it)
-                        intent.putExtra("dialogId", "")
-                        intent.putExtra("api", "gmail")
-                        intent.putExtra("avatarUrl", "")
+                        val contactIntent = Intent(this, ChatActivity::class.java)
+                        contactIntent.putExtra("chatName", it)
+                        contactIntent.putExtra("dialogId", "")
+                        contactIntent.putExtra("api", "gmail")
+                        contactIntent.putExtra("avatarUrl", "")
 
                         startActivity(intent)
                     })
@@ -463,6 +512,24 @@ class ChatActivity : AppCompatActivity(), Callback {
                     Pair(it, View.OnClickListener { view ->
                         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
                         startActivity(browserIntent)
+                    })
+                })
+            messageContentView.makeLinks(
+                getNicksInString(message)!!.map{
+                    Pair(it, View.OnClickListener { view ->
+                        dialogId?.let {it1 ->
+                            val cunick = TgApi().getUsernameById(TUID, it1)
+                            if (it != cunick) {
+                                val nickDId = TgApi().getIdByUsername(TUID, it)
+                                val contactIntent = Intent(this, ChatActivity::class.java)
+                                contactIntent.putExtra("chatName", it)
+                                contactIntent.putExtra("dialogId", nickDId)
+                                contactIntent.putExtra("api", "telegram")
+                                contactIntent.putExtra("avatarUrl", "")
+                                startActivity(contactIntent)
+                            }
+                        }
+
                     })
                 })
             messageContentView.movementMethod = LinkMovementMethod.getInstance();
@@ -483,12 +550,23 @@ class ChatActivity : AppCompatActivity(), Callback {
     private fun getLinksInString(text: String): ArrayList<String>? {
         val links: ArrayList<String> = ArrayList()
         val matcher =
-            Pattern.compile("\\b((?:https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|])")
+            Pattern.compile("\\b(https?|ftp|file|):\\/\\/\\S*")
                 .matcher(text)
         while (matcher.find()) {
             links.add(matcher.group())
         }
         return links
+    }
+
+    private fun getNicksInString(text: String): ArrayList<String>? {
+        val nicks: ArrayList<String> = ArrayList()
+        val matcher =
+            Pattern.compile("\\B@\\S+")
+                .matcher(text)
+        while (matcher.find()) {
+            nicks.add(matcher.group())
+        }
+        return nicks
     }
 
     private fun TextView.makeLinks(links: List<Pair<String, View.OnClickListener>>) {

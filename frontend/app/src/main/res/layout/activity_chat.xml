@@ -6,9 +6,6 @@
     android:layout_height="match_parent"
     android:background="#000000"
     android:orientation="vertical"
-    android:descendantFocusability="beforeDescendants"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
     tools:context="com.aggregator.catchat.com.aggregator.ui.activities.ChatActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout

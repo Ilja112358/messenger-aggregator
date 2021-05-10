@@ -7,6 +7,7 @@
     <string name="nav_gmail">Gmail</string>
 
     <string name="copy_name">Скопировать</string>
+    <string name="copy_nick">Скопировать ник</string>
 
 
     <string name="nav_open_drawer">Open navigation drawer</string>

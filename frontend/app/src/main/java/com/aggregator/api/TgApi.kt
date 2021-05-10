@@ -68,6 +68,18 @@ class TgApi : Api {
         val response = stub.sendMessage(request)
     }
 
+    fun getUsernameById(uid: String, dialogId: String): String {
+        val request = Common.UserId.newBuilder().setUid(uid).setId(dialogId.toLong()).build()
+        val response = stub.getUsernameById(request)
+        return response.username
+    }
+
+    fun getIdByUsername(uid: String, username: String): String {
+        val request = Common.UserName.newBuilder().setUid(uid).setUsername(username).build()
+        val response = stub.getIdByUsername(request)
+        return response.id.toString()
+    }
+
     override fun getDialogs(
         uid: String
     ) : List<Dialog> {
