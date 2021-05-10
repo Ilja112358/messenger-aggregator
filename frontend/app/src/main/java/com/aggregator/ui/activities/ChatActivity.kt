@@ -2,10 +2,14 @@ package com.aggregator.ui.activities
 
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
+import android.content.ClipData
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.AsyncTask
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -14,6 +18,8 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.*
+import android.webkit.MimeTypeMap
 import android.widget.*
 import android.widget.LinearLayout
 import android.widget.ScrollView
@@ -40,6 +46,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.net.URL
 import java.net.URLConnection
+import java.io.File
 import java.util.*
 
 
@@ -69,6 +76,9 @@ class ChatActivity : AppCompatActivity(), Callback {
         val titleView = findViewById<TextView>(R.id.navBarDialogName)
         val chatName = intent.getStringExtra("chatName") ?: "Telegram chat"
         titleView.text = chatName
+
+        registerForContextMenu(titleView)
+
         val backView = findViewById<ImageView>(R.id.exitDialog)
         backView.setOnClickListener {
             finish()
@@ -116,6 +126,145 @@ class ChatActivity : AppCompatActivity(), Callback {
                 //mFriendMessagesReference.push().setValue(map)
                 mMessageArea!!.setText(EMPTY_MESSAGE)
             }
+        messagesGetter.getMessages()
+    }
+
+    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_toolbar, menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        return when (item!!.itemId) {
+            R.id.copy_name -> {
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val titleView = findViewById<TextView>(R.id.navBarDialogName)
+                clipboard.setText( titleView.text )
+
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun addFileMessageBox(userName: String?, timestamp: String?, fileName: String, type: Int) {
+        if ((userName != null) && (userName != "me") && (userName != "not me")){
+            val inflater = LayoutInflater.from(this)
+            val textMessageView = inflater.inflate(R.layout.file_message_box, mLinearLayout, false)
+
+            val messageSubmitterView = textMessageView.findViewById<TextView>(R.id.userName)
+            val messageFileContentView = textMessageView.findViewById<Button>(R.id.messageFileContent)
+            val messageTimestampView = textMessageView.findViewById<TextView>(R.id.messageBoxTimestamp)
+
+            messageSubmitterView.text = userName
+            messageSubmitterView.setTypeface(null, Typeface.BOLD);
+            messageSubmitterView.setTextColor(Color.WHITE)
+            messageTimestampView.text = timestamp
+
+            messageFileContentView.text = "FILE: " + fileName
+            messageFileContentView.setOnClickListener {
+                val file = File(baseContext.filesDir.absolutePath + "/" + fileName)
+
+                val myMime: MimeTypeMap = MimeTypeMap.getSingleton()
+                val newIntent = Intent(Intent.ACTION_VIEW)
+
+                val mimeType: String =
+                    myMime.getMimeTypeFromExtension(file.extension).toString()
+                println(applicationContext.packageName.toString())
+                newIntent.setDataAndType(
+                    getUriForFile(applicationContext, applicationContext.packageName.toString() +
+                            ".provider", file), mimeType)
+                newIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                newIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                try {
+                    startActivity(newIntent)
+                } catch (e: ActivityNotFoundException) {
+                }
+            }
+
+            val layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            layoutParams.weight = 1f
+            if (type == USER_MESSAGE) {
+                layoutParams.gravity = Gravity.RIGHT
+                textMessageView.setBackgroundResource(R.drawable.bubble_in_new)
+            } else {
+                layoutParams.gravity = Gravity.LEFT
+                textMessageView.setBackgroundResource(R.drawable.bubble_out_new)
+            }
+
+            //textView.setPadding(32, 32, 32, 32)
+            textMessageView.layoutParams = layoutParams
+            //messageContentView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16.0f)
+            val divider = View(this@ChatActivity)
+            val dividerLayoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                16
+            )
+            divider.setBackgroundColor(Color.BLACK)
+            divider.layoutParams = dividerLayoutParams
+            mLinearLayout!!.addView(divider)
+
+            mLinearLayout!!.addView(textMessageView)
+            mScrollView!!.fullScroll(View.FOCUS_DOWN)
+        } else {
+            val inflater = LayoutInflater.from(this)
+            val textMessageView = inflater.inflate(R.layout.file_message_box_dialog, mLinearLayout, false)
+            val messageFileContentView = textMessageView.findViewById<Button>(R.id.messageFileContent)
+            val messageTimestampView = textMessageView.findViewById<TextView>(R.id.messageBoxTimestamp)
+
+            messageTimestampView.text = timestamp
+
+            messageFileContentView.text = "FILE: " + fileName
+            messageFileContentView.setOnClickListener {
+                val file = File(baseContext.filesDir.absolutePath + "/" + fileName)
+
+                val myMime: MimeTypeMap = MimeTypeMap.getSingleton()
+                val newIntent = Intent(Intent.ACTION_VIEW)
+
+                val mimeType: String =
+                    myMime.getMimeTypeFromExtension(file.extension).toString()
+                println(applicationContext.packageName.toString())
+                newIntent.setDataAndType(
+                    getUriForFile(applicationContext, applicationContext.packageName.toString() +
+                            ".provider", file), mimeType)
+                newIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                newIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                try {
+                    startActivity(newIntent)
+                } catch (e: ActivityNotFoundException) {
+                }
+            }
+
+            val layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            layoutParams.weight = 1f
+            if (type == USER_MESSAGE) {
+                layoutParams.gravity = Gravity.RIGHT
+                textMessageView.setBackgroundResource(R.drawable.bubble_in_new)
+            } else {
+                layoutParams.gravity = Gravity.LEFT
+                textMessageView.setBackgroundResource(R.drawable.bubble_out_new)
+            }
+
+            //textView.setPadding(32, 32, 32, 32)
+            textMessageView.layoutParams = layoutParams
+            val divider = View(this@ChatActivity)
+            val dividerLayoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                16
+            )
+            divider.setBackgroundColor(Color.BLACK)
+            divider.layoutParams = dividerLayoutParams
+            mLinearLayout!!.addView(divider)
+
+            mLinearLayout!!.addView(textMessageView)
+            mScrollView!!.fullScroll(View.FOCUS_DOWN)
         }
     }
 
@@ -293,6 +442,26 @@ class ChatActivity : AppCompatActivity(), Callback {
 
             mLinearLayout!!.addView(textMessageView)
             mScrollView!!.fullScroll(View.FOCUS_DOWN)
+            messageContentView.makeLinks(
+                getEmailAddressesInString(message)!!.map {
+                    Pair(it, View.OnClickListener {view ->
+                        intent.putExtra("chatName", it)
+                        intent.putExtra("dialogId", "")
+                        intent.putExtra("api", "gmail")
+                        intent.putExtra("avatarUrl", "")
+
+                        startActivity(intent)
+                    })
+                })
+
+            messageContentView.makeLinks(
+                getLinksInString(message)!!.map {
+                    Pair(it, View.OnClickListener { view ->
+                        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+                        startActivity(browserIntent)
+                    })
+                })
+            messageContentView.movementMethod = LinkMovementMethod.getInstance();
         }
     }
 
