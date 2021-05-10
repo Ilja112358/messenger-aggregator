@@ -37,6 +37,8 @@ import com.aggregator.store.RespType
 import com.aggregator.store.Response
 import com.aggregator.store.Storage
 import com.aggregator.ui.fragments.TUID
+import com.downloader.OnDownloadListener
+import com.downloader.PRDownloader
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.Dispatchers
@@ -657,85 +659,6 @@ class ChatActivity : AppCompatActivity(), Callback {
         private const val FRIEND_MESSAGE = 2
     }
 
-    /**
-     * Background Async Task to download file
-     */
-    internal class DownloadFileFromURL() : AsyncTask<String?, String?, String?>() {
-        /**
-         * Before starting background thread Show Progress Bar Dialog
-         */
-        override fun onPreExecute() {
-            super.onPreExecute()
-            //showDialog(progress_bar_type)
-        }
-
-        /**
-         * Downloading file in background thread
-         */
-        protected override fun doInBackground(vararg p0: String?): String? {
-            var count: Int = 0
-            try {
-                val url = URL("http://84.252.137.106/files/0a4dcb92fa2d3c601b58d72720d6bec4.jpg")
-                val connection: URLConnection = url.openConnection()
-                connection.connect()
-
-                // this will be useful so that you can show a tipical 0-100%
-                // progress bar
-                val lenghtOfFile: Int = connection.getContentLength()
-
-                // download the file
-                val input: InputStream = BufferedInputStream(
-                    url.openStream(),
-                    8192
-                )
-
-                // Output stream
-                val output: OutputStream = FileOutputStream(
-                    Environment
-                        .getExternalStorageDirectory().toString()
-                            + "/2011.kml"
-                )
-                val data = ByteArray(1024)
-                var total: Long = 0
-                while ((input.read(data).also({ count = it })) != -1) {
-                    total += count.toLong()
-                    // publishing the progress....
-                    // After this onProgressUpdate will be called
-                    publishProgress("" + ((total * 100) / lenghtOfFile).toInt())
-
-                    // writing data to file
-                    output.write(data, 0, count)
-                }
-
-                // flushing output
-                output.flush()
-
-                // closing streams
-                output.close()
-                input.close()
-            } catch (e: Exception) {
-                //Log.e("Error: ", e.message)
-            }
-            return null
-        }
-
-        /**
-         * Updating progress bar
-         */
-        protected override fun onProgressUpdate(vararg values: String?) {
-            // setting progress percentage
-            //pDialog.setProgress(progress[0].toInt())
-        }
-
-        /**
-         * After completing background task Dismiss the progress dialog
-         */
-        override fun onPostExecute(file_url: String?) {
-            // dismiss the dialog after the file was downloaded
-            //dismissDialog(progress_bar_type)
-        }
-    }
-
     override fun onLoad(arg: Response<*>) {
         (arg.response as List<Message>).forEach {
             var messageType = FRIEND_MESSAGE
@@ -746,7 +669,30 @@ class ChatActivity : AppCompatActivity(), Callback {
                 if (it.attachementType == "photo") {
                     addImageMessageBox(it.userName, it.timestamp, it.attachementUrl, messageType)
                 } else {
-                    addFileMessageBox(it.userName, it.timestamp, it.attachementUrl, messageType)
+                    val splitted = it.attachementUrl.split("/")
+                    try {
+                        PRDownloader.download(
+                            it.attachementUrl,
+                            baseContext.filesDir.absolutePath,
+                            splitted[splitted.size - 1]
+                        )
+                            .build()
+                            .start(object : OnDownloadListener {
+                                override fun onDownloadComplete() {
+                                    //readFile(splitted[splitted.size - 1])
+                                    println("ok")
+                                }
+
+                                override fun onError(error: com.downloader.Error?) {
+                                    Toast.makeText(baseContext, "Failed to download the " + it.attachementUrl, Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+
+                            })
+                    } catch (e: Exception) {
+                        print(e.toString())
+                    }
+                    addFileMessageBox(it.userName, it.timestamp, splitted[splitted.size - 1], messageType)
                 }
             } else {
                 addMessageBox(it.userName, it.timestamp, it.text, messageType)
