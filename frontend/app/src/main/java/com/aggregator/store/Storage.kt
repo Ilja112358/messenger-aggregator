@@ -1,6 +1,9 @@
 package com.aggregator.store
 
 import android.app.Activity
+import android.view.View
+import android.widget.ProgressBar
+import android.widget.ScrollView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -9,6 +12,9 @@ import com.aggregator.api.API
 import com.aggregator.api.GmailApi
 import com.aggregator.api.TgApi
 import com.aggregator.models.Dialog
+import com.aggregator.models.Message
+import com.aggregator.ui.activities.ChatActivity
+import com.aggregator.ui.activities.R
 import com.aggregator.ui.fragments.TUID
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,7 +39,8 @@ object Storage : Callback {
     var processMessages = false
     var dialogSubscriber : Callback? = null
     var messageSubscriber : Callback? = null
-    private val getter = DialogsGetter()
+    private val getterDialogs = DialogsGetter()
+    private val getterMessages = MessagesGetter()
 
     fun subscribe(sub: Callback) {
         when (sub) {
@@ -54,24 +61,41 @@ object Storage : Callback {
             RespType.getDIALOGS -> {
                 if (!processDialogs && dialogSubscriber != null) {
                     processDialogs = true
-                    getter.setDialogs(arg.response as String)
+                    getterDialogs.getDialogs(arg.response as String)
                 }
             }
             RespType.getMESSAGES -> {
-
+                val p = arg.response as Pair<String, String>
+                if (!processMessages && messageSubscriber != null) {
+                    processMessages = true
+                    getterMessages.getMessages(p.first, p.second)
+                }
             }
         }
     }
 }
 
 class DialogsGetter : ViewModel() {
-    fun setDialogs(apiType: String) {
+    fun getDialogs(apiType: String) {
         viewModelScope.launch {
             val result = withContext(Dispatchers.Default) {
                 API.api[apiType]!!.getDialogs(TUID)
             }
             Storage.dialogSubscriber?.onLoad(Response(RespType.DIALOGS, result))
             Storage.processDialogs = false
+        }
+    }
+}
+
+class MessagesGetter : ViewModel() {
+    val messages : List<Message>? = null
+    fun getMessages(apiType: String, it: String) {
+        viewModelScope.launch {
+            val result = withContext(Dispatchers.Default) {
+                API.api[apiType]!!.getMessages(TUID, it).sortedBy { it.unixTs }
+            }
+            Storage.messageSubscriber?.onLoad(Response(RespType.MESSAGES, result))
+            Storage.processMessages = false
         }
     }
 }
