@@ -129,8 +129,8 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
     def get_id_by_username(self, request, context, client):
         try:
             entity = client.get_entity(request.username)
-            uid = entity.id
+            id = entity.id
         except ValueError:
-            uid = 0
+            id = 0
         client.disconnect()
-        return common_pb2.UserId(uid=uid)
+        return common_pb2.UserId(id=id)
