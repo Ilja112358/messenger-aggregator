@@ -282,6 +282,7 @@ class ChatActivity : AppCompatActivity(), Callback {
             val messageTimestampView = textMessageView.findViewById<TextView>(R.id.messageBoxTimestamp)
 
             messageImageContentView.setOnClickListener {
+                println("IMAGE WAS CLICKED!\n")
                 val myIntent = Intent(this, ImageViewActivity::class.java)
                 myIntent.putExtra("url", imageUrl)
                 startActivity(myIntent)
@@ -667,7 +668,7 @@ class ChatActivity : AppCompatActivity(), Callback {
                 if (it.attachementType == "photo") {
                     addImageMessageBox(it.userName, it.timestamp, it.attachementUrl, messageType)
                 } else {
-                    //Todo file
+                    addFileMessageBox(it.userName, it.timestamp, it.attachementUrl, messageType)
                 }
             } else {
                 addMessageBox(it.userName, it.timestamp, it.text, messageType)
