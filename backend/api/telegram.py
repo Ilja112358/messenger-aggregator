@@ -134,3 +134,13 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
             id = 0
         client.disconnect()
         return common_pb2.UserId(id=id)
+
+    @tg_decorator
+    def get_username_by_id(self, request, context, client):
+        try:
+            entity = client.get_entity(request.id)
+            username = entity.username
+        except ValueError:
+            username = ''
+        client.disconnect()
+        return common_pb2.UserName(username=username)

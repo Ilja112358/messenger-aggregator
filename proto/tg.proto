@@ -17,4 +17,5 @@ service TgApi {
   rpc mark_read(DialogRequest) returns (StatusMessage) {};
   rpc test_file(Text) returns (stream Chunk) {};
   rpc get_id_by_username(UserName) returns (UserId) {};
+  rpc get_username_by_id(UserId) returns (UserName) {};
 }
