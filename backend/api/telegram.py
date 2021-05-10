@@ -130,7 +130,7 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         try:
             entity = client.get_entity(request.username)
             id = entity.id
-        except ValueError:
+        except BaseException:
             id = 0
         client.disconnect()
         return common_pb2.UserId(id=id)
