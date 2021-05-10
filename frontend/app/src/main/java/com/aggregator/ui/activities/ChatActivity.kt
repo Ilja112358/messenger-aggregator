@@ -3,21 +3,19 @@ package com.aggregator.ui.activities
 
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
+import android.content.ClipData
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.text.*
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.util.TypedValue
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.webkit.MimeTypeMap
 import android.widget.*
 import android.widget.LinearLayout
@@ -38,7 +36,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.*
+import java.io.File
 import java.util.*
 import java.util.regex.Pattern
 
@@ -69,6 +67,9 @@ class ChatActivity : AppCompatActivity() {
         val titleView = findViewById<TextView>(R.id.navBarDialogName)
         val chatName = intent.getStringExtra("chatName") ?: "Telegram chat"
         titleView.text = chatName
+
+        registerForContextMenu(titleView)
+
         val backView = findViewById<ImageView>(R.id.exitDialog)
         backView.setOnClickListener {
             finish()
@@ -94,6 +95,25 @@ class ChatActivity : AppCompatActivity() {
             }
         }
         messagesGetter.getMessages()
+    }
+
+    override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_toolbar, menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        return when (item!!.itemId) {
+            R.id.copy_name -> {
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val titleView = findViewById<TextView>(R.id.navBarDialogName)
+                clipboard.setText( titleView.text )
+
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun addFileMessageBox(userName: String?, timestamp: String?, fileName: String, type: Int) {
@@ -395,9 +415,6 @@ class ChatActivity : AppCompatActivity() {
                         intent.putExtra("dialogId", "")
                         intent.putExtra("api", "gmail")
                         intent.putExtra("avatarUrl", "")
-//                        if (dialogsList[it].unread_count > 0) {
-//                            API.api[apiType]!!.sendMarkRead("test", dialogsList[it].dialog_id)
-//                        }
 
                         startActivity(intent)
                     })
@@ -410,6 +427,7 @@ class ChatActivity : AppCompatActivity() {
                         startActivity(browserIntent)
                     })
                 })
+            messageContentView.movementMethod = LinkMovementMethod.getInstance();
         }
     }
 
