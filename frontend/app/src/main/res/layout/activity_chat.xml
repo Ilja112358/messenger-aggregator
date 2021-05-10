@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:orientation="vertical"
-        android:background="#859D7D"
+        android:background="@drawable/ic_tab_background"
         android:id="@+id/dialogBack"
         android:descendantFocusability="beforeDescendants"
         android:focusable="true"

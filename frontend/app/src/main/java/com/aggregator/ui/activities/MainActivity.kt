@@ -2,13 +2,11 @@ package com.aggregator.ui.activities
 
 import android.annotation.SuppressLint
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -20,6 +18,7 @@ import com.downloader.PRDownloader
 import com.downloader.PRDownloaderConfig
 import com.google.android.material.navigation.NavigationView
 
+
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,9 +27,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.title = "Telegram"
-        toolbar.setBackgroundColor(Color.parseColor("#859D7D"))
+        //toolbar.setBackgroundColor(Color.parseColor("#859D7D"))
         setSupportActionBar(toolbar)
-
+        val d = resources.getDrawable(R.drawable.ic_tab_background)
+        getActionBar()?.setBackgroundDrawable(d)
         val transaction = supportFragmentManager.beginTransaction()
         //transaction.add(R.id.content_frame, GmailFragment())
         transaction.add(R.id.content_frame, TelegramFragment())
