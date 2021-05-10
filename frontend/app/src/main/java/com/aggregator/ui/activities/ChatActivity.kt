@@ -2,10 +2,8 @@ package com.aggregator.ui.activities
 
 
 import android.annotation.SuppressLint
-import android.content.ActivityNotFoundException
-import android.content.ClipData
-import android.content.Context
-import android.content.Intent
+import android.content.*
+import android.content.ClipboardManager
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.AsyncTask
@@ -13,6 +11,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.text.*
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -25,6 +26,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider.getUriForFile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aggregator.api.API
@@ -48,6 +50,7 @@ import java.net.URL
 import java.net.URLConnection
 import java.io.File
 import java.util.*
+import java.util.regex.Pattern
 
 
 //
@@ -126,7 +129,8 @@ class ChatActivity : AppCompatActivity(), Callback {
                 //mFriendMessagesReference.push().setValue(map)
                 mMessageArea!!.setText(EMPTY_MESSAGE)
             }
-        messagesGetter.getMessages()
+//            messagesGetter.getMessages()
+        }
     }
 
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
@@ -463,6 +467,59 @@ class ChatActivity : AppCompatActivity(), Callback {
                 })
             messageContentView.movementMethod = LinkMovementMethod.getInstance();
         }
+    }
+
+    private fun getEmailAddressesInString(text: String): ArrayList<String>? {
+        val emails: ArrayList<String> = ArrayList()
+        val matcher =
+            Pattern.compile("[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}")
+                .matcher(text)
+        while (matcher.find()) {
+            emails.add(matcher.group())
+        }
+        return emails
+    }
+
+    private fun getLinksInString(text: String): ArrayList<String>? {
+        val links: ArrayList<String> = ArrayList()
+        val matcher =
+            Pattern.compile("\\b((?:https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|])")
+                .matcher(text)
+        while (matcher.find()) {
+            links.add(matcher.group())
+        }
+        return links
+    }
+
+    private fun TextView.makeLinks(links: List<Pair<String, View.OnClickListener>>) {
+        val spannableString = SpannableString(this.text)
+        var startIndexOfLink = -1
+        for (link in links) {
+            val clickableSpan = object : ClickableSpan() {
+                override fun updateDrawState(textPaint: TextPaint) {
+                    // use this to change the link color
+                    textPaint.color = textPaint.linkColor
+                    // toggle below value to enable/disable
+                    // the underline shown below the clickable text
+                    textPaint.isUnderlineText = true
+                }
+
+                override fun onClick(view: View) {
+                    Selection.setSelection((view as TextView).text as Spannable, 0)
+                    view.invalidate()
+                    link.second.onClick(view)
+                }
+            }
+            startIndexOfLink = this.text.toString().indexOf(link.first, startIndexOfLink + 1)
+            //      if(startIndexOfLink == -1) continue // todo if you want to verify your texts contains links text
+            spannableString.setSpan(
+                clickableSpan, startIndexOfLink, startIndexOfLink + link.first.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+        }
+        this.movementMethod =
+            LinkMovementMethod.getInstance() // without LinkMovementMethod, link can not click
+        this.setText(spannableString, TextView.BufferType.SPANNABLE)
     }
 
     private fun initializeViews(chatName: String) {

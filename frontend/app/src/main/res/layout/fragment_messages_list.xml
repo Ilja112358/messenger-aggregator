@@ -6,10 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="com.aggregator.ui.fragments.TelegramFragment"
-    android:background="#ffffff"
-    android:descendantFocusability="beforeDescendants"
-    android:focusable="true"
-    android:focusableInTouchMode="true">
+    android:background="#ffffff">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
