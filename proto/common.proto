@@ -69,3 +69,11 @@ message Message {
 message Messages {
   repeated Message message = 1;
 }
+
+message UserId {
+  int64 uid = 1;
+}
+
+message UserName {
+  string username = 1;
+}

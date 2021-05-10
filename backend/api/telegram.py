@@ -20,6 +20,7 @@ def tg_decorator(func):
         client = TelegramClient('api/tg_sessions/' + request.uid, api_id, api_hash)
         client.connect()
         return func(self, request, context, client)
+
     return wrapper
 
 
@@ -123,3 +124,13 @@ class TgApiServicer(tg_pb2_grpc.TgApiServicer):
         client.send_read_acknowledge(request.dialog_id)
         client.disconnect()
         return common_pb2.StatusMessage(status='OK AND')
+
+    @tg_decorator
+    def get_id_by_username(self, request, context, client):
+        try:
+            entity = client.get_entity(request.username)
+            uid = entity.id
+        except ValueError:
+            uid = 0
+        client.disconnect()
+        return common_pb2.UserId(uid=uid)

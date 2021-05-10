@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x08tg.proto\x1a\x0c\x63ommon.proto\"L\n\rTgAuthRequest\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\r\n\x05phone\x18\x02 \x01(\t\x12\x0c\n\x04\x63ode\x18\x03 \x01(\t\x12\x11\n\tcode_hash\x18\x04 \x01(\t2\xf7\x01\n\x05TgApi\x12\'\n\x04\x61uth\x12\x0e.TgAuthRequest\x1a\r.AuthResponse\"\x00\x12 \n\x0bget_dialogs\x12\x05.User\x1a\x08.Dialogs\"\x00\x12+\n\x0cget_messages\x12\x0e.DialogRequest\x1a\t.Messages\"\x00\x12\'\n\x0csend_message\x12\x05.Send\x1a\x0e.StatusMessage\"\x00\x12-\n\tmark_read\x12\x0e.DialogRequest\x1a\x0e.StatusMessage\"\x00\x12\x1e\n\ttest_file\x12\x05.Text\x1a\x06.Chunk\"\x00\x30\x01\x62\x06proto3'
+  serialized_pb=b'\n\x08tg.proto\x1a\x0c\x63ommon.proto\"L\n\rTgAuthRequest\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\r\n\x05phone\x18\x02 \x01(\t\x12\x0c\n\x04\x63ode\x18\x03 \x01(\t\x12\x11\n\tcode_hash\x18\x04 \x01(\t2\xa3\x02\n\x05TgApi\x12\'\n\x04\x61uth\x12\x0e.TgAuthRequest\x1a\r.AuthResponse\"\x00\x12 \n\x0bget_dialogs\x12\x05.User\x1a\x08.Dialogs\"\x00\x12+\n\x0cget_messages\x12\x0e.DialogRequest\x1a\t.Messages\"\x00\x12\'\n\x0csend_message\x12\x05.Send\x1a\x0e.StatusMessage\"\x00\x12-\n\tmark_read\x12\x0e.DialogRequest\x1a\x0e.StatusMessage\"\x00\x12\x1e\n\ttest_file\x12\x05.Text\x1a\x06.Chunk\"\x00\x30\x01\x12*\n\x12get_id_by_username\x12\t.UserName\x1a\x07.UserId\"\x00\x62\x06proto3'
   ,
   dependencies=[common__pb2.DESCRIPTOR,])
 
@@ -99,7 +99,7 @@ _TGAPI = _descriptor.ServiceDescriptor(
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
   serialized_start=105,
-  serialized_end=352,
+  serialized_end=396,
   methods=[
   _descriptor.MethodDescriptor(
     name='auth',
@@ -158,6 +158,16 @@ _TGAPI = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=common__pb2._TEXT,
     output_type=common__pb2._CHUNK,
+    serialized_options=None,
+    create_key=_descriptor._internal_create_key,
+  ),
+  _descriptor.MethodDescriptor(
+    name='get_id_by_username',
+    full_name='TgApi.get_id_by_username',
+    index=6,
+    containing_service=None,
+    input_type=common__pb2._USERNAME,
+    output_type=common__pb2._USERID,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),

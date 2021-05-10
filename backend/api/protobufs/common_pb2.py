@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x0c\x63ommon.proto\"\x1c\n\x0c\x41uthResponse\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x14\n\x04Text\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x13\n\x04User\x12\x0b\n\x03uid\x18\x01 \x01(\t\"\x8f\x01\n\x06\x44ialog\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\tthread_id\x18\x02 \x01(\tH\x00\x12\x13\n\tdialog_id\x18\x03 \x01(\x03H\x00\x12\x0c\n\x04\x64\x61te\x18\x04 \x01(\x03\x12\x0f\n\x07message\x18\x05 \x01(\t\x12\x14\n\x0cunread_count\x18\x06 \x01(\x05\x12\x12\n\navatar_url\x18\x07 \x01(\tB\x04\n\x02id\"\"\n\x07\x44ialogs\x12\x17\n\x06\x64ialog\x18\x01 \x03(\x0b\x32\x07.Dialog\"e\n\x04Send\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x13\n\tdialog_id\x18\x02 \x01(\x03H\x00\x12\x13\n\tthread_id\x18\x03 \x01(\tH\x00\x12\x0f\n\x07message\x18\x04 \x01(\t\x12\x0f\n\x07subject\x18\x05 \x01(\tB\x04\n\x02id\"\x1f\n\rStatusMessage\x12\x0e\n\x06status\x18\x01 \x01(\t\"\x16\n\x05\x43hunk\x12\r\n\x05\x63hunk\x18\x01 \x01(\x0c\"L\n\rDialogRequest\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x13\n\tdialog_id\x18\x02 \x01(\x03H\x00\x12\x13\n\tthread_id\x18\x03 \x01(\tH\x00\x42\x04\n\x02id\"\'\n\nAttachment\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x0b\n\x03url\x18\x02 \x01(\t\"Y\n\x07Message\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0e\n\x06sender\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x03 \x01(\x03\x12\x1f\n\nattachment\x18\x04 \x01(\x0b\x32\x0b.Attachment\"%\n\x08Messages\x12\x19\n\x07message\x18\x01 \x03(\x0b\x32\x08.Messageb\x06proto3'
+  serialized_pb=b'\n\x0c\x63ommon.proto\"\x1c\n\x0c\x41uthResponse\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x14\n\x04Text\x12\x0c\n\x04\x64\x61ta\x18\x01 \x01(\t\"\x13\n\x04User\x12\x0b\n\x03uid\x18\x01 \x01(\t\"\x8f\x01\n\x06\x44ialog\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\tthread_id\x18\x02 \x01(\tH\x00\x12\x13\n\tdialog_id\x18\x03 \x01(\x03H\x00\x12\x0c\n\x04\x64\x61te\x18\x04 \x01(\x03\x12\x0f\n\x07message\x18\x05 \x01(\t\x12\x14\n\x0cunread_count\x18\x06 \x01(\x05\x12\x12\n\navatar_url\x18\x07 \x01(\tB\x04\n\x02id\"\"\n\x07\x44ialogs\x12\x17\n\x06\x64ialog\x18\x01 \x03(\x0b\x32\x07.Dialog\"e\n\x04Send\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x13\n\tdialog_id\x18\x02 \x01(\x03H\x00\x12\x13\n\tthread_id\x18\x03 \x01(\tH\x00\x12\x0f\n\x07message\x18\x04 \x01(\t\x12\x0f\n\x07subject\x18\x05 \x01(\tB\x04\n\x02id\"\x1f\n\rStatusMessage\x12\x0e\n\x06status\x18\x01 \x01(\t\"\x16\n\x05\x43hunk\x12\r\n\x05\x63hunk\x18\x01 \x01(\x0c\"L\n\rDialogRequest\x12\x0b\n\x03uid\x18\x01 \x01(\t\x12\x13\n\tdialog_id\x18\x02 \x01(\x03H\x00\x12\x13\n\tthread_id\x18\x03 \x01(\tH\x00\x42\x04\n\x02id\"\'\n\nAttachment\x12\x0c\n\x04type\x18\x01 \x01(\t\x12\x0b\n\x03url\x18\x02 \x01(\t\"Y\n\x07Message\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0e\n\x06sender\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x03 \x01(\x03\x12\x1f\n\nattachment\x18\x04 \x01(\x0b\x32\x0b.Attachment\"%\n\x08Messages\x12\x19\n\x07message\x18\x01 \x03(\x0b\x32\x08.Message\"\x15\n\x06UserId\x12\x0b\n\x03uid\x18\x01 \x01(\x03\"\x1c\n\x08UserName\x12\x10\n\x08username\x18\x01 \x01(\tb\x06proto3'
 )
 
 
@@ -535,6 +535,70 @@ _MESSAGES = _descriptor.Descriptor(
   serialized_end=678,
 )
 
+
+_USERID = _descriptor.Descriptor(
+  name='UserId',
+  full_name='UserId',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='uid', full_name='UserId.uid', index=0,
+      number=1, type=3, cpp_type=2, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=680,
+  serialized_end=701,
+)
+
+
+_USERNAME = _descriptor.Descriptor(
+  name='UserName',
+  full_name='UserName',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  create_key=_descriptor._internal_create_key,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='username', full_name='UserName.username', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=703,
+  serialized_end=731,
+)
+
 _DIALOG.oneofs_by_name['id'].fields.append(
   _DIALOG.fields_by_name['thread_id'])
 _DIALOG.fields_by_name['thread_id'].containing_oneof = _DIALOG.oneofs_by_name['id']
@@ -568,6 +632,8 @@ DESCRIPTOR.message_types_by_name['DialogRequest'] = _DIALOGREQUEST
 DESCRIPTOR.message_types_by_name['Attachment'] = _ATTACHMENT
 DESCRIPTOR.message_types_by_name['Message'] = _MESSAGE
 DESCRIPTOR.message_types_by_name['Messages'] = _MESSAGES
+DESCRIPTOR.message_types_by_name['UserId'] = _USERID
+DESCRIPTOR.message_types_by_name['UserName'] = _USERNAME
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 AuthResponse = _reflection.GeneratedProtocolMessageType('AuthResponse', (_message.Message,), {
@@ -653,6 +719,20 @@ Messages = _reflection.GeneratedProtocolMessageType('Messages', (_message.Messag
   # @@protoc_insertion_point(class_scope:Messages)
   })
 _sym_db.RegisterMessage(Messages)
+
+UserId = _reflection.GeneratedProtocolMessageType('UserId', (_message.Message,), {
+  'DESCRIPTOR' : _USERID,
+  '__module__' : 'common_pb2'
+  # @@protoc_insertion_point(class_scope:UserId)
+  })
+_sym_db.RegisterMessage(UserId)
+
+UserName = _reflection.GeneratedProtocolMessageType('UserName', (_message.Message,), {
+  'DESCRIPTOR' : _USERNAME,
+  '__module__' : 'common_pb2'
+  # @@protoc_insertion_point(class_scope:UserName)
+  })
+_sym_db.RegisterMessage(UserName)
 
 
 # @@protoc_insertion_point(module_scope)
